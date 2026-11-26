@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>FixProfit v1.0 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
+  <title>FixProfit v1.1 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="icon-192.png" />
   <style>
@@ -22,8 +22,6 @@
       --amber: #f59e0b;
       --blue: #38bdf8;
       --purple: #a855f7;
-      --paper: #fffdf8;
-      --paper-ink: #1e293b;
     }
     * { box-sizing: border-box; }
     body {
@@ -31,7 +29,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding-bottom: 92px;
+      padding-bottom: 96px;
       line-height: 1.45;
     }
     header.topbar {
@@ -65,7 +63,7 @@
     .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     .tab-btn {
       background: var(--surface); color: var(--text); border: 1px solid var(--border);
-      padding: 8px 13px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px;
+      padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px;
       transition: all .15s ease;
     }
     .tab-btn:hover { border-color: var(--accent); }
@@ -87,7 +85,7 @@
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; }
-    .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 14px; }
+    .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; margin-bottom: 14px; }
 
     label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
     input[type="text"], input[type="number"], input[type="date"], input[type="month"], select, textarea {
@@ -99,7 +97,7 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
       border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
-      padding: 8px 13px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600;
+      padding: 8px 12px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600;
       transition: all .15s; text-decoration: none;
     }
     .btn:hover { filter: brightness(1.12); }
@@ -108,6 +106,7 @@
     .btn-blue { background: #0284c7; border-color: #0284c7; color: #fff; }
     .btn-purple { background: #7c3aed; border-color: #7c3aed; color: #fff; }
     .btn-red { background: #dc2626; border-color: #dc2626; color: #fff; }
+    .btn-amber { background: #d97706; border-color: #d97706; color: #fff; }
     .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
     .btn-xs { padding: 3px 7px; font-size: 11px; border-radius: 6px; }
 
@@ -121,7 +120,7 @@
       background: var(--kpi-accent, var(--accent));
     }
     .kpi-label { font-size: 11.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-    .kpi-value { font-size: 22px; font-weight: 900; margin-top: 4px; color: #fff; }
+    .kpi-value { font-size: 21px; font-weight: 900; margin-top: 4px; color: #fff; }
     .kpi-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
     .val-green { color: #4ade80 !important; }
     .val-red { color: #f87171 !important; }
@@ -134,13 +133,18 @@
       width: 100%; height: 14px; background: var(--bg);
       border: 1px solid var(--border); border-radius: 999px; overflow: hidden; margin: 8px 0;
     }
-    .prog-fill {
-      height: 100%; border-radius: 999px; transition: width .3s ease;
-    }
+    .prog-fill { height: 100%; border-radius: 999px; transition: width .3s ease; }
     .prog-green { background: linear-gradient(90deg, #16a34a, #4ade80); }
     .prog-amber { background: linear-gradient(90deg, #d97706, #fbbf24); }
     .prog-red { background: linear-gradient(90deg, #dc2626, #f87171); }
     .prog-blue { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+    .prog-purple { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+
+    /* Category Breakdown Bars */
+    .cat-row { margin-bottom: 9px; }
+    .cat-row-top { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 3px; }
+    .cat-track { width: 100%; height: 9px; background: var(--bg); border-radius: 999px; overflow: hidden; }
+    .cat-fill { height: 100%; background: linear-gradient(90deg, #f97316, #fbbf24); border-radius: 999px; }
 
     /* Mini Bar Chart */
     .chart-wrap {
@@ -156,9 +160,7 @@
     .chart-bars {
       display: flex; align-items: flex-end; gap: 2px; height: 115px; width: 100%; justify-content: center;
     }
-    .c-bar {
-      width: 10px; border-radius: 3px 3px 0 0; min-height: 2px; transition: height .25s ease;
-    }
+    .c-bar { width: 10px; border-radius: 3px 3px 0 0; min-height: 2px; transition: height .25s ease; }
     .c-bar-inc { background: #38bdf8; }
     .c-bar-exp { background: #f87171; }
     .c-bar-net { background: #22c55e; }
@@ -184,6 +186,8 @@
     .st-cancelled { background: rgba(239,68,68,0.18); color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); }
     .badge-inv { background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.45); }
     .badge-cash { background: rgba(148,163,184,0.18); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.35); }
+    .badge-warn { background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); }
+    .badge-ok { background: rgba(34,197,94,0.2); color: #86efac; border: 1px solid rgba(34,197,94,0.45); }
 
     /* Project Cards List */
     .proj-item {
@@ -196,16 +200,23 @@
     .proj-title { font-weight: 800; font-size: 15px; color: #fff; }
     .proj-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .proj-stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(122px, 1fr));
       gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(51,65,85,0.6);
     }
     .ps-box { font-size: 11.5px; color: var(--muted); }
     .ps-box strong { display: block; font-size: 14px; color: #fff; margin-top: 1px; }
 
+    /* Plan vs Actual mini strip */
+    .pva-strip {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+      padding: 8px 11px; border-radius: 9px; background: rgba(15,23,42,0.7);
+      border: 1px solid var(--border); font-size: 12px; color: #cbd5e1;
+    }
+
     /* Tables */
     table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
     table.data-table th, table.data-table td {
-      padding: 8px 6px; border-bottom: 1px solid var(--border); text-align: left;
+      padding: 8px 6px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle;
     }
     table.data-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; }
     table.data-table th.num, table.data-table td.num { text-align: right; white-space: nowrap; }
@@ -219,15 +230,49 @@
       background: rgba(15, 23, 42, 0.72); border: 1px solid var(--border);
       border-radius: 11px; padding: 12px; margin-top: 12px;
     }
-    .sub-card h3 { margin: 0 0 8px 0; font-size: 14px; }
+    .sub-card.editing { border-color: var(--amber); box-shadow: 0 0 0 1px rgba(245,158,11,0.45); }
+    .sub-card h3 { margin: 0 0 8px 0; font-size: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+
+    /* Thumbnails */
+    .receipt-thumb {
+      width: 34px; height: 34px; object-fit: cover; border-radius: 6px;
+      border: 1px solid var(--accent); cursor: pointer; vertical-align: middle;
+    }
+    .preview-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px;
+      background: rgba(56,189,248,0.14); border: 1px solid rgba(56,189,248,0.4);
+      border-radius: 8px; font-size: 11.5px; color: #bae6fd;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 80;
+      background: rgba(2, 6, 23, 0.82); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; padding: 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 15px; width: 100%; max-width: 680px; max-height: 90vh;
+      overflow-y: auto; padding: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.65);
+    }
+    .modal-hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px;
+    }
+    .modal-hdr h3 { margin: 0; font-size: 16px; }
+    .fb-offer-row {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 12px; margin-bottom: 8px; display: flex;
+      justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
 
     /* Info Alerts */
-    .alert-box {
-      padding: 10px 12px; border-radius: 10px; font-size: 12.5px; margin-top: 8px;
-    }
+    .alert-box { padding: 10px 12px; border-radius: 10px; font-size: 12.5px; margin-top: 8px; }
     .alert-green { background: rgba(34,197,94,0.14); border: 1px solid rgba(34,197,94,0.45); color: #bbf7d0; }
     .alert-amber { background: rgba(245,158,11,0.14); border: 1px solid rgba(245,158,11,0.45); color: #fde68a; }
     .alert-red { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.5); color: #fecaca; }
+    .alert-blue { background: rgba(56,189,248,0.14); border: 1px solid rgba(56,189,248,0.45); color: #bae6fd; }
 
     /* Bottom Sticky Bar */
     .bottom-bar {
@@ -272,7 +317,7 @@
     }
     @media print {
       body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-      header.topbar, main.container, .bottom-bar, #toast-notify { display: none !important; }
+      header.topbar, main.container, .bottom-bar, #toast-notify, .modal-backdrop { display: none !important; }
       #print-container { display: block !important; }
       .paper-tbl th, .paper-summary-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
@@ -287,8 +332,8 @@
         <img src="icon-192.png" alt="FP" onerror="this.style.display='none'; this.parentNode.textContent='FP';" />
       </div>
       <div>
-        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.0</span></div>
-        <div class="brand-sub" id="hdr-company-sub">гр. Пловдив • Дневник на обектите, Печалба, Фирмени разходи и ДДС (€)</div>
+        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.1</span></div>
+        <div class="brand-sub" id="hdr-company-sub">гр. Пловдив • Дневник на обектите, FixBuild връзка, Бележки и ДДС (€)</div>
       </div>
     </div>
     <div class="nav-tabs">
@@ -296,6 +341,8 @@
       <button class="tab-btn" data-tab="tab-projects" onclick="switchTab('tab-projects')">2. Обекти (<span id="cnt-projects">0</span>)</button>
       <button class="tab-btn" data-tab="tab-overhead" onclick="switchTab('tab-overhead')">3. Фирмени разходи</button>
       <button class="tab-btn" data-tab="tab-export" onclick="switchTab('tab-export')">4. Счетоводител и Настройки</button>
+      <button class="btn btn-sm btn-amber" onclick="openQuickExpenseModal()" title="Бърз запис на разход със снимка на бележка">⚡ Разход</button>
+      <button class="btn btn-sm btn-purple" onclick="openFixBuildImportModal()" title="Зареди оферти директно от FixBuild на това устройство">🔗 От FixBuild</button>
       <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
       <button class="btn btn-sm" onclick="refreshAppNow()" title="Опреснява приложението (данните ти са запазени)">🔄</button>
     </div>
@@ -304,7 +351,7 @@
 
 <main class="container">
 
-  <!-- ===================== TAB 1: ТАБЛО & ДДС ПРАГ ===================== -->
+  <!-- ===================== TAB 1: ТАБЛО, ЦЕЛ, ДДС & РАЗБИВКИ ===================== -->
   <section id="tab-dash" class="tab-panel active">
     <div class="card">
       <h2>
@@ -322,27 +369,46 @@
       </h2>
 
       <div class="grid-kpi" id="dash-kpis"></div>
-
       <div id="dash-tax-banner"></div>
     </div>
 
-    <!-- БРОЯЧ ЗА ПРАГА ПО ДДС (12 ПОСЛЕДОВАТЕЛНИ МЕСЕЦА) -->
-    <div class="card">
-      <h2>
-        <span>🔥 Брояч за прага по ДДС (последни 12 последователни месеца)</span>
-        <span id="vat-mode-pill" class="badge badge-inv">Отчитане: Фактурирани / По банка</span>
-      </h2>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
-        <div style="font-size:14px;">
-          Облагаем оборот (12 мес.): <strong id="vat-current-eur" style="font-size:18px;color:#fff;">0.00 €</strong>
-          от <strong id="vat-limit-eur" style="color:#fb923c;">51 130.00 €</strong>
+    <!-- МЕСЕЧНА ЦЕЛ + ДДС БРОЯЧ (2 колони на голям екран) -->
+    <div class="grid-2">
+      <div class="card">
+        <h2>
+          <span>🎯 Месечна цел (чиста печалба)</span>
+          <button class="btn btn-xs" onclick="promptMonthlyGoal()">✏️ Промени целта</button>
+        </h2>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;">
+          <div style="font-size:13.5px;">
+            Текущ месец (<span id="goal-month-lbl"></span>): <strong id="goal-cur-eur" style="font-size:17px;color:#4ade80;">0.00 €</strong>
+            от <strong id="goal-target-eur" style="color:#fb923c;">2 500.00 €</strong>
+          </div>
+          <div style="font-size:13px;font-weight:800;" id="goal-pct-lbl">0%</div>
         </div>
-        <div style="font-size:13px;font-weight:700;" id="vat-pct-lbl">0.0%</div>
+        <div class="prog-track">
+          <div class="prog-fill prog-purple" id="goal-prog-bar" style="width:0%;"></div>
+        </div>
+        <div id="goal-note" class="alert-box alert-blue"></div>
       </div>
-      <div class="prog-track">
-        <div class="prog-fill prog-green" id="vat-prog-bar" style="width:0%;"></div>
+
+      <div class="card">
+        <h2>
+          <span>🔥 Брояч за прага по ДДС (12 мес.)</span>
+          <span id="vat-mode-pill" class="badge badge-inv">Отчитане: Фактурирани / По банка</span>
+        </h2>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;">
+          <div style="font-size:13.5px;">
+            Оборот (12 мес.): <strong id="vat-current-eur" style="font-size:17px;color:#fff;">0.00 €</strong>
+            от <strong id="vat-limit-eur" style="color:#fb923c;">51 130.00 €</strong>
+          </div>
+          <div style="font-size:13px;font-weight:800;" id="vat-pct-lbl">0.0%</div>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill prog-green" id="vat-prog-bar" style="width:0%;"></div>
+        </div>
+        <div id="vat-status-note" class="alert-box alert-green"></div>
       </div>
-      <div id="vat-status-note" class="alert-box alert-green"></div>
     </div>
 
     <!-- МЕСЕЧНА ГРАФИКА -->
@@ -359,15 +425,19 @@
       </div>
     </div>
 
-    <!-- ЧАКАЩИ ПЛАЩАНИЯ И АКТИВНИ ОБЕКТИ -->
-    <div class="grid-2">
+    <!-- ЧАКАЩИ ПЛАЩАНИЯ, ТОП ОБЕКТИ И РАЗБИВКА НА РАЗХОДИТЕ -->
+    <div class="grid-3">
       <div class="card">
-        <h2>⏳ Чакащи плащания от клиенти (Вземания)</h2>
+        <h2>⏳ Чакащи плащания (Вземания)</h2>
         <div id="dash-receivables"></div>
       </div>
       <div class="card">
-        <h2>🏆 Най-доходни обекти (по надница / ден)</h2>
+        <h2>🏆 Най-доходни обекти (надница/ден)</h2>
         <div id="dash-top-projects"></div>
+      </div>
+      <div class="card">
+        <h2>🧾 Къде отиват разходите (период)</h2>
+        <div id="dash-expense-breakdown"></div>
       </div>
     </div>
   </section>
@@ -378,11 +448,12 @@
       <h2>
         <span>🏗️ Дневник на обектите</span>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
-          <label class="btn btn-sm btn-blue" style="cursor:pointer;" title="Зарежда директно .json файл, свален от FixBuild">
-            ⬆️ Импорт от FixBuild (.json)
+          <button class="btn btn-sm btn-purple" onclick="openFixBuildImportModal()">🔗 Зареди директно от FixBuild</button>
+          <label class="btn btn-sm btn-blue" style="cursor:pointer;" title="Зарежда .json файл, свален от FixBuild">
+            ⬆️ Файл от FixBuild (.json)
             <input type="file" accept=".json" style="display:none;" onchange="importFromFixBuildJson(event)" />
           </label>
+          <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
         </div>
       </h2>
       <div class="grid-2" style="margin-bottom:8px;">
@@ -397,10 +468,7 @@
       </div>
     </div>
 
-    <!-- РЕДАКТОР НА ИЗБРАНИЯ ОБЕКТ -->
     <div id="project-editor-wrap" style="display:none;"></div>
-
-    <!-- СПИСЪК С ОБЕКТИ -->
     <div id="projects-list"></div>
   </section>
 
@@ -417,8 +485,11 @@
 
       <div class="grid-3" id="ovh-summary-kpis" style="margin-bottom:12px;"></div>
 
-      <div class="sub-card" style="margin-top:0;">
-        <h3>➕ Добави фирмен разход (счетоводство, осигуровки, такси, бус, гараж, инструменти)</h3>
+      <div class="sub-card" id="ovh-form-card" style="margin-top:0;">
+        <h3>
+          <span id="ovh-form-title">➕ Добави фирмен разход (счетоводство, осигуровки, бус, гараж, инструменти)</span>
+          <button class="btn btn-xs" id="ovh-cancel-edit" style="display:none;" onclick="cancelCompanyExpenseEdit()">✕ Откажи редакция</button>
+        </h3>
         <div class="grid-4">
           <label class="field">Дата
             <input type="date" id="ovh-date" />
@@ -444,18 +515,34 @@
           </label>
         </div>
         <div class="grid-3" style="margin-top:8px;align-items:end;">
-          <label class="field">№ Фактура / Документ (по желание)
+          <label class="field">№ Фактура / Документ
             <input type="text" id="ovh-doc" placeholder="напр. Ф-ра 0000123456" />
           </label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:8px 0;">
-            <input type="checkbox" id="ovh-invoiced" checked style="width:17px;height:17px;accent-color:var(--accent);" />
-            С фактура / официален документ за ЕООД
-          </label>
-          <button class="btn btn-primary" onclick="addCompanyExpense()">➕ Запиши разхода</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 0;">
+            <label class="btn btn-sm" style="cursor:pointer;">
+              📸 Снимка бележка
+              <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handleReceiptPick(event, 'ovh')" />
+            </label>
+            <span id="ovh-photo-preview"></span>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="ovh-invoiced" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+              С фактура ЕООД
+            </label>
+          </div>
+          <button class="btn btn-primary" id="ovh-submit-btn" onclick="saveCompanyExpense()">➕ Запиши разхода</button>
         </div>
       </div>
 
-      <div style="overflow-x:auto;margin-top:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px;">
+        <div class="chips" id="ovh-filter-chips">
+          <button class="chip active" onclick="setOvhFilter('all', this)">Всички</button>
+          <button class="chip" onclick="setOvhFilter('invoiced', this)">📄 С фактура</button>
+          <button class="chip" onclick="setOvhFilter('cash', this)">🧾 Без фактура</button>
+        </div>
+        <div style="font-size:12px;color:var(--muted);" id="ovh-count-lbl"></div>
+      </div>
+
+      <div style="overflow-x:auto;margin-top:6px;">
         <table class="data-table">
           <thead>
             <tr>
@@ -463,6 +550,7 @@
               <th>Категория</th>
               <th>Описание</th>
               <th>Документ</th>
+              <th>Снимка</th>
               <th class="num">Сума (€)</th>
               <th></th>
             </tr>
@@ -476,7 +564,7 @@
     <div class="card">
       <h2>
         <span>🔁 Шаблон на постоянните месечни разходи (ЕООД)</span>
-        <span style="font-size:12px;color:var(--muted);">Ползва се при бутона „⚡ Генерирай постоянните“ и за дневната ставка</span>
+        <span style="font-size:12px;color:var(--muted);">Ползва се при „⚡ Генерирай постоянните“ и дневната ставка</span>
       </h2>
       <div id="recurring-template-list"></div>
       <div class="grid-3" style="margin-top:10px;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);align-items:end;">
@@ -522,10 +610,11 @@
       </div>
 
       <div class="card">
-        <h2>💾 Архив и прехвърляне (Лаптоп ↔ Телефон)</h2>
-        <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px 0;">
-          Данните стоят локално на твоето устройство (100% поверително и офлайн). Прави си редовно резервно копие или прехвърляй между лаптопа и телефона с <code>.json</code> файл.
+        <h2>💾 Архив, Памет и Прехвърляне (Лаптоп ↔ Телефон)</h2>
+        <p style="font-size:12.5px;color:var(--muted);margin:0 0 8px 0;">
+          Данните (включително компресираните снимки на фактури) стоят 100% локално и офлайн на твоето устройство.
         </p>
+        <div id="storage-meter-box" style="margin-bottom:10px;"></div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <button class="btn btn-green" onclick="downloadFullBackup()">⬇️ Свали пълен резервен архив (.json)</button>
           <label class="btn btn-blue" style="cursor:pointer;">
@@ -533,15 +622,19 @@
             <input type="file" accept=".json" style="display:none;" onchange="restoreFullBackup(event)" />
           </label>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
-            <button class="btn btn-sm" style="flex:1;" onclick="loadDemoProject()">🧪 Зареди примерен обект (за тест)</button>
-            <button class="btn btn-sm btn-red" onclick="wipeAllData()">🗑️ Изтрий всички данни</button>
+            <button class="btn btn-sm" style="flex:1;" onclick="loadDemoProject()">🧪 Примерен обект</button>
+            <button class="btn btn-sm" onclick="stripAllReceiptPhotos()" title="Изтрива само прикачените снимки, без да пипа сумите и обектите">🧹 Изчисти снимки</button>
+            <button class="btn btn-sm btn-red" onclick="wipeAllData()">🗑️ Изтрий всичко</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>🏢 Настройки на фирмата, ДДС праг и ЕООД</h2>
+      <h2>
+        <span>🏢 Настройки на фирмата, IBAN, ДДС праг и ЕООД</span>
+        <button class="btn btn-sm btn-purple" onclick="syncCompanyFromFixBuild()">🔄 Вземи данните от FixBuild</button>
+      </h2>
       <div class="grid-3">
         <label class="field">Име на фирма
           <input type="text" id="set-name" oninput="saveSettings()" />
@@ -558,10 +651,19 @@
         <label class="field">Телефон
           <input type="text" id="set-phone" oninput="saveSettings()" />
         </label>
+        <label class="field">Месечна цел чиста печалба (€)
+          <input type="number" id="set-monthly-goal" min="100" step="50" oninput="saveSettings()" />
+        </label>
+        <label class="field">IBAN (фирмена сметка ЕООД)
+          <input type="text" id="set-iban" placeholder="BG00 XXXX 0000 0000 0000 00" oninput="saveSettings()" />
+        </label>
+        <label class="field">Банка (по желание)
+          <input type="text" id="set-bank" placeholder="напр. ДСК / ОББ / Revolut Pro" oninput="saveSettings()" />
+        </label>
         <label class="field">Ефективни раб. дни / месец
           <input type="number" id="set-bill-days" min="10" max="30" step="1" oninput="saveSettings()" />
         </label>
-        <label class="field" title="Актуален праг за задължителна регистрация по ЗДДС за 12 последователни месеца в евро">Праг за регистрация по ДДС (€ / 12 мес.)
+        <label class="field">Праг за регистрация по ДДС (€ / 12 мес.)
           <input type="number" id="set-vat-limit" min="1000" step="10" oninput="saveSettings()" />
         </label>
         <label class="field">Кои приходи влизат в брояча за ДДС
@@ -570,12 +672,13 @@
             <option value="all">Всички получени приходи</option>
           </select>
         </label>
-        <label class="field">Корпоративен данък ЕООД (%)
-          <div style="display:flex;gap:8px;align-items:center;">
-            <input type="number" id="set-tax-pct" min="0" max="30" step="1" style="width:90px;" oninput="saveSettings()" />
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text);cursor:pointer;">
-              <input type="checkbox" id="set-show-tax" style="width:16px;height:16px;accent-color:var(--accent);" onchange="saveSettings()" />
-              Показвай на Таблото
+        <label class="field">Данъци ЕООД: Корпоративен % / Дивидент %
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="number" id="set-tax-pct" min="0" max="30" step="1" style="width:68px;" title="Корпоративен данък (10%)" oninput="saveSettings()" />
+            <input type="number" id="set-div-pct" min="0" max="20" step="1" style="width:68px;" title="Данък дивидент (5%)" oninput="saveSettings()" />
+            <label style="display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="set-show-tax" style="width:15px;height:15px;accent-color:var(--accent);" onchange="saveSettings()" />
+              Табло
             </label>
           </div>
         </label>
@@ -586,6 +689,91 @@
 
 </main>
 
+<!-- ===================== МОДАЛ 1: ДИРЕКТЕН ИМПОРТ ОТ FIXBUILD ===================== -->
+<div class="modal-backdrop" id="fb-import-modal" onclick="if(event.target===this) closeModal('fb-import-modal')">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h3>🔗 Директна връзка с FixBuild (на това устройство)</h3>
+      <button class="btn btn-xs" onclick="closeModal('fb-import-modal')">✕ Затвори</button>
+    </div>
+    <div id="fb-modal-body"></div>
+  </div>
+</div>
+
+<!-- ===================== МОДАЛ 2: БЪРЗ ЗАПИС НА РАЗХОД ===================== -->
+<div class="modal-backdrop" id="quick-exp-modal" onclick="if(event.target===this) closeModal('quick-exp-modal')">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-hdr">
+      <h3>⚡ Бърз запис на разход (на касата / в магазина)</h3>
+      <button class="btn btn-xs" onclick="closeModal('quick-exp-modal')">✕</button>
+    </div>
+    <div class="grid-2">
+      <label class="field">За къде е разходът?
+        <select id="qe-target"></select>
+      </label>
+      <label class="field">Дата
+        <input type="date" id="qe-date" />
+      </label>
+      <label class="field">Категория
+        <select id="qe-cat">
+          <option value="Материали">Материали</option>
+          <option value="Гориво / Транспорт">Гориво / Транспорт</option>
+          <option value="Консумативи (тиксо, шкурки)">Консумативи (тиксо, шкурки)</option>
+          <option value="Помощник / Майстор">Помощник / Майстор</option>
+          <option value="Инструменти / Машини">Инструменти / Машини</option>
+          <option value="Осигуровки СОЛ">Осигуровки СОЛ</option>
+          <option value="Счетоводство">Счетоводство</option>
+          <option value="Гараж / Склад / Ток">Гараж / Склад / Ток</option>
+          <option value="Други">Други</option>
+        </select>
+      </label>
+      <label class="field">Сума (€)
+        <input type="number" step="0.01" min="0" id="qe-amount" placeholder="0.00" />
+      </label>
+    </div>
+    <div class="grid-2" style="margin-top:8px;">
+      <label class="field">Описание / Магазин
+        <input type="text" id="qe-desc" placeholder="напр. Баухаус — грунд и тиксо" />
+      </label>
+      <label class="field">№ Фактура (по желание)
+        <input type="text" id="qe-doc" placeholder="Ф-ра №" />
+      </label>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <label class="btn btn-sm" style="cursor:pointer;">
+          📸 Снимай бележка
+          <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handleReceiptPick(event, 'qe')" />
+        </label>
+        <span id="qe-photo-preview"></span>
+      </div>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+        <input type="checkbox" id="qe-invoiced" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+        С фактура ЕООД
+      </label>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+      <button class="btn" onclick="closeModal('quick-exp-modal')">Отказ</button>
+      <button class="btn btn-primary" onclick="submitQuickExpense()">✅ Запиши разхода</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== МОДАЛ 3: ПРЕГЛЕД НА СНИМКА (ФАКТУРА / БОН) ===================== -->
+<div class="modal-backdrop" id="img-viewer-modal" onclick="if(event.target===this) closeModal('img-viewer-modal')">
+  <div class="modal-box" style="max-width:740px;text-align:center;">
+    <div class="modal-hdr">
+      <h3 id="img-viewer-title">📸 Бележка / Фактура</h3>
+      <button class="btn btn-xs" onclick="closeModal('img-viewer-modal')">✕ Затвори</button>
+    </div>
+    <img id="img-viewer-src" src="" alt="Бележка" style="max-width:100%;max-height:68vh;border-radius:10px;border:1px solid var(--border);" />
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <a id="img-viewer-dl" class="btn btn-sm btn-green" download="belezhka.jpg" href="#">⬇️ Свали снимката (.jpg)</a>
+      <button class="btn btn-sm btn-red" id="img-viewer-del-btn" onclick="deleteViewedPhoto()">🗑️ Премахни снимката</button>
+    </div>
+  </div>
+</div>
+
 <!-- Фиксирана долна лента -->
 <div class="bottom-bar">
   <div class="bottom-inner">
@@ -595,8 +783,9 @@
       Разходи: <strong id="bar-exp">0.00 €</strong> &nbsp;|&nbsp;
       Надница/ден: <strong id="bar-daily" style="color:#fb923c;">0.00 €</strong>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:8px;">
       <div class="bottom-grand" id="bar-net">Нетна: 0.00 €</div>
+      <button class="btn btn-amber btn-sm" onclick="openQuickExpenseModal()">⚡ Разход</button>
       <button class="btn btn-primary btn-sm" onclick="switchTab('tab-projects')">Обекти →</button>
     </div>
   </div>
@@ -607,7 +796,7 @@
 
 <script>
 const LS_KEY = 'fixprofit_data_v1';
-const APP_VERSION = '1.0';
+const APP_VERSION = '1.1';
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 function currentMonthISO() { return new Date().toISOString().slice(0, 7); }
@@ -629,10 +818,14 @@ function defaultData() {
       eik: '',
       city: 'гр. Пловдив',
       phone: '0886 321 665',
+      iban: '',
+      bankName: '',
+      monthlyGoal: 2500,
       billableDays: 20,
       vatLimit: 51130,
       vatMode: 'official',
       taxPct: 10,
+      divPct: 5,
       showTax: true
     },
     recurringTemplates: [
@@ -667,9 +860,22 @@ function loadData() {
 let data = loadData();
 let selectedProjectId = null;
 let projFilter = 'all';
+let ovhFilter = 'all';
+
+// Edit states & pending compressed receipt photos
+let editPayIdx = null;
+let editExpIdx = null;
+let editCompanyExpId = null;
+let pendingPhotos = { exp: '', ovh: '', qe: '' };
+let currentViewedPhotoRef = null;
+let lastScannedFixBuildOffers = [];
 
 function saveData() {
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+  } catch (e) {
+    alert('Паметта на браузъра е почти пълна! Можеш да изчистиш старите снимки от Таб 4 → „🧹 Изчисти снимки“ (след като свалиш резервен архив).');
+  }
 }
 
 let toastTimer = null;
@@ -679,7 +885,104 @@ function showToast(msg) {
   el.textContent = msg;
   el.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+function openModal(id) { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
+// ================= PHOTO COMPRESSION & VIEWER =================
+function compressImageFile(file, maxDim = 920, quality = 0.65) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w >= h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+          else { w = Math.round(w * (maxDim / h)); h = maxDim; }
+        }
+        const cv = document.createElement('canvas');
+        cv.width = w; cv.height = h;
+        const ctx = cv.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(cv.toDataURL('image/jpeg', quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleReceiptPick(evt, targetKey) {
+  const file = evt.target.files?.[0];
+  if (!file) return;
+  try {
+    const dataUrl = await compressImageFile(file, 920, 0.65);
+    pendingPhotos[targetKey] = dataUrl;
+    renderPhotoPreview(targetKey);
+    const kb = Math.round((dataUrl.length * 0.75) / 1024);
+    showToast(`📸 Снимката е прикачена (~${kb} KB)`);
+  } catch (e) {
+    alert('Неуспешна обработка на снимката.');
+  }
+  evt.target.value = '';
+}
+
+function clearPendingPhoto(targetKey) {
+  pendingPhotos[targetKey] = '';
+  renderPhotoPreview(targetKey);
+}
+
+function renderPhotoPreview(targetKey) {
+  const el = document.getElementById(targetKey + '-photo-preview');
+  if (!el) return;
+  const src = pendingPhotos[targetKey];
+  if (!src) { el.innerHTML = ''; return; }
+  el.innerHTML = `<span class="preview-pill"><img src="${src}" class="receipt-thumb" style="width:24px;height:24px;" /> Готова <button type="button" class="btn btn-xs btn-red" onclick="clearPendingPhoto('${targetKey}')">✕</button></span>`;
+}
+
+function viewReceiptPhoto(type, refId, idx) {
+  let photo = '', title = 'Бележка / Фактура';
+  if (type === 'proj_exp') {
+    const p = data.projects.find(x => x.id === refId);
+    const ex = p?.expenses?.[idx];
+    if (!ex?.photo) return;
+    photo = ex.photo;
+    title = `${p.clientName || 'Обект'} — ${ex.cat} (${fmtEur(ex.amount)})`;
+  } else if (type === 'comp_exp') {
+    const ce = data.companyExpenses.find(x => x.id === refId);
+    if (!ce?.photo) return;
+    photo = ce.photo;
+    title = `${ce.cat} — ${ce.desc || ''} (${fmtEur(ce.amount)})`;
+  }
+  currentViewedPhotoRef = { type, refId, idx };
+  document.getElementById('img-viewer-title').textContent = '📸 ' + title;
+  document.getElementById('img-viewer-src').src = photo;
+  const dl = document.getElementById('img-viewer-dl');
+  dl.href = photo;
+  dl.download = `FixProfit_Belezhka_${todayISO()}.jpg`;
+  openModal('img-viewer-modal');
+}
+
+function deleteViewedPhoto() {
+  if (!currentViewedPhotoRef) return;
+  if (!confirm('Да премахна ли само прикачената снимка (разходът и сумата остават)?')) return;
+  const { type, refId, idx } = currentViewedPhotoRef;
+  if (type === 'proj_exp') {
+    const p = data.projects.find(x => x.id === refId);
+    if (p?.expenses?.[idx]) delete p.expenses[idx].photo;
+  } else if (type === 'comp_exp') {
+    const ce = data.companyExpenses.find(x => x.id === refId);
+    if (ce) delete ce.photo;
+  }
+  saveData();
+  closeModal('img-viewer-modal');
+  renderAll();
+  showToast('🧹 Снимката е премахната.');
 }
 
 // ================= CORE CALCULATIONS =================
@@ -703,6 +1006,7 @@ function calcProjectStats(p) {
   const receivedOfficial = round2(payments.filter(x => x.official !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
   const remaining = round2(Math.max(0, agreedTotal - received));
   const directExp = round2(expenses.reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const directMatExp = round2(expenses.filter(x => x.cat === 'Материали').reduce((a, b) => a + (Number(b.amount) || 0), 0));
   const directExpInvoiced = round2(expenses.filter(x => x.invoiced !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
   const workedDays = Math.max(0, Number(p.workedDays) || 0);
   const plannedDays = Math.max(0, Number(p.plannedDays) || 0);
@@ -714,12 +1018,14 @@ function calcProjectStats(p) {
   const marginPct = received > 0 ? round2((netProfit / received) * 100) : 0;
   const dailyWage = workedDays > 0 ? round2(netProfit / workedDays) : 0;
   const payPct = agreedTotal > 0 ? Math.min(100, round2((received / agreedTotal) * 100)) : 0;
+  const daysDelta = plannedDays > 0 ? round2(workedDays - plannedDays) : 0;
+  const matDelta = agreedMat > 0 ? round2(agreedMat - directMatExp) : 0;
 
   return {
     agreedLabor, agreedMat, agreedTotal,
     received, receivedOfficial, remaining, payPct,
-    directExp, directExpInvoiced, overheadShare,
-    workedDays, plannedDays,
+    directExp, directMatExp, directExpInvoiced, overheadShare,
+    workedDays, plannedDays, daysDelta, matDelta,
     grossProfit, netProfit, projectedProfit, marginPct, dailyWage
   };
 }
@@ -752,6 +1058,7 @@ function computePeriodTotals(period, pickMonth, pickYear) {
 
   let income = 0, incomeOfficial = 0, directExp = 0, companyExp = 0, workedDays = 0;
   let agreedInPeriod = 0, totalReceivables = 0, activeCount = 0;
+  const expByCat = {};
 
   for (const p of data.projects) {
     const st = calcProjectStats(p);
@@ -773,14 +1080,20 @@ function computePeriodTotals(period, pickMonth, pickYear) {
     }
     for (const ex of (p.expenses || [])) {
       if (dateMatchesPeriod(ex.date, period, pickMonth, pickYear, last12Set)) {
-        directExp = round2(directExp + (Number(ex.amount) || 0));
+        const a = Number(ex.amount) || 0;
+        directExp = round2(directExp + a);
+        const cat = ex.cat || 'Други преки';
+        expByCat[cat] = round2((expByCat[cat] || 0) + a);
       }
     }
   }
 
   for (const ce of data.companyExpenses) {
     if (dateMatchesPeriod(ce.date, period, pickMonth, pickYear, last12Set)) {
-      companyExp = round2(companyExp + (Number(ce.amount) || 0));
+      const a = Number(ce.amount) || 0;
+      companyExp = round2(companyExp + a);
+      const cat = ce.cat || 'Други фирмени';
+      expByCat[cat] = round2((expByCat[cat] || 0) + a);
     }
   }
 
@@ -789,21 +1102,24 @@ function computePeriodTotals(period, pickMonth, pickYear) {
   const marginPct = income > 0 ? round2((netProfit / income) * 100) : 0;
   const dailyWage = workedDays > 0 ? round2(netProfit / workedDays) : 0;
   const taxPct = Math.max(0, Number(data.settings.taxPct) || 0);
+  const divPct = Math.max(0, Number(data.settings.divPct) || 0);
   const estTax = netProfit > 0 ? round2(netProfit * (taxPct / 100)) : 0;
-  const afterTax = round2(netProfit - estTax);
+  const afterCorp = round2(netProfit - estTax);
+  const estDivTax = afterCorp > 0 ? round2(afterCorp * (divPct / 100)) : 0;
+  const inPocket = round2(afterCorp - estDivTax);
 
   return {
-    income, incomeOfficial, directExp, companyExp, totalExp,
+    income, incomeOfficial, directExp, companyExp, totalExp, expByCat,
     netProfit, marginPct, workedDays, dailyWage,
-    agreedInPeriod, totalReceivables, activeCount, estTax, afterTax
+    agreedInPeriod, totalReceivables, activeCount,
+    estTax, afterCorp, estDivTax, inPocket
   };
 }
 
 function computeVat12Months() {
   const months = getLast12MonthsList();
   const mSet = new Set(months);
-  let officialSum = 0;
-  let allSum = 0;
+  let officialSum = 0, allSum = 0;
   for (const p of data.projects) {
     for (const pay of (p.payments || [])) {
       if (pay.date && mSet.has(pay.date.slice(0, 7))) {
@@ -833,6 +1149,332 @@ function switchTab(tabId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ================= DIRECT FIXBUILD SAME-ORIGIN SCANNER =================
+function computeFixBuildFallbackTotals(st) {
+  if (!st || !Array.isArray(st.rooms)) return { labor: 0, mat: 0 };
+  let rawL = 0, rawM = 0;
+  for (const r of st.rooms) {
+    for (const it of (r.items || [])) {
+      const line = round2((Number(it.qty) || 0) * (Number(it.price) || 0));
+      if (it.type === 'labor') rawL = round2(rawL + line);
+      else rawM = round2(rawM + line);
+    }
+  }
+  const h = st.hidden || {};
+  const o = st.opts || {};
+  const wMult = o.weekendOn ? (1 + (Number(o.weekendPct) || 0) / 100) : 1;
+  const baseL = round2(rawL * wMult);
+  let hid = 0;
+  if (h.unforeseenOn) hid += round2(baseL * ((Number(h.unforeseenPct) || 0) / 100));
+  if (h.generalOn) hid += round2(Number(h.generalEur) || 0);
+  if (h.fuelOn) hid += round2(Number(h.fuelEur) || 0);
+  if (h.companyOn) {
+    const mode = h.companyMode || 'days';
+    if (mode === 'days') hid += round2((Number(h.companyDays) || 0) * getDailyCompanyRate());
+    else if (mode === 'months') hid += round2((Number(h.companyMonths) || 0) * getTemplateMonthlyTotal());
+    else hid += round2(Number(h.companyEur) || 0);
+  }
+  let effL = round2(baseL + hid);
+  let effM = rawM;
+  if (o.discountOn && Number(o.discountPct) > 0) {
+    const dMult = 1 - (Number(o.discountPct) / 100);
+    effL = round2(effL * dMult);
+    effM = round2(effM * dMult);
+  }
+  if (o.vatOn) {
+    effL = round2(effL * 1.2);
+    effM = round2(effM * 1.2);
+  }
+  return { labor: effL, mat: effM };
+}
+
+function scanFixBuildLocalStorage() {
+  const found = [];
+  const seenKeys = new Set();
+  let contractDraft = null;
+
+  // First try to read contract draft for active draft days/date
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && /fixbuild.*contract/i.test(k)) {
+        const parsed = JSON.parse(localStorage.getItem(k) || 'null');
+        if (parsed && typeof parsed === 'object') contractDraft = parsed;
+      }
+    }
+  } catch (e) {}
+
+  function pushOffer(obj, sourceLabel, isDraft) {
+    if (!obj || typeof obj !== 'object') return;
+    const st = obj.state || (Array.isArray(obj.rooms) ? obj : null);
+    if (!st || !Array.isArray(st.rooms)) return;
+    const hasItems = st.rooms.some(r => Array.isArray(r.items) && r.items.length > 0);
+    if (!hasItems && !Number(obj.grandTotal) && !Number(obj.effLabor)) return;
+
+    let effL = Number(obj.effLabor);
+    let effM = Number(obj.effMat);
+    if (!Number.isFinite(effL) || !Number.isFinite(effM)) {
+      const calc = computeFixBuildFallbackTotals(st);
+      effL = calc.labor;
+      effM = calc.mat;
+    }
+    const total = round2(effL + effM);
+    if (total <= 0) return;
+
+    const offerNumber = (obj.offerNumber || st.offerNumber || '').trim();
+    const clientName = (obj.clientName || st.clientName || (isDraft ? 'Текуща чернова (FixBuild)' : 'Клиент от FixBuild')).trim();
+    const clientPhone = (obj.clientPhone || st.clientPhone || '').trim();
+    const address = (obj.clientAddress || st.clientAddress || 'гр. Пловдив').trim();
+    const plannedDays = Number(obj.contract?.days) || Number(isDraft && contractDraft?.days) || Number(st.hidden?.companyDays) || 10;
+    const startDate = obj.contract?.date || (isDraft && contractDraft?.date) || (obj.savedAt ? String(obj.savedAt).slice(0, 10) : todayISO());
+    const roomsList = st.rooms.filter(r => (r.items || []).length > 0).map(r => r.name).join(', ');
+    const dedupSig = `${isDraft ? 'DRAFT' : 'SAVED'}|${offerNumber}|${clientName}|${total}`;
+    if (seenKeys.has(dedupSig)) return;
+    seenKeys.add(dedupSig);
+
+    found.push({
+      sourceLabel,
+      isDraft,
+      fbId: obj.id || '',
+      offerNumber,
+      clientName,
+      clientPhone,
+      address,
+      agreedLabor: round2(effL),
+      agreedMat: round2(effM),
+      total,
+      plannedDays,
+      startDate,
+      roomsList
+    });
+  }
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || k.startsWith('fixprofit')) continue;
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw || raw.length < 15) continue;
+      if (!(/fixbuild/i.test(k) || raw.includes('"rooms"'))) continue;
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        parsed.forEach(item => pushOffer(item, 'Запазена оферта', false));
+      } else if (parsed && typeof parsed === 'object') {
+        if (Array.isArray(parsed.offers)) {
+          parsed.offers.forEach(item => pushOffer(item, 'Запазена оферта', false));
+        } else if (Array.isArray(parsed.rooms) || parsed.state?.rooms) {
+          const isDraft = /draft/i.test(k);
+          pushOffer(parsed, isDraft ? 'Текуща чернова' : 'Оферта от FixBuild', isDraft);
+        }
+      }
+    } catch (e) {}
+  }
+
+  return found;
+}
+
+function openFixBuildImportModal() {
+  lastScannedFixBuildOffers = scanFixBuildLocalStorage();
+  const body = document.getElementById('fb-modal-body');
+
+  if (!lastScannedFixBuildOffers.length) {
+    body.innerHTML = `
+      <div class="alert-box alert-amber" style="margin-top:0;">
+        <strong>Не бяха открити запазени оферти от FixBuild в този браузър.</strong><br/>
+        Това се случва, ако:<br/>
+        • FixBuild и FixProfit не са отворени на един и същ домейн (<code>angelgeorgiev83.github.io</code>), или<br/>
+        • Все още нямаш запазена оферта / активна чернова във FixBuild на това устройство.
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <label class="btn btn-blue" style="cursor:pointer;">
+          ⬆️ Зареди ръчно от .json файл на FixBuild
+          <input type="file" accept=".json" style="display:none;" onchange="importFromFixBuildJson(event); closeModal('fb-import-modal');" />
+        </label>
+        <button class="btn" onclick="openFixBuildImportModal()">🔄 Сканирай пак</button>
+      </div>
+    `;
+  } else {
+    body.innerHTML = `
+      <div class="alert-box alert-green" style="margin-top:0;margin-bottom:10px;">
+        ✅ Намерени са <strong>${lastScannedFixBuildOffers.length}</strong> оферти директно от <strong>FixBuild</strong>! Натисни „+ Зареди“ за моментално добавяне.
+      </div>
+      ${lastScannedFixBuildOffers.map((o, idx) => {
+        const existing = data.projects.find(p => (o.offerNumber && p.offerNumber === o.offerNumber) || (o.fbId && p.fbId === o.fbId));
+        return `
+          <div class="fb-offer-row">
+            <div>
+              <div style="font-weight:800;font-size:14px;color:#fff;">
+                ${escHtml(o.clientName)}
+                <span class="badge ${o.isDraft ? 'st-planned' : 'badge-inv'}" style="margin-left:4px;">${escHtml(o.sourceLabel)}</span>
+                ${existing ? '<span class="badge badge-ok" style="margin-left:4px;">✓ Вече е във FixProfit</span>' : ''}
+              </div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px;">
+                ${escHtml(o.address)} ${o.offerNumber ? '• № ' + escHtml(o.offerNumber) : ''} • ${o.plannedDays} дн.
+              </div>
+              <div style="font-size:12px;color:#cbd5e1;margin-top:3px;">
+                Труд: <strong>${fmtEur(o.agreedLabor)}</strong> + Материали: <strong>${fmtEur(o.agreedMat)}</strong> = <strong class="val-orange">${fmtEur(o.total)}</strong>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              ${existing
+                ? `<button class="btn btn-sm btn-amber" onclick="importScannedFixBuildOffer(${idx}, '${existing.id}')">🔄 Обнови сумите</button>`
+                : `<button class="btn btn-sm btn-green" onclick="importScannedFixBuildOffer(${idx}, '')">+ Зареди обект</button>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('')}
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <label class="btn btn-sm btn-blue" style="cursor:pointer;">
+          ⬆️ Или зареди .json файл
+          <input type="file" accept=".json" style="display:none;" onchange="importFromFixBuildJson(event); closeModal('fb-import-modal');" />
+        </label>
+        <button class="btn btn-sm" onclick="openFixBuildImportModal()">🔄 Обнови списъка</button>
+      </div>
+    `;
+  }
+  openModal('fb-import-modal');
+}
+
+function importScannedFixBuildOffer(idx, existingId) {
+  const o = lastScannedFixBuildOffers[idx];
+  if (!o) return;
+  if (existingId) {
+    const p = data.projects.find(x => x.id === existingId);
+    if (p) {
+      p.agreedLabor = o.agreedLabor;
+      p.agreedMat = o.agreedMat;
+      p.plannedDays = o.plannedDays;
+      if (o.clientPhone && !p.clientPhone) p.clientPhone = o.clientPhone;
+      selectedProjectId = p.id;
+      saveData();
+      closeModal('fb-import-modal');
+      switchTab('tab-projects');
+      showToast(`🔄 Обновени суми от FixBuild за ${p.clientName} (${fmtEur(o.total)})`);
+      return;
+    }
+  }
+  const newProj = {
+    id: 'proj_' + Date.now(),
+    fbId: o.fbId || '',
+    createdAt: new Date().toISOString(),
+    clientName: o.clientName,
+    clientPhone: o.clientPhone,
+    address: o.address,
+    offerNumber: o.offerNumber,
+    status: 'active',
+    startDate: o.startDate || todayISO(),
+    endDate: '',
+    agreedLabor: o.agreedLabor,
+    agreedMat: o.agreedMat,
+    plannedDays: o.plannedDays,
+    workedDays: 0,
+    workLog: [],
+    includeOverheadShare: true,
+    notes: o.roomsList ? `От FixBuild: ${o.roomsList}` : 'Импортирано директно от FixBuild',
+    payments: [],
+    expenses: []
+  };
+  data.projects.unshift(newProj);
+  selectedProjectId = newProj.id;
+  saveData();
+  populateYearPicker();
+  closeModal('fb-import-modal');
+  switchTab('tab-projects');
+  showToast(`✅ Зареден обект от FixBuild: ${o.clientName} (${fmtEur(o.total)})`);
+}
+
+function syncCompanyFromFixBuild() {
+  let foundComp = null;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && /fixbuild.*company/i.test(k)) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(k) || 'null');
+        if (parsed && typeof parsed === 'object') { foundComp = parsed; break; }
+      } catch (e) {}
+    }
+  }
+  if (!foundComp) {
+    return alert('Не са намерени запазени фирмени настройки от FixBuild в този браузър.');
+  }
+  if (foundComp.name) data.settings.companyName = foundComp.name;
+  if (foundComp.manager) data.settings.manager = foundComp.manager;
+  if (foundComp.eik) data.settings.eik = foundComp.eik;
+  if (foundComp.city) data.settings.city = foundComp.city;
+  if (foundComp.phone) data.settings.phone = foundComp.phone;
+  if (foundComp.iban) data.settings.iban = foundComp.iban;
+  if (Number(foundComp.billableDays) >= 10) data.settings.billableDays = Number(foundComp.billableDays);
+  saveData();
+  hydrateSettingsUI();
+  renderAll();
+  showToast('🔄 Фирмените данни са синхронизирани от FixBuild!');
+}
+
+// ================= QUICK EXPENSE MODAL =================
+function openQuickExpenseModal() {
+  pendingPhotos.qe = '';
+  renderPhotoPreview('qe');
+  document.getElementById('qe-date').value = todayISO();
+  document.getElementById('qe-amount').value = '';
+  document.getElementById('qe-desc').value = '';
+  document.getElementById('qe-doc').value = '';
+  document.getElementById('qe-invoiced').checked = true;
+
+  const sel = document.getElementById('qe-target');
+  const activeProjs = data.projects.filter(p => p.status === 'active' || p.status === 'planned');
+  const otherProjs = data.projects.filter(p => p.status === 'done');
+  let opts = `<option value="__COMPANY__">🏢 Фирмен разход (ЕООД общ)</option>`;
+  if (activeProjs.length) {
+    opts += `<optgroup label="Активни / Планирани обекти">` +
+      activeProjs.map(p => `<option value="${p.id}">🏗️ ${escHtml(p.clientName || 'Без име')} (${escHtml(p.address || '')})</option>`).join('') +
+      `</optgroup>`;
+  }
+  if (otherProjs.length) {
+    opts += `<optgroup label="Завършени обекти">` +
+      otherProjs.map(p => `<option value="${p.id}">✅ ${escHtml(p.clientName || 'Без име')}</option>`).join('') +
+      `</optgroup>`;
+  }
+  sel.innerHTML = opts;
+  if (selectedProjectId && data.projects.some(p => p.id === selectedProjectId)) {
+    sel.value = selectedProjectId;
+  } else if (activeProjs.length) {
+    sel.value = activeProjs[0].id;
+  }
+  openModal('quick-exp-modal');
+}
+
+function submitQuickExpense() {
+  const target = document.getElementById('qe-target').value;
+  const amount = round2(Number(document.getElementById('qe-amount').value) || 0);
+  if (amount <= 0) return alert('Въведи сума по-голяма от 0.');
+  const entry = {
+    id: 'qex_' + Date.now(),
+    date: document.getElementById('qe-date').value || todayISO(),
+    cat: document.getElementById('qe-cat').value,
+    desc: document.getElementById('qe-desc').value.trim(),
+    amount,
+    docNo: document.getElementById('qe-doc').value.trim(),
+    invoiced: document.getElementById('qe-invoiced').checked,
+    photo: pendingPhotos.qe || ''
+  };
+
+  if (target === '__COMPANY__') {
+    data.companyExpenses.unshift(entry);
+  } else {
+    const p = data.projects.find(x => x.id === target);
+    if (!p) return;
+    if (!Array.isArray(p.expenses)) p.expenses = [];
+    p.expenses.push(entry);
+  }
+  pendingPhotos.qe = '';
+  saveData();
+  populateYearPicker();
+  closeModal('quick-exp-modal');
+  renderAll();
+  showToast(`⚡ Записан разход ${fmtEur(amount)}!`);
+}
+
 // ================= DASHBOARD RENDER =================
 function populateYearPicker() {
   const sel = document.getElementById('dash-year-pick');
@@ -854,6 +1496,17 @@ function onDashPeriodChange() {
   document.getElementById('dash-month-pick').style.display = mode === 'month' ? 'inline-block' : 'none';
   document.getElementById('dash-year-pick').style.display = mode === 'year' ? 'inline-block' : 'none';
   renderAll();
+}
+
+function promptMonthlyGoal() {
+  const val = prompt('Въведи месечна цел за чиста печалба (€):', String(data.settings.monthlyGoal || 2500));
+  if (val === null) return;
+  const num = round2(Math.max(100, Number(val) || 2500));
+  data.settings.monthlyGoal = num;
+  saveData();
+  hydrateSettingsUI();
+  renderAll();
+  showToast(`🎯 Месечната цел е обновена на ${fmtEur(num)}`);
 }
 
 function renderDashboard() {
@@ -900,16 +1553,39 @@ function renderDashboard() {
 
   const taxBox = document.getElementById('dash-tax-banner');
   if (data.settings.showTax && t.netProfit > 0) {
-    taxBox.innerHTML = `<div class="alert-box alert-amber">🏛️ Ориентировъчен <strong>${data.settings.taxPct}% корпоративен данък ЕООД</strong> върху чистата печалба за периода: <strong>${fmtEur(t.estTax)}</strong> → Чисто след данък: <strong style="color:#4ade80;">${fmtEur(t.afterTax)}</strong>.</div>`;
+    taxBox.innerHTML = `<div class="alert-box alert-amber">🏛️ <strong>ЕООД симулатор за периода:</strong> ${data.settings.taxPct}% корп. данък: <strong>${fmtEur(t.estTax)}</strong> → След корп. данък: <strong>${fmtEur(t.afterCorp)}</strong> &nbsp;|&nbsp; Ако теглиш дивидент (${data.settings.divPct}% = ${fmtEur(t.estDivTax)}) → <strong style="color:#4ade80;">Чисто в джоба: ${fmtEur(t.inPocket)}</strong></div>`;
   } else {
     taxBox.innerHTML = '';
+  }
+
+  // Monthly Profit Goal Widget
+  const goalMonth = mode === 'month' ? pickMonth : currentMonthISO();
+  const mt = computePeriodTotals('month', goalMonth, goalMonth.slice(0, 4));
+  const target = Math.max(100, Number(data.settings.monthlyGoal) || 2500);
+  const gPct = round2((Math.max(0, mt.netProfit) / target) * 100);
+  const gLeft = round2(Math.max(0, target - mt.netProfit));
+  document.getElementById('goal-month-lbl').textContent = goalMonth;
+  document.getElementById('goal-cur-eur').textContent = fmtEur(mt.netProfit);
+  document.getElementById('goal-cur-eur').style.color = mt.netProfit >= 0 ? '#4ade80' : '#f87171';
+  document.getElementById('goal-target-eur').textContent = fmtEur(target);
+  document.getElementById('goal-pct-lbl').textContent = `${gPct.toFixed(0)}%`;
+  const gBar = document.getElementById('goal-prog-bar');
+  gBar.style.width = Math.min(100, gPct) + '%';
+  gBar.className = 'prog-fill ' + (gPct >= 100 ? 'prog-green' : 'prog-purple');
+  const gNote = document.getElementById('goal-note');
+  if (mt.netProfit >= target) {
+    gNote.className = 'alert-box alert-green';
+    gNote.innerHTML = `🎉 <strong>Целта за ${goalMonth} е изпълнена!</strong> Над целта си с <strong>+${fmtEur(mt.netProfit - target)}</strong>.`;
+  } else {
+    gNote.className = 'alert-box alert-blue';
+    gNote.innerHTML = `📌 До месечната цел за ${goalMonth} остават <strong>${fmtEur(gLeft)}</strong> чиста печалба.`;
   }
 
   // VAT 12m tracker
   const vat = computeVat12Months();
   document.getElementById('vat-mode-pill').textContent = vat.mode === 'all'
-    ? 'Отчитане: Всички приходи'
-    : 'Отчитане: Фактурирани / По банка';
+    ? 'Всички приходи'
+    : 'Фактурирани / По банка';
   document.getElementById('vat-current-eur').textContent = fmtEur(vat.tracked);
   document.getElementById('vat-limit-eur').textContent = fmtEur(vat.limit);
   document.getElementById('vat-pct-lbl').textContent = `${vat.pct.toFixed(1)}%`;
@@ -921,13 +1597,13 @@ function renderDashboard() {
   const note = document.getElementById('vat-status-note');
   if (vat.pct >= 100) {
     note.className = 'alert-box alert-red';
-    note.innerHTML = `🚨 <strong>Прагът по ДДС (${fmtEur(vat.limit)}) е достигнат!</strong> Свържи се със счетоводителя веднага (срокът за подаване на заявление в НАП е до 7-о число на следващия месец).`;
+    note.innerHTML = `🚨 <strong>Прагът по ДДС (${fmtEur(vat.limit)}) е достигнат!</strong> Свържи се със счетоводителя веднага (срокът в НАП е до 7-о число на следващия месец).`;
   } else if (vat.pct >= 80) {
     note.className = 'alert-box alert-amber';
-    note.innerHTML = `⚠️ <strong>Внимание:</strong> на ${vat.pct.toFixed(1)}% си от прага по ДДС! Остават ти <strong>${fmtEur(vat.left)}</strong> оборот за последните 12 месеца (${vat.months[0]} → ${vat.months[11]}).`;
+    note.innerHTML = `⚠️ На <strong>${vat.pct.toFixed(1)}%</strong> от прага по ДДС! Остават <strong>${fmtEur(vat.left)}</strong> (${vat.months[0]} → ${vat.months[11]}).`;
   } else {
     note.className = 'alert-box alert-green';
-    note.innerHTML = `✅ Спокойна зона — остават ти <strong>${fmtEur(vat.left)}</strong> до прага по ДДС (${vat.months[0]} → ${vat.months[11]}). Общо приходи (с в брой): ${fmtEur(vat.allSum)}.`;
+    note.innerHTML = `✅ Спокойна зона — остават <strong>${fmtEur(vat.left)}</strong> до прага по ДДС (${vat.months[0]} → ${vat.months[11]}).`;
   }
 
   // 12-Month Bar Chart
@@ -963,7 +1639,7 @@ function renderDashboard() {
     `;
   }).join('');
 
-  // Receivables widget
+  // Receivables widget with Viber reminder button
   const unpaid = data.projects
     .filter(p => p.status !== 'cancelled')
     .map(p => ({ p, st: calcProjectStats(p) }))
@@ -974,13 +1650,14 @@ function renderDashboard() {
     recEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:8px 0;">✅ Няма неплатени остатъци от клиенти.</div>`;
   } else {
     recEl.innerHTML = unpaid.slice(0, 6).map(({ p, st }) => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:6px;">
         <div>
           <div style="font-weight:700;font-size:13px;">${escHtml(p.clientName || 'Без име')}</div>
-          <div style="font-size:11.5px;color:var(--muted);">${escHtml(p.address || '')} • Платено ${st.payPct.toFixed(0)}%</div>
+          <div style="font-size:11px;color:var(--muted);">Платено ${st.payPct.toFixed(0)}% • ${escHtml(p.address || '')}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <strong style="color:#fde047;">${fmtEur(st.remaining)}</strong>
+        <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+          <strong style="color:#fde047;font-size:13px;">${fmtEur(st.remaining)}</strong>
+          <button class="btn btn-xs btn-purple" onclick="copyViberReminder('${p.id}')" title="Копирай Viber напомняне за плащане">💬</button>
           <button class="btn btn-xs btn-blue" onclick="jumpToProject('${p.id}')">Отвори</button>
         </div>
       </div>
@@ -1001,14 +1678,35 @@ function renderDashboard() {
       <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:8px;">
         <div>
           <div style="font-weight:700;font-size:13px;">${escHtml(p.clientName || 'Без име')}</div>
-          <div style="font-size:11.5px;color:var(--muted);">Печалба ${fmtEur(st.netProfit)} • ${st.workedDays} дни</div>
+          <div style="font-size:11px;color:var(--muted);">Печалба ${fmtEur(st.netProfit)} • ${st.workedDays} дн.</div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <strong style="color:#4ade80;">${fmtEur(st.dailyWage)}/ден</strong>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <strong style="color:#4ade80;font-size:13px;">${fmtEur(st.dailyWage)}/д</strong>
           <button class="btn btn-xs" onclick="jumpToProject('${p.id}')">Детайли</button>
         </div>
       </div>
     `).join('');
+  }
+
+  // Expense Category Breakdown Widget
+  const cats = Object.entries(t.expByCat).sort((a, b) => b[1] - a[1]);
+  const expBrkEl = document.getElementById('dash-expense-breakdown');
+  if (!cats.length) {
+    expBrkEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:8px 0;">Няма записани разходи за избрания период.</div>`;
+  } else {
+    const sumAllExp = Math.max(1, t.totalExp);
+    expBrkEl.innerHTML = cats.slice(0, 6).map(([cat, amt]) => {
+      const pct = round2((amt / sumAllExp) * 100);
+      return `
+        <div class="cat-row">
+          <div class="cat-row-top">
+            <span>${escHtml(cat)}</span>
+            <strong>${fmtEur(amt)} <span style="color:var(--muted);font-weight:400;">(${pct.toFixed(0)}%)</span></strong>
+          </div>
+          <div class="cat-track"><div class="cat-fill" style="width:${Math.min(100, pct)}%;"></div></div>
+        </div>
+      `;
+    }).join('');
   }
 
   // Sticky Bottom Bar
@@ -1042,7 +1740,7 @@ function setProjFilter(f, btn) {
 
 function openNewProjectForm() {
   const id = 'proj_' + Date.now();
-  const newProj = {
+  data.projects.unshift({
     id,
     createdAt: new Date().toISOString(),
     clientName: '',
@@ -1056,13 +1754,16 @@ function openNewProjectForm() {
     agreedMat: 0,
     plannedDays: 10,
     workedDays: 0,
+    workLog: [],
     includeOverheadShare: true,
     notes: '',
     payments: [],
     expenses: []
-  };
-  data.projects.unshift(newProj);
+  });
   selectedProjectId = id;
+  editPayIdx = null;
+  editExpIdx = null;
+  pendingPhotos.exp = '';
   saveData();
   switchTab('tab-projects');
   showToast('➕ Създаден е нов обект — попълни данните.');
@@ -1070,11 +1771,17 @@ function openNewProjectForm() {
 
 function jumpToProject(id) {
   selectedProjectId = id;
+  editPayIdx = null;
+  editExpIdx = null;
+  pendingPhotos.exp = '';
   switchTab('tab-projects');
 }
 
 function selectProject(id) {
   selectedProjectId = (selectedProjectId === id) ? null : id;
+  editPayIdx = null;
+  editExpIdx = null;
+  pendingPhotos.exp = '';
   renderProjectsTab();
 }
 
@@ -1102,7 +1809,7 @@ function renderProjectsList() {
   const box = document.getElementById('projects-list');
   if (!filtered.length) {
     box.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:26px;">
-      Няма обекти за показване. Натисни <strong>„+ Нов обект“</strong> или <strong>„⬆️ Импорт от FixBuild (.json)“</strong> горе.
+      Няма обекти за показване. Натисни <strong>„🔗 Зареди директно от FixBuild“</strong> или <strong>„+ Нов обект“</strong> горе.
     </div>`;
     return;
   }
@@ -1110,6 +1817,9 @@ function renderProjectsList() {
   box.innerHTML = filtered.map(p => {
     const st = calcProjectStats(p);
     const isSel = p.id === selectedProjectId;
+    const daysWarn = (st.plannedDays > 0 && st.workedDays > st.plannedDays)
+      ? `<span class="badge badge-warn" style="margin-left:4px;">+${st.daysDelta} дн. над плана</span>`
+      : '';
     return `
       <div class="proj-item ${isSel ? 'selected' : ''}">
         <div class="proj-top">
@@ -1118,13 +1828,15 @@ function renderProjectsList() {
               ${escHtml(p.clientName || 'Нов обект (без име)')}
               ${statusBadgeHtml(p.status)}
               ${p.offerNumber ? `<span class="badge badge-cash" style="margin-left:4px;">№ ${escHtml(p.offerNumber)}</span>` : ''}
+              ${daysWarn}
             </div>
             <div class="proj-meta">${escHtml(p.address || 'Без адрес')} ${p.clientPhone ? '• ' + escHtml(p.clientPhone) : ''} • Старт: ${escHtml(p.startDate || '—')}</div>
           </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-            <button class="btn btn-xs" onclick="quickAddDay('${p.id}', 0.5)" title="Добави половин работен ден">+0.5 дн.</button>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
+            <button class="btn btn-xs" onclick="quickAddDay('${p.id}', -0.5)" title="Извади 0.5 ден">-0.5</button>
+            <button class="btn btn-xs" onclick="quickAddDay('${p.id}', 0.5)" title="Добави 0.5 ден">+0.5 дн.</button>
             <button class="btn btn-xs btn-green" onclick="quickAddDay('${p.id}', 1)" title="Добави 1 работен ден">+1 дн.</button>
-            <button class="btn btn-sm ${isSel ? 'btn-primary' : 'btn-blue'}" onclick="selectProject('${p.id}')">${isSel ? '🔼 Скрий детайли' : '✏️ Отвори / Вноски'}</button>
+            <button class="btn btn-sm ${isSel ? 'btn-primary' : 'btn-blue'}" onclick="selectProject('${p.id}')">${isSel ? '🔼 Скрий' : '✏️ Отвори'}</button>
             <button class="btn btn-sm btn-red" onclick="deleteProject('${p.id}')" title="Изтрий обекта">🗑️</button>
           </div>
         </div>
@@ -1150,19 +1862,37 @@ function renderProjectEditor() {
     return;
   }
   const st = calcProjectStats(p);
+  const editPay = (editPayIdx !== null && p.payments?.[editPayIdx]) ? p.payments[editPayIdx] : null;
+  const editExp = (editExpIdx !== null && p.expenses?.[editExpIdx]) ? p.expenses[editExpIdx] : null;
+
+  // Plan vs Actual text
+  let pvaDaysHtml = st.plannedDays > 0
+    ? (st.daysDelta > 0
+        ? `⏱️ Срок: <strong class="val-red">${st.workedDays} от ${st.plannedDays} дн. (+${st.daysDelta} дн. над плана)</strong>`
+        : `⏱️ Срок: <strong class="val-green">${st.workedDays} от ${st.plannedDays} дн. (в срок)</strong>`)
+    : `⏱️ Отработени: <strong>${st.workedDays} дн.</strong>`;
+
+  let pvaMatHtml = st.agreedMat > 0
+    ? `🧱 Материали: похарчени <strong>${fmtEur(st.directMatExp)}</strong> от договорени <strong>${fmtEur(st.agreedMat)}</strong> (<strong class="${st.matDelta >= 0 ? 'val-green' : 'val-red'}">${st.matDelta >= 0 ? '+' : ''}${fmtEur(st.matDelta)}</strong>)`
+    : `🧱 Материали (разход): <strong>${fmtEur(st.directMatExp)}</strong>`;
+
+  const recentWorkLog = Array.isArray(p.workLog) && p.workLog.length
+    ? `<div style="font-size:11.5px;color:var(--muted);margin-top:6px;">📅 Последни отбелязани дни: ${p.workLog.slice(-6).map(w => `${w.date} (${w.days > 0 ? '+' : ''}${w.days} дн.)`).join(' • ')}</div>`
+    : '';
+
   wrap.style.display = 'block';
   wrap.innerHTML = `
     <div class="detail-box">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
         <div style="font-size:16px;font-weight:900;color:#fff;">✏️ Обект: ${escHtml(p.clientName || 'Нов обект')} ${statusBadgeHtml(p.status)}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn btn-sm btn-primary" onclick="printProjectReport('${p.id}')">🖨️ PDF / Печат отчет</button>
-          <button class="btn btn-sm" onclick="copyProjectSummary('${p.id}')">📋 Копирай резюме</button>
+          ${st.remaining > 0 ? `<button class="btn btn-sm btn-purple" onclick="copyViberReminder('${p.id}')">💬 Viber напомняне</button>` : ''}
+          <button class="btn btn-sm btn-primary" onclick="printProjectReport('${p.id}')">🖨️ PDF отчет</button>
+          <button class="btn btn-sm" onclick="copyProjectSummary('${p.id}')">📋 Резюме</button>
           <button class="btn btn-sm" onclick="selectProject(null)">✕ Затвори</button>
         </div>
       </div>
 
-      <!-- ОСНОВНИ ДАННИ -->
       <div class="grid-4">
         <label class="field">Клиент
           <input type="text" value="${escHtml(p.clientName)}" placeholder="Име на клиент" oninput="updateProjField('${p.id}','clientName',this.value)" />
@@ -1190,14 +1920,15 @@ function renderProjectEditor() {
         <label class="field">Дата старт
           <input type="date" value="${escHtml(p.startDate)}" onchange="updateProjField('${p.id}','startDate',this.value)" />
         </label>
-        <label class="field">Дата край (по желание)
+        <label class="field">Дата край
           <input type="date" value="${escHtml(p.endDate)}" onchange="updateProjField('${p.id}','endDate',this.value)" />
         </label>
         <label class="field">Планирани / Отработени дни
-          <div style="display:flex;gap:5px;align-items:center;">
+          <div style="display:flex;gap:4px;align-items:center;">
             <input type="number" step="0.5" min="0" value="${p.plannedDays}" title="Планирани дни" oninput="updateProjField('${p.id}','plannedDays',this.value)" onchange="renderProjectEditor()" />
             <span style="color:var(--muted);">/</span>
             <input type="number" step="0.5" min="0" value="${p.workedDays}" title="Реално отработени дни" oninput="updateProjField('${p.id}','workedDays',this.value)" onchange="renderProjectEditor()" />
+            <button type="button" class="btn btn-xs" onclick="quickAddDay('${p.id}', -0.5)">-0.5</button>
             <button type="button" class="btn btn-xs btn-green" onclick="quickAddDay('${p.id}', 1)">+1</button>
           </div>
         </label>
@@ -1212,11 +1943,11 @@ function renderProjectEditor() {
         </label>
         <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;padding:8px 0;">
           <input type="checkbox" ${p.includeOverheadShare !== false ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" onchange="updateProjField('${p.id}','includeOverheadShare',this.checked)" />
-          Приспадай дял фирмени разходи (${st.workedDays} дн. × ${getDailyCompanyRate().toFixed(2)} € = ${fmtEur(st.overheadShare)})
+          Дял фирмени разходи (${st.workedDays} дн. × ${getDailyCompanyRate().toFixed(2)} € = ${fmtEur(st.overheadShare)})
         </label>
       </div>
 
-      <!-- ЖИВА СМЕТКА НА ОБЕКТА -->
+      <!-- ЖИВА СМЕТКА + ПЛАН VS РЕАЛНОСТ -->
       <div class="grid-kpi" style="margin-top:12px;margin-bottom:0;">
         <div class="kpi-card" style="--kpi-accent:#38bdf8;">
           <div class="kpi-label">Получено / Договорено</div>
@@ -1240,40 +1971,57 @@ function renderProjectEditor() {
         </div>
       </div>
 
+      <div class="pva-strip">
+        <span>${pvaDaysHtml}</span>
+        <span>|</span>
+        <span>${pvaMatHtml}</span>
+      </div>
+      ${recentWorkLog}
+
       <div class="prog-track" style="height:10px;margin-top:10px;">
         <div class="prog-fill prog-blue" style="width:${st.payPct}%;"></div>
       </div>
 
       <!-- ВНОСКИ / ПОЛУЧЕНИ ПЛАЩАНИЯ -->
-      <div class="sub-card">
-        <h3>💵 Получени плащания (вноски от клиента)</h3>
+      <div class="sub-card ${editPay ? 'editing' : ''}">
+        <h3>
+          <span>${editPay ? '✏️ Редакция на вноска' : '💵 Получени плащания (вноски от клиента)'}</span>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            ${!editPay && st.agreedTotal > 0 ? `
+              <button type="button" class="btn btn-xs" onclick="quickFillPaymentStage(${round2(st.agreedTotal * 0.30)}, 'Етап 1 Аванс 30%')">30% Аванс</button>
+              <button type="button" class="btn btn-xs" onclick="quickFillPaymentStage(${round2(st.agreedTotal * 0.40)}, 'Етап 2 Междинно 40%')">40% Междинно</button>
+              ${st.remaining > 0 ? `<button type="button" class="btn btn-xs btn-green" onclick="quickFillPaymentStage(${st.remaining}, 'Финално плащане (остатък)')">Остатък (${fmtEur(st.remaining)})</button>` : ''}
+            ` : ''}
+            ${editPay ? `<button type="button" class="btn btn-xs" onclick="cancelEditPayment()">✕ Отказ</button>` : ''}
+          </div>
+        </h3>
         <div class="grid-4">
           <label class="field">Дата
-            <input type="date" id="pay-date" value="${todayISO()}" />
+            <input type="date" id="pay-date" value="${escHtml(editPay ? editPay.date : todayISO())}" />
           </label>
           <label class="field">Сума (€)
-            <input type="number" step="0.01" min="0" id="pay-amount" placeholder="${st.remaining > 0 ? st.remaining.toFixed(2) : '0.00'}" />
+            <input type="number" step="0.01" min="0" id="pay-amount" value="${editPay ? editPay.amount : ''}" placeholder="${st.remaining > 0 ? st.remaining.toFixed(2) : '0.00'}" />
           </label>
           <label class="field">Етап / Бележка
-            <input type="text" id="pay-note" placeholder="напр. Етап 1 Аванс 30%" />
+            <input type="text" id="pay-note" value="${escHtml(editPay ? editPay.note : '')}" placeholder="напр. Етап 1 Аванс 30%" />
           </label>
           <label class="field">Метод / Фактура №
             <div style="display:flex;gap:5px;">
               <select id="pay-method" style="width:55%;">
-                <option value="Банка (ЕООД)">Банка (ЕООД)</option>
-                <option value="В брой">В брой</option>
-                <option value="Revolut / Карта">Revolut / Карта</option>
+                <option value="Банка (ЕООД)" ${editPay?.method==='Банка (ЕООД)'?'selected':''}>Банка (ЕООД)</option>
+                <option value="В брой" ${editPay?.method==='В брой'?'selected':''}>В брой</option>
+                <option value="Revolut / Карта" ${editPay?.method==='Revolut / Карта'?'selected':''}>Revolut / Карта</option>
               </select>
-              <input type="text" id="pay-inv" placeholder="Ф-ра №" style="width:45%;" />
+              <input type="text" id="pay-inv" value="${escHtml(editPay ? (editPay.invoiceNo || '') : '')}" placeholder="Ф-ра №" style="width:45%;" />
             </div>
           </label>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;">
           <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;">
-            <input type="checkbox" id="pay-official" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+            <input type="checkbox" id="pay-official" ${(editPay ? editPay.official !== false : true) ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" />
             Отчита се официално (ЕООД / ДДС брояч / Счетоводител)
           </label>
-          <button class="btn btn-sm btn-green" onclick="addProjectPayment('${p.id}')">+ Запиши вноска</button>
+          <button class="btn btn-sm ${editPay ? 'btn-amber' : 'btn-green'}" onclick="saveProjectPayment('${p.id}')">${editPay ? '💾 Запази вноската' : '+ Запиши вноска'}</button>
         </div>
         ${(p.payments && p.payments.length) ? `
           <div style="overflow-x:auto;">
@@ -1287,7 +2035,10 @@ function renderProjectEditor() {
                     <td>${escHtml(pay.method || '')}${pay.invoiceNo ? ' • № ' + escHtml(pay.invoiceNo) : ''}</td>
                     <td>${pay.official !== false ? '<span class="badge badge-inv">ЕООД/ДДС</span>' : '<span class="badge badge-cash">В брой</span>'}</td>
                     <td class="num"><strong class="val-blue">${fmtEur(pay.amount)}</strong></td>
-                    <td class="num"><button class="btn btn-xs btn-red" onclick="deleteProjectPayment('${p.id}', ${idx})">✕</button></td>
+                    <td class="num">
+                      <button class="btn btn-xs" onclick="startEditPayment(${idx})" title="Редактирай">✏️</button>
+                      <button class="btn btn-xs btn-red" onclick="deleteProjectPayment('${p.id}', ${idx})">✕</button>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -1297,52 +2048,63 @@ function renderProjectEditor() {
       </div>
 
       <!-- ПРЕКИ РАЗХОДИ ПО ОБЕКТА -->
-      <div class="sub-card">
-        <h3>🧱 Преки разходи за този обект (материали, гориво, помощници, консумативи)</h3>
+      <div class="sub-card ${editExp ? 'editing' : ''}">
+        <h3>
+          <span>${editExp ? '✏️ Редакция на пряк разход' : '🧱 Преки разходи за този обект (материали, гориво, помощници)'}</span>
+          ${editExp ? `<button type="button" class="btn btn-xs" onclick="cancelEditProjectExpense()">✕ Отказ</button>` : ''}
+        </h3>
         <div class="grid-4">
           <label class="field">Дата
-            <input type="date" id="exp-date" value="${todayISO()}" />
+            <input type="date" id="exp-date" value="${escHtml(editExp ? editExp.date : todayISO())}" />
           </label>
           <label class="field">Категория
             <select id="exp-cat">
-              <option value="Материали">Материали</option>
-              <option value="Гориво / Транспорт">Гориво / Транспорт</option>
-              <option value="Помощник / Майстор">Помощник / Майстор</option>
-              <option value="Консумативи (тиксо, шкурки)">Консумативи (тиксо, шкурки)</option>
-              <option value="Извозване / Контейнер">Извозване / Контейнер</option>
-              <option value="Други преки">Други преки</option>
+              ${['Материали','Гориво / Транспорт','Помощник / Майстор','Консумативи (тиксо, шкурки)','Извозване / Контейнер','Други преки'].map(c =>
+                `<option value="${c}" ${editExp?.cat===c?'selected':''}>${c}</option>`
+              ).join('')}
             </select>
           </label>
           <label class="field">Описание / Магазин
-            <input type="text" id="exp-desc" placeholder="напр. Баухаус — шпакловка и грунд" />
+            <input type="text" id="exp-desc" value="${escHtml(editExp ? (editExp.desc || '') : '')}" placeholder="напр. Баухаус — шпакловка и грунд" />
           </label>
           <label class="field">Сума (€) / Фактура №
             <div style="display:flex;gap:5px;">
-              <input type="number" step="0.01" min="0" id="exp-amount" placeholder="0.00" style="width:55%;" />
-              <input type="text" id="exp-doc" placeholder="Ф-ра №" style="width:45%;" />
+              <input type="number" step="0.01" min="0" id="exp-amount" value="${editExp ? editExp.amount : ''}" placeholder="0.00" style="width:55%;" />
+              <input type="text" id="exp-doc" value="${escHtml(editExp ? (editExp.docNo || '') : '')}" placeholder="Ф-ра №" style="width:45%;" />
             </div>
           </label>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;">
-          <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;">
-            <input type="checkbox" id="exp-invoiced" checked style="width:16px;height:16px;accent-color:var(--accent);" />
-            С фактура на фирмата (за счетоводителя)
-          </label>
-          <button class="btn btn-sm btn-primary" onclick="addProjectExpense('${p.id}')">+ Запиши разход</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <label class="btn btn-sm" style="cursor:pointer;">
+              📸 Снимка бележка
+              <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handleReceiptPick(event, 'exp')" />
+            </label>
+            <span id="exp-photo-preview"></span>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp-invoiced" ${(editExp ? editExp.invoiced !== false : true) ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" />
+              С фактура ЕООД
+            </label>
+          </div>
+          <button class="btn btn-sm ${editExp ? 'btn-amber' : 'btn-primary'}" onclick="saveProjectExpense('${p.id}')">${editExp ? '💾 Запази разхода' : '+ Запиши разход'}</button>
         </div>
         ${(p.expenses && p.expenses.length) ? `
           <div style="overflow-x:auto;">
             <table class="data-table">
-              <thead><tr><th>Дата</th><th>Категория</th><th>Описание</th><th>Документ</th><th class="num">Сума (€)</th><th></th></tr></thead>
+              <thead><tr><th>Дата</th><th>Категория</th><th>Описание</th><th>Документ</th><th>Снимка</th><th class="num">Сума (€)</th><th></th></tr></thead>
               <tbody>
                 ${p.expenses.map((ex, idx) => `
                   <tr>
                     <td>${escHtml(ex.date)}</td>
                     <td>${escHtml(ex.cat)}</td>
                     <td>${escHtml(ex.desc || '—')}</td>
-                    <td>${ex.invoiced !== false ? '<span class="badge badge-inv">Фактура</span>' : '<span class="badge badge-cash">Бон/Брой</span>'} ${escHtml(ex.docNo || '')}</td>
+                    <td>${ex.invoiced !== false ? '<span class="badge badge-inv">Фактура</span>' : '<span class="badge badge-cash">Бон</span>'} ${escHtml(ex.docNo || '')}</td>
+                    <td>${ex.photo ? `<img src="${ex.photo}" class="receipt-thumb" onclick="viewReceiptPhoto('proj_exp','${p.id}',${idx})" title="Отвори снимката" />` : '<span style="color:var(--muted);">—</span>'}</td>
                     <td class="num"><strong class="val-red">-${fmtEur(ex.amount)}</strong></td>
-                    <td class="num"><button class="btn btn-xs btn-red" onclick="deleteProjectExpense('${p.id}', ${idx})">✕</button></td>
+                    <td class="num">
+                      <button class="btn btn-xs" onclick="startEditProjectExpense('${p.id}', ${idx})" title="Редактирай">✏️</button>
+                      <button class="btn btn-xs btn-red" onclick="deleteProjectExpense('${p.id}', ${idx})">✕</button>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -1356,6 +2118,7 @@ function renderProjectEditor() {
       </label>
     </div>
   `;
+  renderPhotoPreview('exp');
 }
 
 function updateProjField(id, field, val) {
@@ -1370,7 +2133,6 @@ function updateProjField(id, field, val) {
   populateYearPicker();
   renderDashboard();
   renderProjectsList();
-  // Avoid losing focus on text inputs by only re-rendering editor on select/checkbox/date changes
   if (['status', 'includeOverheadShare', 'startDate', 'endDate'].includes(field)) {
     renderProjectEditor();
   }
@@ -1379,10 +2141,13 @@ function updateProjField(id, field, val) {
 function quickAddDay(id, delta) {
   const p = data.projects.find(x => x.id === id);
   if (!p) return;
-  p.workedDays = round2((Number(p.workedDays) || 0) + delta);
+  p.workedDays = round2(Math.max(0, (Number(p.workedDays) || 0) + delta));
+  if (!Array.isArray(p.workLog)) p.workLog = [];
+  p.workLog.push({ date: todayISO(), days: delta });
+  if (p.workLog.length > 60) p.workLog = p.workLog.slice(-60);
   saveData();
   renderAll();
-  showToast(`⏱️ +${delta} раб. ден към „${p.clientName || 'обекта'}“ (общо ${p.workedDays} дн.)`);
+  showToast(`⏱️ ${delta > 0 ? '+' : ''}${delta} раб. ден към „${p.clientName || 'обекта'}“ (общо ${p.workedDays} дн.)`);
 }
 
 function deleteProject(id) {
@@ -1396,101 +2161,111 @@ function deleteProject(id) {
   showToast('🗑️ Обектът е изтрит.');
 }
 
-function addProjectPayment(id) {
+function quickFillPaymentStage(amount, noteText) {
+  const aEl = document.getElementById('pay-amount');
+  const nEl = document.getElementById('pay-note');
+  if (aEl) aEl.value = round2(amount).toFixed(2);
+  if (nEl) nEl.value = noteText;
+  showToast(`💡 Попълнено: ${noteText} (${fmtEur(amount)})`);
+}
+
+function startEditPayment(idx) {
+  editPayIdx = idx;
+  renderProjectEditor();
+}
+function cancelEditPayment() {
+  editPayIdx = null;
+  renderProjectEditor();
+}
+
+function saveProjectPayment(id) {
   const p = data.projects.find(x => x.id === id);
   if (!p) return;
   const amount = round2(Number(document.getElementById('pay-amount').value) || 0);
   if (amount <= 0) return alert('Въведи сума на плащането по-голяма от 0.');
   if (!Array.isArray(p.payments)) p.payments = [];
-  p.payments.push({
-    id: 'pay_' + Date.now(),
+  const rec = {
+    id: (editPayIdx !== null && p.payments[editPayIdx]?.id) ? p.payments[editPayIdx].id : ('pay_' + Date.now()),
     date: document.getElementById('pay-date').value || todayISO(),
     amount,
     note: document.getElementById('pay-note').value.trim() || 'Плащане по етап',
     method: document.getElementById('pay-method').value,
     invoiceNo: document.getElementById('pay-inv').value.trim(),
     official: document.getElementById('pay-official').checked
-  });
+  };
+  if (editPayIdx !== null && p.payments[editPayIdx]) {
+    p.payments[editPayIdx] = rec;
+    editPayIdx = null;
+    showToast(`💾 Вноската е обновена (${fmtEur(amount)})!`);
+  } else {
+    p.payments.push(rec);
+    showToast(`💵 Записана вноска ${fmtEur(amount)}!`);
+  }
   saveData();
   populateYearPicker();
   renderAll();
-  showToast(`💵 Записана вноска ${fmtEur(amount)}!`);
 }
 
 function deleteProjectPayment(id, idx) {
   const p = data.projects.find(x => x.id === id);
   if (!p || !Array.isArray(p.payments)) return;
   p.payments.splice(idx, 1);
+  if (editPayIdx === idx) editPayIdx = null;
   saveData();
   renderAll();
 }
 
-function addProjectExpense(id) {
+function startEditProjectExpense(projId, idx) {
+  const p = data.projects.find(x => x.id === projId);
+  const ex = p?.expenses?.[idx];
+  if (!ex) return;
+  editExpIdx = idx;
+  pendingPhotos.exp = ex.photo || '';
+  renderProjectEditor();
+}
+function cancelEditProjectExpense() {
+  editExpIdx = null;
+  pendingPhotos.exp = '';
+  renderProjectEditor();
+}
+
+function saveProjectExpense(id) {
   const p = data.projects.find(x => x.id === id);
   if (!p) return;
   const amount = round2(Number(document.getElementById('exp-amount').value) || 0);
   if (amount <= 0) return alert('Въведи сума на разхода по-голяма от 0.');
   if (!Array.isArray(p.expenses)) p.expenses = [];
-  p.expenses.push({
-    id: 'exp_' + Date.now(),
+  const rec = {
+    id: (editExpIdx !== null && p.expenses[editExpIdx]?.id) ? p.expenses[editExpIdx].id : ('exp_' + Date.now()),
     date: document.getElementById('exp-date').value || todayISO(),
     cat: document.getElementById('exp-cat').value,
     desc: document.getElementById('exp-desc').value.trim(),
     amount,
     docNo: document.getElementById('exp-doc').value.trim(),
-    invoiced: document.getElementById('exp-invoiced').checked
-  });
+    invoiced: document.getElementById('exp-invoiced').checked,
+    photo: pendingPhotos.exp || ''
+  };
+  if (editExpIdx !== null && p.expenses[editExpIdx]) {
+    p.expenses[editExpIdx] = rec;
+    editExpIdx = null;
+    showToast(`💾 Разходът е обновен (${fmtEur(amount)})!`);
+  } else {
+    p.expenses.push(rec);
+    showToast(`🧱 Записан разход ${fmtEur(amount)}!`);
+  }
+  pendingPhotos.exp = '';
   saveData();
   populateYearPicker();
   renderAll();
-  showToast(`🧱 Записан разход ${fmtEur(amount)}!`);
 }
 
 function deleteProjectExpense(id, idx) {
   const p = data.projects.find(x => x.id === id);
   if (!p || !Array.isArray(p.expenses)) return;
   p.expenses.splice(idx, 1);
+  if (editExpIdx === idx) { editExpIdx = null; pendingPhotos.exp = ''; }
   saveData();
   renderAll();
-}
-
-// ================= DIRECT FIXBUILD .JSON IMPORTER =================
-function computeFixBuildFallbackTotals(st) {
-  if (!st || !Array.isArray(st.rooms)) return { labor: 0, mat: 0 };
-  let rawL = 0, rawM = 0;
-  for (const r of st.rooms) {
-    for (const it of (r.items || [])) {
-      const line = round2((Number(it.qty) || 0) * (Number(it.price) || 0));
-      if (it.type === 'labor') rawL = round2(rawL + line);
-      else rawM = round2(rawM + line);
-    }
-  }
-  const h = st.hidden || {};
-  const o = st.opts || {};
-  const wMult = o.weekendOn ? (1 + (Number(o.weekendPct) || 0) / 100) : 1;
-  const baseL = round2(rawL * wMult);
-  let hid = 0;
-  if (h.unforeseenOn) hid += round2(baseL * ((Number(h.unforeseenPct) || 0) / 100));
-  if (h.generalOn) hid += round2(Number(h.generalEur) || 0);
-  if (h.fuelOn) hid += round2(Number(h.fuelEur) || 0);
-  if (h.companyOn) {
-    const mode = h.companyMode || 'days';
-    if (mode === 'days') hid += round2((Number(h.companyDays) || 0) * getDailyCompanyRate());
-    else if (mode === 'months') hid += round2((Number(h.companyMonths) || 0) * getTemplateMonthlyTotal());
-    else hid += round2(Number(h.companyEur) || 0);
-  }
-  let effL = round2(baseL + hid);
-  let effM = rawM;
-  if (o.discountOn && Number(o.discountPct) > 0) {
-    const dMult = 1 - (Number(o.discountPct) / 100);
-    effL = round2(effL * dMult);
-    effM = round2(effM * dMult);
-  }
-  if (o.vatOn) {
-    effL = round2(effL * 1.2);
-    effM = round2(effM * 1.2);
-  }
-  return { labor: effL, mat: effM };
 }
 
 function importFromFixBuildJson(evt) {
@@ -1514,6 +2289,7 @@ function importFromFixBuildJson(evt) {
       const plannedDays = Number(json.contract?.days) || Number(st.hidden?.companyDays) || 10;
       const newProj = {
         id: 'proj_' + Date.now(),
+        fbId: json.id || '',
         createdAt: new Date().toISOString(),
         clientName: json.clientName || st.clientName || 'Клиент от FixBuild',
         clientPhone: st.clientPhone || '',
@@ -1526,6 +2302,7 @@ function importFromFixBuildJson(evt) {
         agreedMat: round2(effM),
         plannedDays,
         workedDays: 0,
+        workLog: [],
         includeOverheadShare: true,
         notes: `Импортирано от FixBuild (${st.rooms.filter(r => (r.items || []).length > 0).map(r => r.name).join(', ')})`,
         payments: [],
@@ -1535,7 +2312,7 @@ function importFromFixBuildJson(evt) {
       selectedProjectId = newProj.id;
       saveData();
       populateYearPicker();
-      renderAll();
+      switchTab('tab-projects');
       showToast(`✅ Импортиран обект от FixBuild: ${newProj.clientName} (${fmtEur(effL + effM)})`);
     } catch (e) {
       alert('Грешка при четене на FixBuild JSON файла.');
@@ -1546,13 +2323,27 @@ function importFromFixBuildJson(evt) {
 }
 
 // ================= COMPANY OVERHEAD (TAB 3) =================
+function setOvhFilter(f, btn) {
+  ovhFilter = f;
+  document.querySelectorAll('#ovh-filter-chips .chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderOverheadTab();
+}
+
 function renderOverheadTab() {
   const ym = document.getElementById('ovh-month-filter').value || currentMonthISO();
-  const rows = data.companyExpenses
+  const monthRows = data.companyExpenses
     .filter(e => !ym || (e.date && e.date.slice(0, 7) === ym))
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  const monthSum = round2(rows.reduce((a, b) => a + (Number(b.amount) || 0), 0));
-  const monthInv = round2(rows.filter(e => e.invoiced !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
+
+  const rows = monthRows.filter(e => {
+    if (ovhFilter === 'invoiced') return e.invoiced !== false;
+    if (ovhFilter === 'cash') return e.invoiced === false;
+    return true;
+  });
+
+  const monthSum = round2(monthRows.reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const monthInv = round2(monthRows.filter(e => e.invoiced !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
   const tplSum = getTemplateMonthlyTotal();
   const dailyRate = getDailyCompanyRate();
 
@@ -1574,9 +2365,11 @@ function renderOverheadTab() {
     </div>
   `;
 
+  document.getElementById('ovh-count-lbl').textContent = `Показани: ${rows.length} от ${monthRows.length} записа`;
+
   const tbody = document.getElementById('ovh-table-body');
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px;">Няма записани фирмени разходи за ${ym}. Натисни „⚡ Генерирай постоянните за месеца“ или добави ръчно.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:16px;">Няма записани фирмени разходи за ${ym} по този филтър.</td></tr>`;
   } else {
     tbody.innerHTML = rows.map(e => `
       <tr>
@@ -1584,8 +2377,12 @@ function renderOverheadTab() {
         <td><strong>${escHtml(e.cat)}</strong></td>
         <td>${escHtml(e.desc || '—')}</td>
         <td>${e.invoiced !== false ? '<span class="badge badge-inv">Документ</span>' : '<span class="badge badge-cash">Без док.</span>'} ${escHtml(e.docNo || '')}</td>
+        <td>${e.photo ? `<img src="${e.photo}" class="receipt-thumb" onclick="viewReceiptPhoto('comp_exp','${e.id}',0)" title="Отвори снимката" />` : '<span style="color:var(--muted);">—</span>'}</td>
         <td class="num"><strong class="val-amber">${fmtEur(e.amount)}</strong></td>
-        <td class="num"><button class="btn btn-xs btn-red" onclick="deleteCompanyExpense('${e.id}')">✕</button></td>
+        <td class="num">
+          <button class="btn btn-xs" onclick="startEditCompanyExpense('${e.id}')" title="Редактирай">✏️</button>
+          <button class="btn btn-xs btn-red" onclick="deleteCompanyExpense('${e.id}')">✕</button>
+        </td>
       </tr>
     `).join('');
   }
@@ -1607,29 +2404,76 @@ function renderOverheadTab() {
   `).join('');
 }
 
-function addCompanyExpense() {
+function startEditCompanyExpense(id) {
+  const e = data.companyExpenses.find(x => x.id === id);
+  if (!e) return;
+  editCompanyExpId = id;
+  document.getElementById('ovh-date').value = e.date || todayISO();
+  document.getElementById('ovh-cat').value = e.cat || 'Други фирмени';
+  document.getElementById('ovh-desc').value = e.desc || '';
+  document.getElementById('ovh-amount').value = e.amount || 0;
+  document.getElementById('ovh-doc').value = e.docNo || '';
+  document.getElementById('ovh-invoiced').checked = e.invoiced !== false;
+  pendingPhotos.ovh = e.photo || '';
+  renderPhotoPreview('ovh');
+
+  document.getElementById('ovh-form-card').classList.add('editing');
+  document.getElementById('ovh-form-title').textContent = '✏️ Редакция на фирмен разход';
+  document.getElementById('ovh-cancel-edit').style.display = 'inline-flex';
+  const btn = document.getElementById('ovh-submit-btn');
+  btn.textContent = '💾 Запази промяната';
+  btn.className = 'btn btn-amber';
+  document.getElementById('ovh-form-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function cancelCompanyExpenseEdit() {
+  editCompanyExpId = null;
+  pendingPhotos.ovh = '';
+  renderPhotoPreview('ovh');
+  document.getElementById('ovh-desc').value = '';
+  document.getElementById('ovh-amount').value = '';
+  document.getElementById('ovh-doc').value = '';
+  document.getElementById('ovh-date').value = todayISO();
+  document.getElementById('ovh-invoiced').checked = true;
+  document.getElementById('ovh-form-card').classList.remove('editing');
+  document.getElementById('ovh-form-title').textContent = '➕ Добави фирмен разход (счетоводство, осигуровки, бус, гараж, инструменти)';
+  document.getElementById('ovh-cancel-edit').style.display = 'none';
+  const btn = document.getElementById('ovh-submit-btn');
+  btn.textContent = '➕ Запиши разхода';
+  btn.className = 'btn btn-primary';
+}
+
+function saveCompanyExpense() {
   const amount = round2(Number(document.getElementById('ovh-amount').value) || 0);
   if (amount <= 0) return alert('Въведи сума по-голяма от 0.');
-  data.companyExpenses.unshift({
-    id: 'ce_' + Date.now(),
+  const rec = {
+    id: editCompanyExpId || ('ce_' + Date.now()),
     date: document.getElementById('ovh-date').value || todayISO(),
     cat: document.getElementById('ovh-cat').value,
     desc: document.getElementById('ovh-desc').value.trim(),
     amount,
     docNo: document.getElementById('ovh-doc').value.trim(),
-    invoiced: document.getElementById('ovh-invoiced').checked
-  });
-  document.getElementById('ovh-desc').value = '';
-  document.getElementById('ovh-amount').value = '';
-  document.getElementById('ovh-doc').value = '';
+    invoiced: document.getElementById('ovh-invoiced').checked,
+    photo: pendingPhotos.ovh || ''
+  };
+  if (editCompanyExpId) {
+    const idx = data.companyExpenses.findIndex(x => x.id === editCompanyExpId);
+    if (idx !== -1) data.companyExpenses[idx] = rec;
+    cancelCompanyExpenseEdit();
+    showToast(`💾 Фирменият разход е обновен (${fmtEur(amount)})!`);
+  } else {
+    data.companyExpenses.unshift(rec);
+    cancelCompanyExpenseEdit();
+    showToast(`🏢 Записан фирмен разход ${fmtEur(amount)}!`);
+  }
   saveData();
   populateYearPicker();
   renderAll();
-  showToast(`🏢 Записан фирмен разход ${fmtEur(amount)}!`);
 }
 
 function deleteCompanyExpense(id) {
   data.companyExpenses = data.companyExpenses.filter(e => e.id !== id);
+  if (editCompanyExpId === id) cancelCompanyExpenseEdit();
   saveData();
   renderAll();
 }
@@ -1654,7 +2498,8 @@ function generateMonthlyRecurringExpenses() {
       desc: t.name,
       amount: round2(t.amount),
       docNo: '',
-      invoiced: true
+      invoiced: true,
+      photo: ''
     });
     added++;
   }
@@ -1664,23 +2509,9 @@ function generateMonthlyRecurringExpenses() {
   showToast(added > 0 ? `⚡ Добавени ${added} постоянни разхода за ${ym}!` : `ℹ️ Постоянните разходи за ${ym} вече са добавени.`);
 }
 
-function toggleRecurringTpl(idx, checked) {
-  data.recurringTemplates[idx].active = checked;
-  saveData();
-  renderAll();
-}
-
-function updateRecurringTplAmt(idx, val) {
-  data.recurringTemplates[idx].amount = round2(Math.max(0, Number(val) || 0));
-  saveData();
-  renderAll();
-}
-
-function deleteRecurringTpl(idx) {
-  data.recurringTemplates.splice(idx, 1);
-  saveData();
-  renderAll();
-}
+function toggleRecurringTpl(idx, checked) { data.recurringTemplates[idx].active = checked; saveData(); renderAll(); }
+function updateRecurringTplAmt(idx, val) { data.recurringTemplates[idx].amount = round2(Math.max(0, Number(val) || 0)); saveData(); renderAll(); }
+function deleteRecurringTpl(idx) { data.recurringTemplates.splice(idx, 1); saveData(); renderAll(); }
 
 function addRecurringTemplate() {
   const name = document.getElementById('rec-new-name').value.trim();
@@ -1695,18 +2526,35 @@ function addRecurringTemplate() {
   showToast(`✓ Добавено в шаблона: ${name}`);
 }
 
-// ================= CSV EXPORTS & PRINT / PDF =================
+// ================= VIBER REMINDER, CSV EXPORTS & PRINT / PDF =================
+function copyViberReminder(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  const st = calcProjectStats(p);
+  const s = data.settings;
+  const lines = [
+    `Здравейте${p.clientName ? ', ' + p.clientName : ''}!`,
+    `Изпращам кратка справка за плащанията по обект${p.address ? ' (' + p.address + ')' : ''}${p.offerNumber ? ', оферта № ' + p.offerNumber : ''}:`,
+    `• Обща договорена сума: ${fmtEur(st.agreedTotal)}`,
+    `• Получено до момента: ${fmtEur(st.received)}`,
+    `• Остатък за доплащане: ${fmtEur(st.remaining)}`,
+    s.iban ? `\nБанкова сметка (${s.companyName}):\nIBAN: ${s.iban}${s.bankName ? ' (' + s.bankName + ')' : ''}` : '',
+    `\nПоздрави,\n${s.manager} — ${s.companyName}\nтел. ${s.phone}`
+  ].filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(lines)
+    .then(() => showToast('💬 Viber напомнянето е копирано — постави го в чата!'))
+    .catch(() => prompt('Копирай съобщението:', lines));
+}
+
 function csvNum(val) {
   const dec = document.getElementById('exp-decimal')?.value || '.';
   const s = round2(val).toFixed(2);
   return dec === ',' ? s.replace('.', ',') : s;
 }
-
 function csvCell(v) {
   const s = String(v ?? '').replace(/"/g, '""');
   return /[;"\n\r]/.test(s) ? `"${s}"` : s;
 }
-
 function downloadCsv(filename, rows) {
   const csv = '\uFEFF' + rows.map(r => r.map(csvCell).join(';')).join('\r\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -1766,7 +2614,7 @@ function exportAccountantMonthCsv() {
 
 function exportAllProjectsCsv() {
   const rows = [
-    ['Клиент', 'Адрес', '№ Оферта', 'Статус', 'Старт', 'Договорено (€)', 'Получено (€)', 'Остатък (€)', 'Преки разходи (€)', 'Дял фирмени (€)', 'Чиста печалба (€)', 'Марж (%)', 'Отработени дни', 'Надница/ден (€)']
+    ['Клиент', 'Адрес', '№ Оферта', 'Статус', 'Старт', 'Договорено (€)', 'Получено (€)', 'Остатък (€)', 'Преки разходи (€)', 'Дял фирмени (€)', 'Чиста печалба (€)', 'Марж (%)', 'Планирани дни', 'Отработени дни', 'Надница/ден (€)']
   ];
   for (const p of data.projects) {
     const st = calcProjectStats(p);
@@ -1774,7 +2622,7 @@ function exportAllProjectsCsv() {
       p.clientName, p.address, p.offerNumber, p.status, p.startDate,
       csvNum(st.agreedTotal), csvNum(st.received), csvNum(st.remaining),
       csvNum(st.directExp), csvNum(st.overheadShare), csvNum(st.netProfit),
-      csvNum(st.marginPct), csvNum(st.workedDays), csvNum(st.dailyWage)
+      csvNum(st.marginPct), csvNum(st.plannedDays), csvNum(st.workedDays), csvNum(st.dailyWage)
     ]);
   }
   downloadCsv(`FixProfit_Obekti_${todayISO()}.csv`, rows);
@@ -1820,7 +2668,7 @@ function copyProjectSummary(id) {
     `Получено: ${fmtEur(st.received)} (${st.payPct.toFixed(0)}%) | Остатък: ${fmtEur(st.remaining)}`,
     `Преки разходи: ${fmtEur(st.directExp)} | Фирмен дял: ${fmtEur(st.overheadShare)}`,
     `💰 Чиста печалба: ${fmtEur(st.netProfit)} (${st.marginPct.toFixed(1)}%)`,
-    `⏱️ Отработени дни: ${st.workedDays} дн. → Надница: ${fmtEur(st.dailyWage)} / ден`
+    `⏱️ Отработени дни: ${st.workedDays} от ${st.plannedDays} дн. → Надница: ${fmtEur(st.dailyWage)} / ден`
   ].filter(Boolean).join('\n');
   navigator.clipboard?.writeText(txt).then(() => showToast('📋 Резюмето е копирано!'))
     .catch(() => prompt('Копирай:', txt));
@@ -1830,12 +2678,13 @@ function printProjectReport(id) {
   const p = data.projects.find(x => x.id === id);
   if (!p) return;
   const st = calcProjectStats(p);
+  const s = data.settings;
   document.getElementById('print-container').innerHTML = `
     <div class="paper-doc">
       <div class="paper-hdr">
         <div>
-          <div style="font-size:18px;font-weight:900;">${escHtml(data.settings.companyName)}</div>
-          <div style="font-size:11.5px;color:#475569;">${escHtml(data.settings.city)} • тел. ${escHtml(data.settings.phone)}${data.settings.eik ? ' • ЕИК: ' + escHtml(data.settings.eik) : ''}</div>
+          <div style="font-size:18px;font-weight:900;">${escHtml(s.companyName)}</div>
+          <div style="font-size:11.5px;color:#475569;">${escHtml(s.city)} • тел. ${escHtml(s.phone)}${s.eik ? ' • ЕИК: ' + escHtml(s.eik) : ''}${s.iban ? '<br/>IBAN: ' + escHtml(s.iban) + (s.bankName ? ' (' + escHtml(s.bankName) + ')' : '') : ''}</div>
         </div>
         <div style="text-align:right;">
           <div style="font-size:16px;font-weight:900;color:#c2410c;">ФИНАНСОВ ОТЧЕТ ЗА ОБЕКТ</div>
@@ -1875,9 +2724,9 @@ function printMonthlyReport() {
   const ym = document.getElementById('exp-month').value || currentMonthISO();
   const t = computePeriodTotals('month', ym, ym.slice(0, 4));
   const vat = computeVat12Months();
+  const s = data.settings;
 
-  const incRows = [];
-  const expRows = [];
+  const incRows = [], expRows = [];
   for (const p of data.projects) {
     (p.payments || []).forEach(pay => {
       if (pay.date && pay.date.slice(0, 7) === ym) {
@@ -1900,8 +2749,8 @@ function printMonthlyReport() {
     <div class="paper-doc">
       <div class="paper-hdr">
         <div>
-          <div style="font-size:18px;font-weight:900;">${escHtml(data.settings.companyName)}</div>
-          <div style="font-size:11.5px;color:#475569;">${escHtml(data.settings.city)} • МОЛ: ${escHtml(data.settings.manager)} • тел. ${escHtml(data.settings.phone)}${data.settings.eik ? ' • ЕИК: ' + escHtml(data.settings.eik) : ''}</div>
+          <div style="font-size:18px;font-weight:900;">${escHtml(s.companyName)}</div>
+          <div style="font-size:11.5px;color:#475569;">${escHtml(s.city)} • МОЛ: ${escHtml(s.manager)} • тел. ${escHtml(s.phone)}${s.eik ? ' • ЕИК: ' + escHtml(s.eik) : ''}${s.iban ? '<br/>IBAN: ' + escHtml(s.iban) : ''}</div>
         </div>
         <div style="text-align:right;">
           <div style="font-size:16px;font-weight:900;color:#c2410c;">МЕСЕЧЕН ФИНАНСОВ ОТЧЕТ (${escHtml(ym)})</div>
@@ -1932,7 +2781,38 @@ function printMonthlyReport() {
   window.print();
 }
 
-// ================= BACKUP, DEMO & SETTINGS =================
+// ================= BACKUP, STORAGE METER, DEMO & SETTINGS =================
+function updateStorageMeter() {
+  const el = document.getElementById('storage-meter-box');
+  if (!el) return;
+  const raw = localStorage.getItem(LS_KEY) || '';
+  const kb = Math.round((raw.length * 2) / 1024);
+  const maxKb = 5000;
+  const pct = Math.min(100, round2((kb / maxKb) * 100));
+  let photoCount = 0;
+  data.projects.forEach(p => (p.expenses || []).forEach(x => { if (x.photo) photoCount++; }));
+  data.companyExpenses.forEach(e => { if (e.photo) photoCount++; });
+  el.innerHTML = `
+    <div style="font-size:12px;color:var(--muted);display:flex;justify-content:space-between;">
+      <span>Локална памет (${photoCount} снимки):</span>
+      <strong>${kb} KB / ~5 000 KB (${pct.toFixed(1)}%)</strong>
+    </div>
+    <div class="prog-track" style="height:8px;margin:4px 0 0 0;">
+      <div class="prog-fill ${pct > 80 ? 'prog-red' : (pct > 50 ? 'prog-amber' : 'prog-green')}" style="width:${Math.max(2, pct)}%;"></div>
+    </div>
+  `;
+}
+
+function stripAllReceiptPhotos() {
+  if (!confirm('Това ще изтрие само прикачените снимки на бележки/фактури, за да освободи памет. Всички суми, обекти и дати остават непокътнати. Продължи?')) return;
+  let n = 0;
+  data.projects.forEach(p => (p.expenses || []).forEach(x => { if (x.photo) { delete x.photo; n++; } }));
+  data.companyExpenses.forEach(e => { if (e.photo) { delete e.photo; n++; } });
+  saveData();
+  renderAll();
+  showToast(`🧹 Премахнати ${n} снимки — паметта е освободена!`);
+}
+
 function downloadFullBackup() {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
   const a = document.createElement('a');
@@ -1988,6 +2868,7 @@ function loadDemoProject() {
     agreedMat: 245.00,
     plannedDays: 5,
     workedDays: 4,
+    workLog: [{ date: ym + '-10', days: 1 }, { date: ym + '-11', days: 1 }, { date: ym + '-12', days: 1 }, { date: ym + '-13', days: 1 }],
     includeOverheadShare: true,
     notes: 'Примерен обект за тест — можеш да го изтриеш по всяко време с бутона 🗑️.',
     payments: [
@@ -1995,8 +2876,8 @@ function loadDemoProject() {
       { id: 'dp2', date: ym + '-14', amount: 450, note: 'Етап 2 Междинно', method: 'Банка (ЕООД)', invoiceNo: '0000000002', official: true }
     ],
     expenses: [
-      { id: 'de1', date: ym + '-11', cat: 'Материали', desc: 'Шпакловка Sheetrock + Борогрунд', amount: 185.50, docNo: 'Ф-ра 1024', invoiced: true },
-      { id: 'de2', date: ym + '-12', cat: 'Гориво / Транспорт', desc: 'Дизел Пловдив', amount: 28.00, docNo: 'Ф-ра 1029', invoiced: true }
+      { id: 'de1', date: ym + '-11', cat: 'Материали', desc: 'Шпакловка Sheetrock + Борогрунд', amount: 185.50, docNo: 'Ф-ра 1024', invoiced: true, photo: '' },
+      { id: 'de2', date: ym + '-12', cat: 'Гориво / Транспорт', desc: 'Дизел Пловдив', amount: 28.00, docNo: 'Ф-ра 1029', invoiced: true, photo: '' }
     ]
   });
   selectedProjectId = demoId;
@@ -2004,7 +2885,7 @@ function loadDemoProject() {
   populateYearPicker();
   renderAll();
   switchTab('tab-dash');
-  showToast('🧪 Зареден е примерен обект — разгледай Таблото и Обекти!');
+  showToast('🧪 Зареден е примерен обект!');
 }
 
 function wipeAllData() {
@@ -2021,16 +2902,20 @@ function wipeAllData() {
 function hydrateSettingsUI() {
   const s = data.settings;
   document.getElementById('hdr-company-name').textContent = s.companyName;
-  document.getElementById('hdr-company-sub').textContent = `${s.city} • тел. ${s.phone} • Дневник на обектите, Печалба и ЕООД (€)`;
+  document.getElementById('hdr-company-sub').textContent = `${s.city} • тел. ${s.phone} • Дневник, FixBuild връзка и ЕООД (€)`;
   document.getElementById('set-name').value = s.companyName;
   document.getElementById('set-manager').value = s.manager;
   document.getElementById('set-eik').value = s.eik || '';
   document.getElementById('set-city').value = s.city;
   document.getElementById('set-phone').value = s.phone;
+  document.getElementById('set-iban').value = s.iban || '';
+  document.getElementById('set-bank').value = s.bankName || '';
+  document.getElementById('set-monthly-goal').value = s.monthlyGoal || 2500;
   document.getElementById('set-bill-days').value = s.billableDays;
   document.getElementById('set-vat-limit').value = s.vatLimit;
   document.getElementById('set-vat-mode').value = s.vatMode || 'official';
   document.getElementById('set-tax-pct').value = s.taxPct;
+  document.getElementById('set-div-pct').value = s.divPct ?? 5;
   document.getElementById('set-show-tax').checked = s.showTax !== false;
   updateSettingsRateInfo();
 }
@@ -2050,10 +2935,14 @@ function saveSettings() {
     eik: document.getElementById('set-eik').value.trim(),
     city: document.getElementById('set-city').value.trim() || 'гр. Пловдив',
     phone: document.getElementById('set-phone').value.trim() || '0886 321 665',
+    iban: document.getElementById('set-iban').value.trim(),
+    bankName: document.getElementById('set-bank').value.trim(),
+    monthlyGoal: Math.max(100, Number(document.getElementById('set-monthly-goal').value) || 2500),
     billableDays: Math.min(30, Math.max(10, Number(document.getElementById('set-bill-days').value) || 20)),
     vatLimit: Math.max(1000, Number(document.getElementById('set-vat-limit').value) || 51130),
     vatMode: document.getElementById('set-vat-mode').value || 'official',
     taxPct: Math.min(30, Math.max(0, Number(document.getElementById('set-tax-pct').value) || 10)),
+    divPct: Math.min(20, Math.max(0, Number(document.getElementById('set-div-pct').value) || 5)),
     showTax: document.getElementById('set-show-tax').checked
   };
   saveData();
@@ -2082,6 +2971,7 @@ function renderAll() {
   renderProjectsTab();
   renderOverheadTab();
   updateSettingsRateInfo();
+  updateStorageMeter();
 }
 
 // ================= INIT =================
