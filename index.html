@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>FixProfit v1.0 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icon-192.png" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #273549;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #f97316;
+      --accent-dark: #ea580c;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --blue: #38bdf8;
+      --purple: #a855f7;
+      --paper: #fffdf8;
+      --paper-ink: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 92px;
+      line-height: 1.45;
+    }
+    header.topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+    }
+    .topbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 10px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo-wrap {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, #f97316, #16a34a);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; color: #fff; font-size: 15px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(249,115,22,0.35); flex-shrink: 0;
+    }
+    .brand-logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .brand-title { font-weight: 800; font-size: 15px; letter-spacing: 0.3px; }
+    .brand-sub { font-size: 11px; color: var(--muted); }
+    .version-badge {
+      background: rgba(34, 197, 94, 0.18); color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 700;
+    }
+    .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .tab-btn {
+      background: var(--surface); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 13px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px;
+      transition: all .15s ease;
+    }
+    .tab-btn:hover { border-color: var(--accent); }
+    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    main.container { max-width: 1200px; margin: 14px auto; padding: 0 12px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-bottom: 14px;
+    }
+    .card h2, .card h3 {
+      margin: 0 0 10px 0; font-size: 15px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; }
+    .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 14px; }
+
+    label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+    input[type="text"], input[type="number"], input[type="date"], input[type="month"], select, textarea {
+      background: var(--bg); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 10px; font-size: 14px; font-family: inherit; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+      padding: 8px 13px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600;
+      transition: all .15s; text-decoration: none;
+    }
+    .btn:hover { filter: brightness(1.12); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-green { background: #16a34a; border-color: #16a34a; color: #fff; }
+    .btn-blue { background: #0284c7; border-color: #0284c7; color: #fff; }
+    .btn-purple { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+    .btn-red { background: #dc2626; border-color: #dc2626; color: #fff; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+    .btn-xs { padding: 3px 7px; font-size: 11px; border-radius: 6px; }
+
+    /* KPI Cards */
+    .kpi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 13px; padding: 13px 14px; position: relative; overflow: hidden;
+    }
+    .kpi-card::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--kpi-accent, var(--accent));
+    }
+    .kpi-label { font-size: 11.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+    .kpi-value { font-size: 22px; font-weight: 900; margin-top: 4px; color: #fff; }
+    .kpi-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+    .val-green { color: #4ade80 !important; }
+    .val-red { color: #f87171 !important; }
+    .val-orange { color: #fb923c !important; }
+    .val-blue { color: #7dd3fc !important; }
+    .val-amber { color: #fde047 !important; }
+
+    /* Progress Bars */
+    .prog-track {
+      width: 100%; height: 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 999px; overflow: hidden; margin: 8px 0;
+    }
+    .prog-fill {
+      height: 100%; border-radius: 999px; transition: width .3s ease;
+    }
+    .prog-green { background: linear-gradient(90deg, #16a34a, #4ade80); }
+    .prog-amber { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .prog-red { background: linear-gradient(90deg, #dc2626, #f87171); }
+    .prog-blue { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+
+    /* Mini Bar Chart */
+    .chart-wrap {
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px;
+      align-items: end; height: 165px; padding: 14px 6px 6px 6px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      margin-top: 8px; overflow-x: auto;
+    }
+    .chart-col {
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      height: 100%; min-width: 34px; gap: 4px;
+    }
+    .chart-bars {
+      display: flex; align-items: flex-end; gap: 2px; height: 115px; width: 100%; justify-content: center;
+    }
+    .c-bar {
+      width: 10px; border-radius: 3px 3px 0 0; min-height: 2px; transition: height .25s ease;
+    }
+    .c-bar-inc { background: #38bdf8; }
+    .c-bar-exp { background: #f87171; }
+    .c-bar-net { background: #22c55e; }
+    .c-lbl { font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .c-val { font-size: 9.5px; color: #cbd5e1; white-space: nowrap; }
+    .chart-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .leg-dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: middle; }
+
+    /* Badges & Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      background: var(--bg); border: 1px solid var(--border); color: var(--text);
+      padding: 6px 11px; border-radius: 999px; font-size: 12px; cursor: pointer; font-weight: 600;
+    }
+    .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+    }
+    .st-active { background: rgba(56,189,248,0.18); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.45); }
+    .st-planned { background: rgba(245,158,11,0.18); color: #fde68a; border: 1px solid rgba(245,158,11,0.45); }
+    .st-done { background: rgba(34,197,94,0.18); color: #4ade80; border: 1px solid rgba(34,197,94,0.45); }
+    .st-cancelled { background: rgba(239,68,68,0.18); color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); }
+    .badge-inv { background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.45); }
+    .badge-cash { background: rgba(148,163,184,0.18); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.35); }
+
+    /* Project Cards List */
+    .proj-item {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; margin-bottom: 10px; transition: border-color .15s;
+    }
+    .proj-item:hover { border-color: rgba(249,115,22,0.6); }
+    .proj-item.selected { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(249,115,22,0.4); }
+    .proj-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+    .proj-title { font-weight: 800; font-size: 15px; color: #fff; }
+    .proj-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .proj-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+      gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(51,65,85,0.6);
+    }
+    .ps-box { font-size: 11.5px; color: var(--muted); }
+    .ps-box strong { display: block; font-size: 14px; color: #fff; margin-top: 1px; }
+
+    /* Tables */
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    table.data-table th, table.data-table td {
+      padding: 8px 6px; border-bottom: 1px solid var(--border); text-align: left;
+    }
+    table.data-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    table.data-table th.num, table.data-table td.num { text-align: right; white-space: nowrap; }
+
+    /* Detail Editor Panel */
+    .detail-box {
+      background: linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.95));
+      border: 2px solid var(--accent); border-radius: 14px; padding: 14px; margin-bottom: 14px;
+    }
+    .sub-card {
+      background: rgba(15, 23, 42, 0.72); border: 1px solid var(--border);
+      border-radius: 11px; padding: 12px; margin-top: 12px;
+    }
+    .sub-card h3 { margin: 0 0 8px 0; font-size: 14px; }
+
+    /* Info Alerts */
+    .alert-box {
+      padding: 10px 12px; border-radius: 10px; font-size: 12.5px; margin-top: 8px;
+    }
+    .alert-green { background: rgba(34,197,94,0.14); border: 1px solid rgba(34,197,94,0.45); color: #bbf7d0; }
+    .alert-amber { background: rgba(245,158,11,0.14); border: 1px solid rgba(245,158,11,0.45); color: #fde68a; }
+    .alert-red { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.5); color: #fecaca; }
+
+    /* Bottom Sticky Bar */
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
+      background: rgba(15, 23, 42, 0.97); border-top: 1px solid var(--border); padding: 10px 14px;
+    }
+    .bottom-inner {
+      max-width: 1200px; margin: 0 auto; display: flex;
+      align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    }
+    .bottom-nums { font-size: 12.5px; color: var(--muted); }
+    .bottom-nums strong { color: #fff; }
+    .bottom-grand { font-size: 16px; font-weight: 900; color: #4ade80; }
+
+    #toast-notify {
+      position: fixed; right: 16px; bottom: 74px; z-index: 95;
+      background: #15803d; color: #fff; border: 1px solid #4ade80;
+      padding: 9px 14px; border-radius: 10px; font-size: 13px; font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      opacity: 0; transform: translateY(10px); pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    #toast-notify.show { opacity: 1; transform: translateY(0); }
+
+    /* Printable A4 Paper */
+    #print-container { display: none; }
+    .paper-doc {
+      background: #fff; color: #1e293b; font-family: "Segoe UI", Arial, sans-serif;
+      padding: 12mm; font-size: 12.5px;
+    }
+    .paper-hdr {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 3px solid #f97316; padding-bottom: 10px; margin-bottom: 14px;
+    }
+    .paper-tbl { width: 100%; border-collapse: collapse; margin: 8px 0 14px 0; font-size: 12px; }
+    .paper-tbl th { background: #1e293b; color: #fff; padding: 6px 8px; text-align: left; }
+    .paper-tbl td { border-bottom: 1px solid #cbd5e1; padding: 6px 8px; }
+    .paper-tbl th.num, .paper-tbl td.num { text-align: right; }
+    .paper-summary-box {
+      background: #fff7ed; border: 2px solid #fdba74; border-radius: 8px;
+      padding: 10px 14px; margin-top: 10px;
+    }
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+      header.topbar, main.container, .bottom-bar, #toast-notify { display: none !important; }
+      #print-container { display: block !important; }
+      .paper-tbl th, .paper-summary-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-logo-wrap">
+        <img src="icon-192.png" alt="FP" onerror="this.style.display='none'; this.parentNode.textContent='FP';" />
+      </div>
+      <div>
+        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.0</span></div>
+        <div class="brand-sub" id="hdr-company-sub">гр. Пловдив • Дневник на обектите, Печалба, Фирмени разходи и ДДС (€)</div>
+      </div>
+    </div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-dash" onclick="switchTab('tab-dash')">1. Табло</button>
+      <button class="tab-btn" data-tab="tab-projects" onclick="switchTab('tab-projects')">2. Обекти (<span id="cnt-projects">0</span>)</button>
+      <button class="tab-btn" data-tab="tab-overhead" onclick="switchTab('tab-overhead')">3. Фирмени разходи</button>
+      <button class="tab-btn" data-tab="tab-export" onclick="switchTab('tab-export')">4. Счетоводител и Настройки</button>
+      <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
+      <button class="btn btn-sm" onclick="refreshAppNow()" title="Опреснява приложението (данните ти са запазени)">🔄</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ===================== TAB 1: ТАБЛО & ДДС ПРАГ ===================== -->
+  <section id="tab-dash" class="tab-panel active">
+    <div class="card">
+      <h2>
+        <span>📊 Финансов преглед</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <select id="dash-period" style="width:auto;padding:6px 10px;font-size:13px;" onchange="onDashPeriodChange()">
+            <option value="month">Текущ / избран месец</option>
+            <option value="year" selected>Текуща / избрана година</option>
+            <option value="12m">Последни 12 месеца</option>
+            <option value="all">Всички периоди</option>
+          </select>
+          <input type="month" id="dash-month-pick" style="width:auto;padding:5px 9px;font-size:13px;" onchange="renderAll()" />
+          <select id="dash-year-pick" style="width:auto;padding:6px 10px;font-size:13px;" onchange="renderAll()"></select>
+        </div>
+      </h2>
+
+      <div class="grid-kpi" id="dash-kpis"></div>
+
+      <div id="dash-tax-banner"></div>
+    </div>
+
+    <!-- БРОЯЧ ЗА ПРАГА ПО ДДС (12 ПОСЛЕДОВАТЕЛНИ МЕСЕЦА) -->
+    <div class="card">
+      <h2>
+        <span>🔥 Брояч за прага по ДДС (последни 12 последователни месеца)</span>
+        <span id="vat-mode-pill" class="badge badge-inv">Отчитане: Фактурирани / По банка</span>
+      </h2>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:14px;">
+          Облагаем оборот (12 мес.): <strong id="vat-current-eur" style="font-size:18px;color:#fff;">0.00 €</strong>
+          от <strong id="vat-limit-eur" style="color:#fb923c;">51 130.00 €</strong>
+        </div>
+        <div style="font-size:13px;font-weight:700;" id="vat-pct-lbl">0.0%</div>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill prog-green" id="vat-prog-bar" style="width:0%;"></div>
+      </div>
+      <div id="vat-status-note" class="alert-box alert-green"></div>
+    </div>
+
+    <!-- МЕСЕЧНА ГРАФИКА -->
+    <div class="card">
+      <h2>
+        <span>📈 Месечна динамика (последни 12 месеца)</span>
+        <span style="font-size:12px;color:var(--muted);" id="chart-range-lbl"></span>
+      </h2>
+      <div class="chart-wrap" id="dash-chart"></div>
+      <div class="chart-legend">
+        <span><span class="leg-dot" style="background:#38bdf8;"></span>Получени приходи</span>
+        <span><span class="leg-dot" style="background:#f87171;"></span>Общо разходи (преки + фирмени)</span>
+        <span><span class="leg-dot" style="background:#22c55e;"></span>Чиста печалба</span>
+      </div>
+    </div>
+
+    <!-- ЧАКАЩИ ПЛАЩАНИЯ И АКТИВНИ ОБЕКТИ -->
+    <div class="grid-2">
+      <div class="card">
+        <h2>⏳ Чакащи плащания от клиенти (Вземания)</h2>
+        <div id="dash-receivables"></div>
+      </div>
+      <div class="card">
+        <h2>🏆 Най-доходни обекти (по надница / ден)</h2>
+        <div id="dash-top-projects"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB 2: ОБЕКТИ ===================== -->
+  <section id="tab-projects" class="tab-panel">
+    <div class="card">
+      <h2>
+        <span>🏗️ Дневник на обектите</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
+          <label class="btn btn-sm btn-blue" style="cursor:pointer;" title="Зарежда директно .json файл, свален от FixBuild">
+            ⬆️ Импорт от FixBuild (.json)
+            <input type="file" accept=".json" style="display:none;" onchange="importFromFixBuildJson(event)" />
+          </label>
+        </div>
+      </h2>
+      <div class="grid-2" style="margin-bottom:8px;">
+        <input type="text" id="proj-search" placeholder="Търси по клиент, адрес, телефон или № оферта..." oninput="renderProjectsList()" />
+        <div class="chips" id="proj-filter-chips">
+          <button class="chip active" onclick="setProjFilter('all', this)">Всички</button>
+          <button class="chip" onclick="setProjFilter('active', this)">🔨 Активни</button>
+          <button class="chip" onclick="setProjFilter('planned', this)">📅 Планирани</button>
+          <button class="chip" onclick="setProjFilter('done', this)">✅ Завършени</button>
+          <button class="chip" onclick="setProjFilter('unpaid', this)">💰 За доплащане</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- РЕДАКТОР НА ИЗБРАНИЯ ОБЕКТ -->
+    <div id="project-editor-wrap" style="display:none;"></div>
+
+    <!-- СПИСЪК С ОБЕКТИ -->
+    <div id="projects-list"></div>
+  </section>
+
+  <!-- ===================== TAB 3: ФИРМЕНИ РАЗХОДИ (ЕООД) ===================== -->
+  <section id="tab-overhead" class="tab-panel">
+    <div class="card">
+      <h2>
+        <span>🏢 Постоянни и общи фирмени разходи (ЕООД)</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <input type="month" id="ovh-month-filter" style="width:auto;padding:5px 9px;font-size:13px;" onchange="renderOverheadTab()" />
+          <button class="btn btn-sm btn-green" onclick="generateMonthlyRecurringExpenses()">⚡ Генерирай постоянните за месеца</button>
+        </div>
+      </h2>
+
+      <div class="grid-3" id="ovh-summary-kpis" style="margin-bottom:12px;"></div>
+
+      <div class="sub-card" style="margin-top:0;">
+        <h3>➕ Добави фирмен разход (счетоводство, осигуровки, такси, бус, гараж, инструменти)</h3>
+        <div class="grid-4">
+          <label class="field">Дата
+            <input type="date" id="ovh-date" />
+          </label>
+          <label class="field">Категория
+            <select id="ovh-cat">
+              <option value="Осигуровки СОЛ">Осигуровки СОЛ</option>
+              <option value="Счетоводство">Счетоводство</option>
+              <option value="Банкови такси">Банкови такси</option>
+              <option value="Гориво / Бус / Кола">Гориво / Бус / Кола</option>
+              <option value="Гараж / Склад / Ток">Гараж / Склад / Ток</option>
+              <option value="Инструменти / Машини">Инструменти / Машини</option>
+              <option value="Телефон / Интернет / Реклама">Телефон / Интернет / Реклама</option>
+              <option value="Данъци и Държавни такси">Данъци и Държавни такси</option>
+              <option value="Други фирмени">Други фирмени</option>
+            </select>
+          </label>
+          <label class="field">Описание
+            <input type="text" id="ovh-desc" placeholder="напр. Осигуровки СОЛ за месеца" />
+          </label>
+          <label class="field">Сума (€)
+            <input type="number" step="0.01" min="0" id="ovh-amount" placeholder="0.00" />
+          </label>
+        </div>
+        <div class="grid-3" style="margin-top:8px;align-items:end;">
+          <label class="field">№ Фактура / Документ (по желание)
+            <input type="text" id="ovh-doc" placeholder="напр. Ф-ра 0000123456" />
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:8px 0;">
+            <input type="checkbox" id="ovh-invoiced" checked style="width:17px;height:17px;accent-color:var(--accent);" />
+            С фактура / официален документ за ЕООД
+          </label>
+          <button class="btn btn-primary" onclick="addCompanyExpense()">➕ Запиши разхода</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;margin-top:10px;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Категория</th>
+              <th>Описание</th>
+              <th>Документ</th>
+              <th class="num">Сума (€)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="ovh-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ШАБЛОН ЗА МЕСЕЧНИ ПОСТОЯННИ РАЗХОДИ -->
+    <div class="card">
+      <h2>
+        <span>🔁 Шаблон на постоянните месечни разходи (ЕООД)</span>
+        <span style="font-size:12px;color:var(--muted);">Ползва се при бутона „⚡ Генерирай постоянните“ и за дневната ставка</span>
+      </h2>
+      <div id="recurring-template-list"></div>
+      <div class="grid-3" style="margin-top:10px;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);align-items:end;">
+        <label class="field">Име на постоянно перо
+          <input type="text" id="rec-new-name" placeholder="напр. Наем / Ток гараж" />
+        </label>
+        <label class="field">Категория / Сума (€)
+          <div style="display:flex;gap:6px;">
+            <input type="text" id="rec-new-cat" placeholder="Категория" value="Други фирмени" />
+            <input type="number" step="1" min="0" id="rec-new-amt" placeholder="€" style="width:95px;" />
+          </div>
+        </label>
+        <button class="btn btn-green" onclick="addRecurringTemplate()">+ Добави в шаблона</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB 4: СЧЕТОВОДИТЕЛ, ЕКСПОРТ И НАСТРОЙКИ ===================== -->
+  <section id="tab-export" class="tab-panel">
+    <div class="grid-2">
+      <div class="card">
+        <h2>📑 Експорт за счетоводител (Excel / LibreOffice / PDF)</h2>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <label class="field">Месец за месечния отчет
+            <input type="month" id="exp-month" />
+          </label>
+          <label class="field">Десетичен знак в CSV
+            <select id="exp-decimal">
+              <option value=".">Точка (1250.50) — EN Windows / Calc</option>
+              <option value=",">Запетая (1250,50) — BG Excel / Calc</option>
+            </select>
+          </label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="btn btn-green" onclick="exportAccountantMonthCsv()">📊 Свали месечен CSV отчет за счетоводител</button>
+          <button class="btn btn-blue" onclick="exportAllProjectsCsv()">🏗️ Свали CSV справка за всички обекти (печалба и надници)</button>
+          <button class="btn" onclick="exportAllTransactionsCsv()">📋 Свали CSV пълен дневник (всички приходи и разходи)</button>
+          <button class="btn btn-primary" onclick="printMonthlyReport()">🖨️ Печат / PDF Месечен финансов отчет</button>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin:10px 0 0 0;">
+          CSV файловете са с UTF-8 BOM и разделител точка и запетая (<code>;</code>) — отварят се директно с правилна кирилица и колони в LibreOffice Calc и Excel.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>💾 Архив и прехвърляне (Лаптоп ↔ Телефон)</h2>
+        <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px 0;">
+          Данните стоят локално на твоето устройство (100% поверително и офлайн). Прави си редовно резервно копие или прехвърляй между лаптопа и телефона с <code>.json</code> файл.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="btn btn-green" onclick="downloadFullBackup()">⬇️ Свали пълен резервен архив (.json)</button>
+          <label class="btn btn-blue" style="cursor:pointer;">
+            ⬆️ Възстанови от архив (.json)
+            <input type="file" accept=".json" style="display:none;" onchange="restoreFullBackup(event)" />
+          </label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+            <button class="btn btn-sm" style="flex:1;" onclick="loadDemoProject()">🧪 Зареди примерен обект (за тест)</button>
+            <button class="btn btn-sm btn-red" onclick="wipeAllData()">🗑️ Изтрий всички данни</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏢 Настройки на фирмата, ДДС праг и ЕООД</h2>
+      <div class="grid-3">
+        <label class="field">Име на фирма
+          <input type="text" id="set-name" oninput="saveSettings()" />
+        </label>
+        <label class="field">МОЛ / Управител
+          <input type="text" id="set-manager" oninput="saveSettings()" />
+        </label>
+        <label class="field">ЕИК / БУЛСТАТ
+          <input type="text" id="set-eik" placeholder="след регистрация на ЕООД" oninput="saveSettings()" />
+        </label>
+        <label class="field">Град
+          <input type="text" id="set-city" oninput="saveSettings()" />
+        </label>
+        <label class="field">Телефон
+          <input type="text" id="set-phone" oninput="saveSettings()" />
+        </label>
+        <label class="field">Ефективни раб. дни / месец
+          <input type="number" id="set-bill-days" min="10" max="30" step="1" oninput="saveSettings()" />
+        </label>
+        <label class="field" title="Актуален праг за задължителна регистрация по ЗДДС за 12 последователни месеца в евро">Праг за регистрация по ДДС (€ / 12 мес.)
+          <input type="number" id="set-vat-limit" min="1000" step="10" oninput="saveSettings()" />
+        </label>
+        <label class="field">Кои приходи влизат в брояча за ДДС
+          <select id="set-vat-mode" onchange="saveSettings()">
+            <option value="official">Само маркираните като „ЕООД / Фактура / Банка“</option>
+            <option value="all">Всички получени приходи</option>
+          </select>
+        </label>
+        <label class="field">Корпоративен данък ЕООД (%)
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="number" id="set-tax-pct" min="0" max="30" step="1" style="width:90px;" oninput="saveSettings()" />
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="set-show-tax" style="width:16px;height:16px;accent-color:var(--accent);" onchange="saveSettings()" />
+              Показвай на Таблото
+            </label>
+          </div>
+        </label>
+      </div>
+      <div id="set-rate-info" class="alert-box alert-amber" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Фиксирана долна лента -->
+<div class="bottom-bar">
+  <div class="bottom-inner">
+    <div class="bottom-nums">
+      <span id="bar-period-lbl">Година:</span>
+      Приходи: <strong id="bar-inc">0.00 €</strong> &nbsp;|&nbsp;
+      Разходи: <strong id="bar-exp">0.00 €</strong> &nbsp;|&nbsp;
+      Надница/ден: <strong id="bar-daily" style="color:#fb923c;">0.00 €</strong>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="bottom-grand" id="bar-net">Нетна: 0.00 €</div>
+      <button class="btn btn-primary btn-sm" onclick="switchTab('tab-projects')">Обекти →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-notify"></div>
+<div id="print-container"></div>
+
+<script>
+const LS_KEY = 'fixprofit_data_v1';
+const APP_VERSION = '1.0';
+
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+function currentMonthISO() { return new Date().toISOString().slice(0, 7); }
+function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
+function fmtEur(n) {
+  const v = round2(n);
+  return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/,/g, ' ') + ' €';
+}
+function escHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function defaultData() {
+  return {
+    version: APP_VERSION,
+    settings: {
+      companyName: 'ФИКСБИЛД ГРУП ЕООД',
+      manager: 'Ангел Георгиев',
+      eik: '',
+      city: 'гр. Пловдив',
+      phone: '0886 321 665',
+      billableDays: 20,
+      vatLimit: 51130,
+      vatMode: 'official',
+      taxPct: 10,
+      showTax: true
+    },
+    recurringTemplates: [
+      { id: 'rec_sol', name: 'Осигуровки СОЛ', cat: 'Осигуровки СОЛ', amount: 170, active: true },
+      { id: 'rec_acc', name: 'Счетоводно обслужване (ЕООД)', cat: 'Счетоводство', amount: 65, active: true },
+      { id: 'rec_bank', name: 'Банкови такси и обслужване', cat: 'Банкови такси', amount: 15, active: true },
+      { id: 'rec_tel', name: 'Служебен телефон и интернет', cat: 'Телефон / Интернет / Реклама', amount: 20, active: true }
+    ],
+    projects: [],
+    companyExpenses: []
+  };
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      const def = defaultData();
+      if (p && typeof p === 'object') {
+        p.settings = Object.assign(def.settings, p.settings || {});
+        if (!Array.isArray(p.recurringTemplates)) p.recurringTemplates = def.recurringTemplates;
+        if (!Array.isArray(p.projects)) p.projects = [];
+        if (!Array.isArray(p.companyExpenses)) p.companyExpenses = [];
+        return p;
+      }
+    }
+  } catch (e) {}
+  return defaultData();
+}
+
+let data = loadData();
+let selectedProjectId = null;
+let projFilter = 'all';
+
+function saveData() {
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast-notify');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ================= CORE CALCULATIONS =================
+function getTemplateMonthlyTotal() {
+  return round2(data.recurringTemplates.filter(t => t.active !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
+}
+
+function getDailyCompanyRate() {
+  const days = Math.max(1, Number(data.settings.billableDays) || 20);
+  return round2(getTemplateMonthlyTotal() / days);
+}
+
+function calcProjectStats(p) {
+  const agreedLabor = round2(Number(p.agreedLabor) || 0);
+  const agreedMat = round2(Number(p.agreedMat) || 0);
+  const agreedTotal = round2(agreedLabor + agreedMat);
+  const payments = Array.isArray(p.payments) ? p.payments : [];
+  const expenses = Array.isArray(p.expenses) ? p.expenses : [];
+
+  const received = round2(payments.reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const receivedOfficial = round2(payments.filter(x => x.official !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const remaining = round2(Math.max(0, agreedTotal - received));
+  const directExp = round2(expenses.reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const directExpInvoiced = round2(expenses.filter(x => x.invoiced !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const workedDays = Math.max(0, Number(p.workedDays) || 0);
+  const plannedDays = Math.max(0, Number(p.plannedDays) || 0);
+  const overheadShare = p.includeOverheadShare !== false ? round2(workedDays * getDailyCompanyRate()) : 0;
+
+  const grossProfit = round2(received - directExp);
+  const netProfit = round2(received - directExp - overheadShare);
+  const projectedProfit = round2(agreedTotal - directExp - overheadShare);
+  const marginPct = received > 0 ? round2((netProfit / received) * 100) : 0;
+  const dailyWage = workedDays > 0 ? round2(netProfit / workedDays) : 0;
+  const payPct = agreedTotal > 0 ? Math.min(100, round2((received / agreedTotal) * 100)) : 0;
+
+  return {
+    agreedLabor, agreedMat, agreedTotal,
+    received, receivedOfficial, remaining, payPct,
+    directExp, directExpInvoiced, overheadShare,
+    workedDays, plannedDays,
+    grossProfit, netProfit, projectedProfit, marginPct, dailyWage
+  };
+}
+
+function getLast12MonthsList(refDate = new Date()) {
+  const list = [];
+  const y = refDate.getFullYear();
+  const m = refDate.getMonth();
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(y, m - i, 1);
+    const ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    list.push(ym);
+  }
+  return list;
+}
+
+function dateMatchesPeriod(dateStr, period, pickMonth, pickYear, last12Set) {
+  if (!dateStr) return period === 'all';
+  const ym = dateStr.slice(0, 7);
+  const y = dateStr.slice(0, 4);
+  if (period === 'month') return ym === pickMonth;
+  if (period === 'year') return y === pickYear;
+  if (period === '12m') return last12Set.has(ym);
+  return true;
+}
+
+function computePeriodTotals(period, pickMonth, pickYear) {
+  const last12 = getLast12MonthsList();
+  const last12Set = new Set(last12);
+
+  let income = 0, incomeOfficial = 0, directExp = 0, companyExp = 0, workedDays = 0;
+  let agreedInPeriod = 0, totalReceivables = 0, activeCount = 0;
+
+  for (const p of data.projects) {
+    const st = calcProjectStats(p);
+    if (p.status === 'active') activeCount++;
+    if (p.status !== 'cancelled' && st.remaining > 0) {
+      totalReceivables = round2(totalReceivables + st.remaining);
+    }
+    const pRefDate = p.startDate || p.createdAt?.slice(0, 10) || todayISO();
+    if (dateMatchesPeriod(pRefDate, period, pickMonth, pickYear, last12Set) && p.status !== 'cancelled') {
+      agreedInPeriod = round2(agreedInPeriod + st.agreedTotal);
+      workedDays = round2(workedDays + st.workedDays);
+    }
+    for (const pay of (p.payments || [])) {
+      if (dateMatchesPeriod(pay.date, period, pickMonth, pickYear, last12Set)) {
+        const a = Number(pay.amount) || 0;
+        income = round2(income + a);
+        if (pay.official !== false) incomeOfficial = round2(incomeOfficial + a);
+      }
+    }
+    for (const ex of (p.expenses || [])) {
+      if (dateMatchesPeriod(ex.date, period, pickMonth, pickYear, last12Set)) {
+        directExp = round2(directExp + (Number(ex.amount) || 0));
+      }
+    }
+  }
+
+  for (const ce of data.companyExpenses) {
+    if (dateMatchesPeriod(ce.date, period, pickMonth, pickYear, last12Set)) {
+      companyExp = round2(companyExp + (Number(ce.amount) || 0));
+    }
+  }
+
+  const totalExp = round2(directExp + companyExp);
+  const netProfit = round2(income - totalExp);
+  const marginPct = income > 0 ? round2((netProfit / income) * 100) : 0;
+  const dailyWage = workedDays > 0 ? round2(netProfit / workedDays) : 0;
+  const taxPct = Math.max(0, Number(data.settings.taxPct) || 0);
+  const estTax = netProfit > 0 ? round2(netProfit * (taxPct / 100)) : 0;
+  const afterTax = round2(netProfit - estTax);
+
+  return {
+    income, incomeOfficial, directExp, companyExp, totalExp,
+    netProfit, marginPct, workedDays, dailyWage,
+    agreedInPeriod, totalReceivables, activeCount, estTax, afterTax
+  };
+}
+
+function computeVat12Months() {
+  const months = getLast12MonthsList();
+  const mSet = new Set(months);
+  let officialSum = 0;
+  let allSum = 0;
+  for (const p of data.projects) {
+    for (const pay of (p.payments || [])) {
+      if (pay.date && mSet.has(pay.date.slice(0, 7))) {
+        const a = Number(pay.amount) || 0;
+        allSum = round2(allSum + a);
+        if (pay.official !== false) officialSum = round2(officialSum + a);
+      }
+    }
+  }
+  const mode = data.settings.vatMode || 'official';
+  const tracked = mode === 'all' ? allSum : officialSum;
+  const limit = Math.max(1, Number(data.settings.vatLimit) || 51130);
+  const pct = round2((tracked / limit) * 100);
+  const left = round2(Math.max(0, limit - tracked));
+  return { tracked, officialSum, allSum, limit, pct, left, mode, months };
+}
+
+// ================= NAVIGATION =================
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add('active');
+  const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  if (btn) btn.classList.add('active');
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ================= DASHBOARD RENDER =================
+function populateYearPicker() {
+  const sel = document.getElementById('dash-year-pick');
+  const curY = new Date().getFullYear();
+  const years = new Set([curY - 1, curY, curY + 1]);
+  data.projects.forEach(p => {
+    if (p.startDate) years.add(Number(p.startDate.slice(0, 4)));
+    (p.payments || []).forEach(x => x.date && years.add(Number(x.date.slice(0, 4))));
+  });
+  data.companyExpenses.forEach(e => e.date && years.add(Number(e.date.slice(0, 4))));
+  const sorted = [...years].filter(Boolean).sort((a, b) => b - a);
+  const prev = sel.value || String(curY);
+  sel.innerHTML = sorted.map(y => `<option value="${y}">${y} г.</option>`).join('');
+  sel.value = sorted.includes(Number(prev)) ? prev : String(curY);
+}
+
+function onDashPeriodChange() {
+  const mode = document.getElementById('dash-period').value;
+  document.getElementById('dash-month-pick').style.display = mode === 'month' ? 'inline-block' : 'none';
+  document.getElementById('dash-year-pick').style.display = mode === 'year' ? 'inline-block' : 'none';
+  renderAll();
+}
+
+function renderDashboard() {
+  const mode = document.getElementById('dash-period').value;
+  const pickMonth = document.getElementById('dash-month-pick').value || currentMonthISO();
+  const pickYear = document.getElementById('dash-year-pick').value || String(new Date().getFullYear());
+  document.getElementById('dash-month-pick').style.display = mode === 'month' ? 'inline-block' : 'none';
+  document.getElementById('dash-year-pick').style.display = mode === 'year' ? 'inline-block' : 'none';
+
+  const t = computePeriodTotals(mode, pickMonth, pickYear);
+
+  document.getElementById('dash-kpis').innerHTML = `
+    <div class="kpi-card" style="--kpi-accent:#38bdf8;">
+      <div class="kpi-label">Получени приходи</div>
+      <div class="kpi-value val-blue">${fmtEur(t.income)}</div>
+      <div class="kpi-sub">Официални (ЕООД): ${fmtEur(t.incomeOfficial)}</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#f87171;">
+      <div class="kpi-label">Преки разходи (обекти)</div>
+      <div class="kpi-value val-red">${fmtEur(t.directExp)}</div>
+      <div class="kpi-sub">Материали, гориво, помощници</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#f59e0b;">
+      <div class="kpi-label">Фирмени разходи (ЕООД)</div>
+      <div class="kpi-value val-amber">${fmtEur(t.companyExp)}</div>
+      <div class="kpi-sub">Осигуровки, счетоводство, такси</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:${t.netProfit >= 0 ? '#22c55e' : '#ef4444'};">
+      <div class="kpi-label">Чиста печалба</div>
+      <div class="kpi-value ${t.netProfit >= 0 ? 'val-green' : 'val-red'}">${fmtEur(t.netProfit)}</div>
+      <div class="kpi-sub">Марж: <strong>${t.marginPct.toFixed(1)}%</strong> • Общо разходи: ${fmtEur(t.totalExp)}</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#f97316;">
+      <div class="kpi-label">Чиста надница / ден</div>
+      <div class="kpi-value val-orange">${fmtEur(t.dailyWage)}</div>
+      <div class="kpi-sub">Отработени дни: <strong>${t.workedDays} дн.</strong></div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#a855f7;">
+      <div class="kpi-label">Чакащи плащания</div>
+      <div class="kpi-value" style="color:#d8b4fe;">${fmtEur(t.totalReceivables)}</div>
+      <div class="kpi-sub">Активни обекти: <strong>${t.activeCount}</strong></div>
+    </div>
+  `;
+
+  const taxBox = document.getElementById('dash-tax-banner');
+  if (data.settings.showTax && t.netProfit > 0) {
+    taxBox.innerHTML = `<div class="alert-box alert-amber">🏛️ Ориентировъчен <strong>${data.settings.taxPct}% корпоративен данък ЕООД</strong> върху чистата печалба за периода: <strong>${fmtEur(t.estTax)}</strong> → Чисто след данък: <strong style="color:#4ade80;">${fmtEur(t.afterTax)}</strong>.</div>`;
+  } else {
+    taxBox.innerHTML = '';
+  }
+
+  // VAT 12m tracker
+  const vat = computeVat12Months();
+  document.getElementById('vat-mode-pill').textContent = vat.mode === 'all'
+    ? 'Отчитане: Всички приходи'
+    : 'Отчитане: Фактурирани / По банка';
+  document.getElementById('vat-current-eur').textContent = fmtEur(vat.tracked);
+  document.getElementById('vat-limit-eur').textContent = fmtEur(vat.limit);
+  document.getElementById('vat-pct-lbl').textContent = `${vat.pct.toFixed(1)}%`;
+
+  const bar = document.getElementById('vat-prog-bar');
+  bar.style.width = Math.min(100, vat.pct) + '%';
+  bar.className = 'prog-fill ' + (vat.pct >= 85 ? 'prog-red' : (vat.pct >= 70 ? 'prog-amber' : 'prog-green'));
+
+  const note = document.getElementById('vat-status-note');
+  if (vat.pct >= 100) {
+    note.className = 'alert-box alert-red';
+    note.innerHTML = `🚨 <strong>Прагът по ДДС (${fmtEur(vat.limit)}) е достигнат!</strong> Свържи се със счетоводителя веднага (срокът за подаване на заявление в НАП е до 7-о число на следващия месец).`;
+  } else if (vat.pct >= 80) {
+    note.className = 'alert-box alert-amber';
+    note.innerHTML = `⚠️ <strong>Внимание:</strong> на ${vat.pct.toFixed(1)}% си от прага по ДДС! Остават ти <strong>${fmtEur(vat.left)}</strong> оборот за последните 12 месеца (${vat.months[0]} → ${vat.months[11]}).`;
+  } else {
+    note.className = 'alert-box alert-green';
+    note.innerHTML = `✅ Спокойна зона — остават ти <strong>${fmtEur(vat.left)}</strong> до прага по ДДС (${vat.months[0]} → ${vat.months[11]}). Общо приходи (с в брой): ${fmtEur(vat.allSum)}.`;
+  }
+
+  // 12-Month Bar Chart
+  const months = vat.months;
+  document.getElementById('chart-range-lbl').textContent = `${months[0]} → ${months[11]}`;
+  const mData = months.map(ym => {
+    let inc = 0, exp = 0;
+    data.projects.forEach(p => {
+      (p.payments || []).forEach(x => { if (x.date && x.date.slice(0, 7) === ym) inc += Number(x.amount) || 0; });
+      (p.expenses || []).forEach(x => { if (x.date && x.date.slice(0, 7) === ym) exp += Number(x.amount) || 0; });
+    });
+    data.companyExpenses.forEach(e => { if (e.date && e.date.slice(0, 7) === ym) exp += Number(e.amount) || 0; });
+    inc = round2(inc); exp = round2(exp);
+    return { ym, inc, exp, net: round2(inc - exp) };
+  });
+  const maxVal = Math.max(100, ...mData.map(m => Math.max(m.inc, m.exp, Math.abs(m.net))));
+  const bgMonths = ['Ян','Фев','Мар','Апр','Май','Юни','Юли','Авг','Сеп','Окт','Ное','Дек'];
+  document.getElementById('dash-chart').innerHTML = mData.map(m => {
+    const hInc = Math.round((m.inc / maxVal) * 105);
+    const hExp = Math.round((m.exp / maxVal) * 105);
+    const hNet = Math.round((Math.max(0, m.net) / maxVal) * 105);
+    const mIdx = Number(m.ym.slice(5, 7)) - 1;
+    return `
+      <div class="chart-col" title="${m.ym}: Приход ${fmtEur(m.inc)} | Разход ${fmtEur(m.exp)} | Печалба ${fmtEur(m.net)}">
+        <div class="c-val">${m.net !== 0 ? Math.round(m.net) + '€' : ''}</div>
+        <div class="chart-bars">
+          <div class="c-bar c-bar-inc" style="height:${Math.max(2, hInc)}px;"></div>
+          <div class="c-bar c-bar-exp" style="height:${Math.max(2, hExp)}px;"></div>
+          <div class="c-bar c-bar-net" style="height:${Math.max(2, hNet)}px;"></div>
+        </div>
+        <div class="c-lbl">${bgMonths[mIdx]}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Receivables widget
+  const unpaid = data.projects
+    .filter(p => p.status !== 'cancelled')
+    .map(p => ({ p, st: calcProjectStats(p) }))
+    .filter(x => x.st.remaining > 0)
+    .sort((a, b) => b.st.remaining - a.st.remaining);
+  const recEl = document.getElementById('dash-receivables');
+  if (!unpaid.length) {
+    recEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:8px 0;">✅ Няма неплатени остатъци от клиенти.</div>`;
+  } else {
+    recEl.innerHTML = unpaid.slice(0, 6).map(({ p, st }) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:8px;">
+        <div>
+          <div style="font-weight:700;font-size:13px;">${escHtml(p.clientName || 'Без име')}</div>
+          <div style="font-size:11.5px;color:var(--muted);">${escHtml(p.address || '')} • Платено ${st.payPct.toFixed(0)}%</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <strong style="color:#fde047;">${fmtEur(st.remaining)}</strong>
+          <button class="btn btn-xs btn-blue" onclick="jumpToProject('${p.id}')">Отвори</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Top projects by daily wage
+  const ranked = data.projects
+    .filter(p => p.status !== 'cancelled')
+    .map(p => ({ p, st: calcProjectStats(p) }))
+    .filter(x => x.st.workedDays > 0 && x.st.received > 0)
+    .sort((a, b) => b.st.dailyWage - a.st.dailyWage);
+  const topEl = document.getElementById('dash-top-projects');
+  if (!ranked.length) {
+    topEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:8px 0;">Добави обект с плащания и отработени дни, за да видиш класацията по надница/ден.</div>`;
+  } else {
+    topEl.innerHTML = ranked.slice(0, 6).map(({ p, st }) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:8px;">
+        <div>
+          <div style="font-weight:700;font-size:13px;">${escHtml(p.clientName || 'Без име')}</div>
+          <div style="font-size:11.5px;color:var(--muted);">Печалба ${fmtEur(st.netProfit)} • ${st.workedDays} дни</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <strong style="color:#4ade80;">${fmtEur(st.dailyWage)}/ден</strong>
+          <button class="btn btn-xs" onclick="jumpToProject('${p.id}')">Детайли</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Sticky Bottom Bar
+  const lblMap = { month: `Месец ${pickMonth}:`, year: `Година ${pickYear}:`, '12m': 'Посл. 12 мес.:', all: 'Общо:' };
+  document.getElementById('bar-period-lbl').textContent = lblMap[mode] || '';
+  document.getElementById('bar-inc').textContent = fmtEur(t.income);
+  document.getElementById('bar-exp').textContent = fmtEur(t.totalExp);
+  document.getElementById('bar-daily').textContent = fmtEur(t.dailyWage);
+  const bn = document.getElementById('bar-net');
+  bn.textContent = `Нетна: ${fmtEur(t.netProfit)}`;
+  bn.style.color = t.netProfit >= 0 ? '#4ade80' : '#f87171';
+}
+
+// ================= PROJECTS (TAB 2) =================
+function statusBadgeHtml(st) {
+  const map = {
+    active: '<span class="badge st-active">🔨 В работа</span>',
+    planned: '<span class="badge st-planned">📅 Планиран</span>',
+    done: '<span class="badge st-done">✅ Завършен</span>',
+    cancelled: '<span class="badge st-cancelled">✕ Отказан</span>'
+  };
+  return map[st] || map.active;
+}
+
+function setProjFilter(f, btn) {
+  projFilter = f;
+  document.querySelectorAll('#proj-filter-chips .chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderProjectsList();
+}
+
+function openNewProjectForm() {
+  const id = 'proj_' + Date.now();
+  const newProj = {
+    id,
+    createdAt: new Date().toISOString(),
+    clientName: '',
+    clientPhone: '',
+    address: 'гр. Пловдив, ',
+    offerNumber: '',
+    status: 'active',
+    startDate: todayISO(),
+    endDate: '',
+    agreedLabor: 0,
+    agreedMat: 0,
+    plannedDays: 10,
+    workedDays: 0,
+    includeOverheadShare: true,
+    notes: '',
+    payments: [],
+    expenses: []
+  };
+  data.projects.unshift(newProj);
+  selectedProjectId = id;
+  saveData();
+  switchTab('tab-projects');
+  showToast('➕ Създаден е нов обект — попълни данните.');
+}
+
+function jumpToProject(id) {
+  selectedProjectId = id;
+  switchTab('tab-projects');
+}
+
+function selectProject(id) {
+  selectedProjectId = (selectedProjectId === id) ? null : id;
+  renderProjectsTab();
+}
+
+function renderProjectsTab() {
+  document.getElementById('cnt-projects').textContent = data.projects.length;
+  renderProjectEditor();
+  renderProjectsList();
+}
+
+function renderProjectsList() {
+  const q = (document.getElementById('proj-search')?.value || '').trim().toLowerCase();
+  const filtered = data.projects.filter(p => {
+    const st = calcProjectStats(p);
+    if (projFilter === 'active' && p.status !== 'active') return false;
+    if (projFilter === 'planned' && p.status !== 'planned') return false;
+    if (projFilter === 'done' && p.status !== 'done') return false;
+    if (projFilter === 'unpaid' && !(p.status !== 'cancelled' && st.remaining > 0)) return false;
+    if (q) {
+      const hay = `${p.clientName} ${p.address} ${p.clientPhone} ${p.offerNumber} ${p.notes}`.toLowerCase();
+      return q.split(/\s+/).every(tok => hay.includes(tok));
+    }
+    return true;
+  });
+
+  const box = document.getElementById('projects-list');
+  if (!filtered.length) {
+    box.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:26px;">
+      Няма обекти за показване. Натисни <strong>„+ Нов обект“</strong> или <strong>„⬆️ Импорт от FixBuild (.json)“</strong> горе.
+    </div>`;
+    return;
+  }
+
+  box.innerHTML = filtered.map(p => {
+    const st = calcProjectStats(p);
+    const isSel = p.id === selectedProjectId;
+    return `
+      <div class="proj-item ${isSel ? 'selected' : ''}">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">
+              ${escHtml(p.clientName || 'Нов обект (без име)')}
+              ${statusBadgeHtml(p.status)}
+              ${p.offerNumber ? `<span class="badge badge-cash" style="margin-left:4px;">№ ${escHtml(p.offerNumber)}</span>` : ''}
+            </div>
+            <div class="proj-meta">${escHtml(p.address || 'Без адрес')} ${p.clientPhone ? '• ' + escHtml(p.clientPhone) : ''} • Старт: ${escHtml(p.startDate || '—')}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+            <button class="btn btn-xs" onclick="quickAddDay('${p.id}', 0.5)" title="Добави половин работен ден">+0.5 дн.</button>
+            <button class="btn btn-xs btn-green" onclick="quickAddDay('${p.id}', 1)" title="Добави 1 работен ден">+1 дн.</button>
+            <button class="btn btn-sm ${isSel ? 'btn-primary' : 'btn-blue'}" onclick="selectProject('${p.id}')">${isSel ? '🔼 Скрий детайли' : '✏️ Отвори / Вноски'}</button>
+            <button class="btn btn-sm btn-red" onclick="deleteProject('${p.id}')" title="Изтрий обекта">🗑️</button>
+          </div>
+        </div>
+        <div class="proj-stats">
+          <div class="ps-box">Договорено<strong>${fmtEur(st.agreedTotal)}</strong></div>
+          <div class="ps-box">Получено (${st.payPct.toFixed(0)}%)<strong class="val-blue">${fmtEur(st.received)}</strong></div>
+          <div class="ps-box">Остатък<strong class="${st.remaining > 0 ? 'val-amber' : 'val-green'}">${fmtEur(st.remaining)}</strong></div>
+          <div class="ps-box">Преки разходи<strong class="val-red">${fmtEur(st.directExp)}</strong></div>
+          <div class="ps-box">Чиста печалба<strong class="${st.netProfit >= 0 ? 'val-green' : 'val-red'}">${fmtEur(st.netProfit)}</strong></div>
+          <div class="ps-box">Надница (${st.workedDays} дн.)<strong class="val-orange">${fmtEur(st.dailyWage)}/ден</strong></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderProjectEditor() {
+  const wrap = document.getElementById('project-editor-wrap');
+  const p = data.projects.find(x => x.id === selectedProjectId);
+  if (!p) {
+    wrap.style.display = 'none';
+    wrap.innerHTML = '';
+    return;
+  }
+  const st = calcProjectStats(p);
+  wrap.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="detail-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div style="font-size:16px;font-weight:900;color:#fff;">✏️ Обект: ${escHtml(p.clientName || 'Нов обект')} ${statusBadgeHtml(p.status)}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-sm btn-primary" onclick="printProjectReport('${p.id}')">🖨️ PDF / Печат отчет</button>
+          <button class="btn btn-sm" onclick="copyProjectSummary('${p.id}')">📋 Копирай резюме</button>
+          <button class="btn btn-sm" onclick="selectProject(null)">✕ Затвори</button>
+        </div>
+      </div>
+
+      <!-- ОСНОВНИ ДАННИ -->
+      <div class="grid-4">
+        <label class="field">Клиент
+          <input type="text" value="${escHtml(p.clientName)}" placeholder="Име на клиент" oninput="updateProjField('${p.id}','clientName',this.value)" />
+        </label>
+        <label class="field">Телефон
+          <input type="text" value="${escHtml(p.clientPhone)}" placeholder="088..." oninput="updateProjField('${p.id}','clientPhone',this.value)" />
+        </label>
+        <label class="field">Адрес на обекта
+          <input type="text" value="${escHtml(p.address)}" placeholder="гр. Пловдив, ж.к. ..." oninput="updateProjField('${p.id}','address',this.value)" />
+        </label>
+        <label class="field">Статус
+          <select onchange="updateProjField('${p.id}','status',this.value)">
+            <option value="planned" ${p.status==='planned'?'selected':''}>📅 Планиран</option>
+            <option value="active" ${p.status==='active'?'selected':''}>🔨 В работа</option>
+            <option value="done" ${p.status==='done'?'selected':''}>✅ Завършен</option>
+            <option value="cancelled" ${p.status==='cancelled'?'selected':''}>✕ Отказан</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid-4" style="margin-top:8px;">
+        <label class="field">№ Оферта / Договор
+          <input type="text" value="${escHtml(p.offerNumber)}" placeholder="напр. FB-20261126-42" oninput="updateProjField('${p.id}','offerNumber',this.value)" />
+        </label>
+        <label class="field">Дата старт
+          <input type="date" value="${escHtml(p.startDate)}" onchange="updateProjField('${p.id}','startDate',this.value)" />
+        </label>
+        <label class="field">Дата край (по желание)
+          <input type="date" value="${escHtml(p.endDate)}" onchange="updateProjField('${p.id}','endDate',this.value)" />
+        </label>
+        <label class="field">Планирани / Отработени дни
+          <div style="display:flex;gap:5px;align-items:center;">
+            <input type="number" step="0.5" min="0" value="${p.plannedDays}" title="Планирани дни" oninput="updateProjField('${p.id}','plannedDays',this.value)" onchange="renderProjectEditor()" />
+            <span style="color:var(--muted);">/</span>
+            <input type="number" step="0.5" min="0" value="${p.workedDays}" title="Реално отработени дни" oninput="updateProjField('${p.id}','workedDays',this.value)" onchange="renderProjectEditor()" />
+            <button type="button" class="btn btn-xs btn-green" onclick="quickAddDay('${p.id}', 1)">+1</button>
+          </div>
+        </label>
+      </div>
+
+      <div class="grid-3" style="margin-top:8px;align-items:end;">
+        <label class="field">Договорен ТРУД (€)
+          <input type="number" step="0.01" min="0" value="${p.agreedLabor}" oninput="updateProjField('${p.id}','agreedLabor',this.value)" onchange="renderProjectEditor()" />
+        </label>
+        <label class="field">Договорени МАТЕРИАЛИ (€)
+          <input type="number" step="0.01" min="0" value="${p.agreedMat}" oninput="updateProjField('${p.id}','agreedMat',this.value)" onchange="renderProjectEditor()" />
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;padding:8px 0;">
+          <input type="checkbox" ${p.includeOverheadShare !== false ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" onchange="updateProjField('${p.id}','includeOverheadShare',this.checked)" />
+          Приспадай дял фирмени разходи (${st.workedDays} дн. × ${getDailyCompanyRate().toFixed(2)} € = ${fmtEur(st.overheadShare)})
+        </label>
+      </div>
+
+      <!-- ЖИВА СМЕТКА НА ОБЕКТА -->
+      <div class="grid-kpi" style="margin-top:12px;margin-bottom:0;">
+        <div class="kpi-card" style="--kpi-accent:#38bdf8;">
+          <div class="kpi-label">Получено / Договорено</div>
+          <div class="kpi-value val-blue" style="font-size:18px;">${fmtEur(st.received)}</div>
+          <div class="kpi-sub">от ${fmtEur(st.agreedTotal)} (остатък ${fmtEur(st.remaining)})</div>
+        </div>
+        <div class="kpi-card" style="--kpi-accent:#f87171;">
+          <div class="kpi-label">Преки разходи</div>
+          <div class="kpi-value val-red" style="font-size:18px;">${fmtEur(st.directExp)}</div>
+          <div class="kpi-sub">С фактура: ${fmtEur(st.directExpInvoiced)}</div>
+        </div>
+        <div class="kpi-card" style="--kpi-accent:${st.netProfit >= 0 ? '#22c55e' : '#ef4444'};">
+          <div class="kpi-label">Реална чиста печалба</div>
+          <div class="kpi-value ${st.netProfit >= 0 ? 'val-green' : 'val-red'}" style="font-size:18px;">${fmtEur(st.netProfit)}</div>
+          <div class="kpi-sub">Марж: ${st.marginPct.toFixed(1)}% • Прогнозна: ${fmtEur(st.projectedProfit)}</div>
+        </div>
+        <div class="kpi-card" style="--kpi-accent:#f97316;">
+          <div class="kpi-label">Чиста надница / ден</div>
+          <div class="kpi-value val-orange" style="font-size:18px;">${fmtEur(st.dailyWage)} / ден</div>
+          <div class="kpi-sub">Отработени: ${st.workedDays} от ${st.plannedDays} дн.</div>
+        </div>
+      </div>
+
+      <div class="prog-track" style="height:10px;margin-top:10px;">
+        <div class="prog-fill prog-blue" style="width:${st.payPct}%;"></div>
+      </div>
+
+      <!-- ВНОСКИ / ПОЛУЧЕНИ ПЛАЩАНИЯ -->
+      <div class="sub-card">
+        <h3>💵 Получени плащания (вноски от клиента)</h3>
+        <div class="grid-4">
+          <label class="field">Дата
+            <input type="date" id="pay-date" value="${todayISO()}" />
+          </label>
+          <label class="field">Сума (€)
+            <input type="number" step="0.01" min="0" id="pay-amount" placeholder="${st.remaining > 0 ? st.remaining.toFixed(2) : '0.00'}" />
+          </label>
+          <label class="field">Етап / Бележка
+            <input type="text" id="pay-note" placeholder="напр. Етап 1 Аванс 30%" />
+          </label>
+          <label class="field">Метод / Фактура №
+            <div style="display:flex;gap:5px;">
+              <select id="pay-method" style="width:55%;">
+                <option value="Банка (ЕООД)">Банка (ЕООД)</option>
+                <option value="В брой">В брой</option>
+                <option value="Revolut / Карта">Revolut / Карта</option>
+              </select>
+              <input type="text" id="pay-inv" placeholder="Ф-ра №" style="width:45%;" />
+            </div>
+          </label>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;">
+            <input type="checkbox" id="pay-official" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+            Отчита се официално (ЕООД / ДДС брояч / Счетоводител)
+          </label>
+          <button class="btn btn-sm btn-green" onclick="addProjectPayment('${p.id}')">+ Запиши вноска</button>
+        </div>
+        ${(p.payments && p.payments.length) ? `
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead><tr><th>Дата</th><th>Етап / Описание</th><th>Метод / Ф-ра</th><th>Режим</th><th class="num">Сума (€)</th><th></th></tr></thead>
+              <tbody>
+                ${p.payments.map((pay, idx) => `
+                  <tr>
+                    <td>${escHtml(pay.date)}</td>
+                    <td>${escHtml(pay.note || 'Плащане')}</td>
+                    <td>${escHtml(pay.method || '')}${pay.invoiceNo ? ' • № ' + escHtml(pay.invoiceNo) : ''}</td>
+                    <td>${pay.official !== false ? '<span class="badge badge-inv">ЕООД/ДДС</span>' : '<span class="badge badge-cash">В брой</span>'}</td>
+                    <td class="num"><strong class="val-blue">${fmtEur(pay.amount)}</strong></td>
+                    <td class="num"><button class="btn btn-xs btn-red" onclick="deleteProjectPayment('${p.id}', ${idx})">✕</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        ` : `<div style="font-size:12px;color:var(--muted);margin-top:8px;">Още няма записани вноски по този обект.</div>`}
+      </div>
+
+      <!-- ПРЕКИ РАЗХОДИ ПО ОБЕКТА -->
+      <div class="sub-card">
+        <h3>🧱 Преки разходи за този обект (материали, гориво, помощници, консумативи)</h3>
+        <div class="grid-4">
+          <label class="field">Дата
+            <input type="date" id="exp-date" value="${todayISO()}" />
+          </label>
+          <label class="field">Категория
+            <select id="exp-cat">
+              <option value="Материали">Материали</option>
+              <option value="Гориво / Транспорт">Гориво / Транспорт</option>
+              <option value="Помощник / Майстор">Помощник / Майстор</option>
+              <option value="Консумативи (тиксо, шкурки)">Консумативи (тиксо, шкурки)</option>
+              <option value="Извозване / Контейнер">Извозване / Контейнер</option>
+              <option value="Други преки">Други преки</option>
+            </select>
+          </label>
+          <label class="field">Описание / Магазин
+            <input type="text" id="exp-desc" placeholder="напр. Баухаус — шпакловка и грунд" />
+          </label>
+          <label class="field">Сума (€) / Фактура №
+            <div style="display:flex;gap:5px;">
+              <input type="number" step="0.01" min="0" id="exp-amount" placeholder="0.00" style="width:55%;" />
+              <input type="text" id="exp-doc" placeholder="Ф-ра №" style="width:45%;" />
+            </div>
+          </label>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;">
+            <input type="checkbox" id="exp-invoiced" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+            С фактура на фирмата (за счетоводителя)
+          </label>
+          <button class="btn btn-sm btn-primary" onclick="addProjectExpense('${p.id}')">+ Запиши разход</button>
+        </div>
+        ${(p.expenses && p.expenses.length) ? `
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead><tr><th>Дата</th><th>Категория</th><th>Описание</th><th>Документ</th><th class="num">Сума (€)</th><th></th></tr></thead>
+              <tbody>
+                ${p.expenses.map((ex, idx) => `
+                  <tr>
+                    <td>${escHtml(ex.date)}</td>
+                    <td>${escHtml(ex.cat)}</td>
+                    <td>${escHtml(ex.desc || '—')}</td>
+                    <td>${ex.invoiced !== false ? '<span class="badge badge-inv">Фактура</span>' : '<span class="badge badge-cash">Бон/Брой</span>'} ${escHtml(ex.docNo || '')}</td>
+                    <td class="num"><strong class="val-red">-${fmtEur(ex.amount)}</strong></td>
+                    <td class="num"><button class="btn btn-xs btn-red" onclick="deleteProjectExpense('${p.id}', ${idx})">✕</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        ` : `<div style="font-size:12px;color:var(--muted);margin-top:8px;">Още няма записани преки разходи по този обект.</div>`}
+      </div>
+
+      <label class="field" style="margin-top:10px;">Бележки по обекта
+        <textarea rows="2" placeholder="Допълнителни детайли, договорки..." oninput="updateProjField('${p.id}','notes',this.value)">${escHtml(p.notes || '')}</textarea>
+      </label>
+    </div>
+  `;
+}
+
+function updateProjField(id, field, val) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  if (['agreedLabor', 'agreedMat', 'plannedDays', 'workedDays'].includes(field)) {
+    p[field] = Math.max(0, Number(val) || 0);
+  } else {
+    p[field] = val;
+  }
+  saveData();
+  populateYearPicker();
+  renderDashboard();
+  renderProjectsList();
+  // Avoid losing focus on text inputs by only re-rendering editor on select/checkbox/date changes
+  if (['status', 'includeOverheadShare', 'startDate', 'endDate'].includes(field)) {
+    renderProjectEditor();
+  }
+}
+
+function quickAddDay(id, delta) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  p.workedDays = round2((Number(p.workedDays) || 0) + delta);
+  saveData();
+  renderAll();
+  showToast(`⏱️ +${delta} раб. ден към „${p.clientName || 'обекта'}“ (общо ${p.workedDays} дн.)`);
+}
+
+function deleteProject(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`Да изтрия ли обект „${p.clientName || 'Без име'}“ заедно с всичките му плащания и разходи?`)) return;
+  data.projects = data.projects.filter(x => x.id !== id);
+  if (selectedProjectId === id) selectedProjectId = null;
+  saveData();
+  renderAll();
+  showToast('🗑️ Обектът е изтрит.');
+}
+
+function addProjectPayment(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  const amount = round2(Number(document.getElementById('pay-amount').value) || 0);
+  if (amount <= 0) return alert('Въведи сума на плащането по-голяма от 0.');
+  if (!Array.isArray(p.payments)) p.payments = [];
+  p.payments.push({
+    id: 'pay_' + Date.now(),
+    date: document.getElementById('pay-date').value || todayISO(),
+    amount,
+    note: document.getElementById('pay-note').value.trim() || 'Плащане по етап',
+    method: document.getElementById('pay-method').value,
+    invoiceNo: document.getElementById('pay-inv').value.trim(),
+    official: document.getElementById('pay-official').checked
+  });
+  saveData();
+  populateYearPicker();
+  renderAll();
+  showToast(`💵 Записана вноска ${fmtEur(amount)}!`);
+}
+
+function deleteProjectPayment(id, idx) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p || !Array.isArray(p.payments)) return;
+  p.payments.splice(idx, 1);
+  saveData();
+  renderAll();
+}
+
+function addProjectExpense(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  const amount = round2(Number(document.getElementById('exp-amount').value) || 0);
+  if (amount <= 0) return alert('Въведи сума на разхода по-голяма от 0.');
+  if (!Array.isArray(p.expenses)) p.expenses = [];
+  p.expenses.push({
+    id: 'exp_' + Date.now(),
+    date: document.getElementById('exp-date').value || todayISO(),
+    cat: document.getElementById('exp-cat').value,
+    desc: document.getElementById('exp-desc').value.trim(),
+    amount,
+    docNo: document.getElementById('exp-doc').value.trim(),
+    invoiced: document.getElementById('exp-invoiced').checked
+  });
+  saveData();
+  populateYearPicker();
+  renderAll();
+  showToast(`🧱 Записан разход ${fmtEur(amount)}!`);
+}
+
+function deleteProjectExpense(id, idx) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p || !Array.isArray(p.expenses)) return;
+  p.expenses.splice(idx, 1);
+  saveData();
+  renderAll();
+}
+
+// ================= DIRECT FIXBUILD .JSON IMPORTER =================
+function computeFixBuildFallbackTotals(st) {
+  if (!st || !Array.isArray(st.rooms)) return { labor: 0, mat: 0 };
+  let rawL = 0, rawM = 0;
+  for (const r of st.rooms) {
+    for (const it of (r.items || [])) {
+      const line = round2((Number(it.qty) || 0) * (Number(it.price) || 0));
+      if (it.type === 'labor') rawL = round2(rawL + line);
+      else rawM = round2(rawM + line);
+    }
+  }
+  const h = st.hidden || {};
+  const o = st.opts || {};
+  const wMult = o.weekendOn ? (1 + (Number(o.weekendPct) || 0) / 100) : 1;
+  const baseL = round2(rawL * wMult);
+  let hid = 0;
+  if (h.unforeseenOn) hid += round2(baseL * ((Number(h.unforeseenPct) || 0) / 100));
+  if (h.generalOn) hid += round2(Number(h.generalEur) || 0);
+  if (h.fuelOn) hid += round2(Number(h.fuelEur) || 0);
+  if (h.companyOn) {
+    const mode = h.companyMode || 'days';
+    if (mode === 'days') hid += round2((Number(h.companyDays) || 0) * getDailyCompanyRate());
+    else if (mode === 'months') hid += round2((Number(h.companyMonths) || 0) * getTemplateMonthlyTotal());
+    else hid += round2(Number(h.companyEur) || 0);
+  }
+  let effL = round2(baseL + hid);
+  let effM = rawM;
+  if (o.discountOn && Number(o.discountPct) > 0) {
+    const dMult = 1 - (Number(o.discountPct) / 100);
+    effL = round2(effL * dMult);
+    effM = round2(effM * dMult);
+  }
+  if (o.vatOn) {
+    effL = round2(effL * 1.2);
+    effM = round2(effM * 1.2);
+  }
+  return { labor: effL, mat: effM };
+}
+
+function importFromFixBuildJson(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const json = JSON.parse(reader.result);
+      const st = json.state || (json.rooms ? json : null);
+      if (!st || !Array.isArray(st.rooms)) {
+        return alert('Този файл не изглежда като оферта от FixBuild (.json).');
+      }
+      let effL = Number(json.effLabor);
+      let effM = Number(json.effMat);
+      if (!Number.isFinite(effL) || !Number.isFinite(effM)) {
+        const calc = computeFixBuildFallbackTotals(st);
+        effL = calc.labor;
+        effM = calc.mat;
+      }
+      const plannedDays = Number(json.contract?.days) || Number(st.hidden?.companyDays) || 10;
+      const newProj = {
+        id: 'proj_' + Date.now(),
+        createdAt: new Date().toISOString(),
+        clientName: json.clientName || st.clientName || 'Клиент от FixBuild',
+        clientPhone: st.clientPhone || '',
+        address: json.clientAddress || st.clientAddress || 'гр. Пловдив',
+        offerNumber: json.offerNumber || st.offerNumber || '',
+        status: 'active',
+        startDate: json.contract?.date || todayISO(),
+        endDate: '',
+        agreedLabor: round2(effL),
+        agreedMat: round2(effM),
+        plannedDays,
+        workedDays: 0,
+        includeOverheadShare: true,
+        notes: `Импортирано от FixBuild (${st.rooms.filter(r => (r.items || []).length > 0).map(r => r.name).join(', ')})`,
+        payments: [],
+        expenses: []
+      };
+      data.projects.unshift(newProj);
+      selectedProjectId = newProj.id;
+      saveData();
+      populateYearPicker();
+      renderAll();
+      showToast(`✅ Импортиран обект от FixBuild: ${newProj.clientName} (${fmtEur(effL + effM)})`);
+    } catch (e) {
+      alert('Грешка при четене на FixBuild JSON файла.');
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
+}
+
+// ================= COMPANY OVERHEAD (TAB 3) =================
+function renderOverheadTab() {
+  const ym = document.getElementById('ovh-month-filter').value || currentMonthISO();
+  const rows = data.companyExpenses
+    .filter(e => !ym || (e.date && e.date.slice(0, 7) === ym))
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const monthSum = round2(rows.reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const monthInv = round2(rows.filter(e => e.invoiced !== false).reduce((a, b) => a + (Number(b.amount) || 0), 0));
+  const tplSum = getTemplateMonthlyTotal();
+  const dailyRate = getDailyCompanyRate();
+
+  document.getElementById('ovh-summary-kpis').innerHTML = `
+    <div class="kpi-card" style="--kpi-accent:#f59e0b;">
+      <div class="kpi-label">Фирмени разходи за ${ym}</div>
+      <div class="kpi-value val-amber" style="font-size:19px;">${fmtEur(monthSum)}</div>
+      <div class="kpi-sub">С фактура/документ: ${fmtEur(monthInv)}</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#f97316;">
+      <div class="kpi-label">Месечен шаблон (постоянни)</div>
+      <div class="kpi-value val-orange" style="font-size:19px;">${fmtEur(tplSum)}</div>
+      <div class="kpi-sub">${data.recurringTemplates.filter(t => t.active !== false).length} активни пера</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#38bdf8;">
+      <div class="kpi-label">Дневна фирмена ставка</div>
+      <div class="kpi-value val-blue" style="font-size:19px;">${fmtEur(dailyRate)} / ден</div>
+      <div class="kpi-sub">При ${data.settings.billableDays} ефективни дни/мес.</div>
+    </div>
+  `;
+
+  const tbody = document.getElementById('ovh-table-body');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px;">Няма записани фирмени разходи за ${ym}. Натисни „⚡ Генерирай постоянните за месеца“ или добави ръчно.</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map(e => `
+      <tr>
+        <td>${escHtml(e.date)}</td>
+        <td><strong>${escHtml(e.cat)}</strong></td>
+        <td>${escHtml(e.desc || '—')}</td>
+        <td>${e.invoiced !== false ? '<span class="badge badge-inv">Документ</span>' : '<span class="badge badge-cash">Без док.</span>'} ${escHtml(e.docNo || '')}</td>
+        <td class="num"><strong class="val-amber">${fmtEur(e.amount)}</strong></td>
+        <td class="num"><button class="btn btn-xs btn-red" onclick="deleteCompanyExpense('${e.id}')">✕</button></td>
+      </tr>
+    `).join('');
+  }
+
+  // Recurring Templates list
+  const tplBox = document.getElementById('recurring-template-list');
+  tplBox.innerHTML = data.recurringTemplates.map((t, idx) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;flex:1;min-width:190px;">
+        <input type="checkbox" ${t.active !== false ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" onchange="toggleRecurringTpl(${idx}, this.checked)" />
+        <span><strong>${escHtml(t.name)}</strong> <span style="color:var(--muted);font-size:11.5px;">(${escHtml(t.cat)})</span></span>
+      </label>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <input type="number" step="1" min="0" value="${t.amount}" style="width:92px;padding:5px 7px;text-align:right;" onchange="updateRecurringTplAmt(${idx}, this.value)" />
+        <span>€</span>
+        <button class="btn btn-xs btn-red" onclick="deleteRecurringTpl(${idx})">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addCompanyExpense() {
+  const amount = round2(Number(document.getElementById('ovh-amount').value) || 0);
+  if (amount <= 0) return alert('Въведи сума по-голяма от 0.');
+  data.companyExpenses.unshift({
+    id: 'ce_' + Date.now(),
+    date: document.getElementById('ovh-date').value || todayISO(),
+    cat: document.getElementById('ovh-cat').value,
+    desc: document.getElementById('ovh-desc').value.trim(),
+    amount,
+    docNo: document.getElementById('ovh-doc').value.trim(),
+    invoiced: document.getElementById('ovh-invoiced').checked
+  });
+  document.getElementById('ovh-desc').value = '';
+  document.getElementById('ovh-amount').value = '';
+  document.getElementById('ovh-doc').value = '';
+  saveData();
+  populateYearPicker();
+  renderAll();
+  showToast(`🏢 Записан фирмен разход ${fmtEur(amount)}!`);
+}
+
+function deleteCompanyExpense(id) {
+  data.companyExpenses = data.companyExpenses.filter(e => e.id !== id);
+  saveData();
+  renderAll();
+}
+
+function generateMonthlyRecurringExpenses() {
+  const ym = document.getElementById('ovh-month-filter').value || currentMonthISO();
+  const activeTpls = data.recurringTemplates.filter(t => t.active !== false && Number(t.amount) > 0);
+  if (!activeTpls.length) return alert('Няма активни пера в шаблона.');
+  const existingKeys = new Set(
+    data.companyExpenses
+      .filter(e => e.date && e.date.slice(0, 7) === ym)
+      .map(e => `${e.cat}:${e.desc}`)
+  );
+  let added = 0;
+  for (const t of activeTpls) {
+    const key = `${t.cat}:${t.name}`;
+    if (existingKeys.has(key)) continue;
+    data.companyExpenses.unshift({
+      id: 'ce_' + Date.now() + '_' + added,
+      date: ym + '-05',
+      cat: t.cat,
+      desc: t.name,
+      amount: round2(t.amount),
+      docNo: '',
+      invoiced: true
+    });
+    added++;
+  }
+  saveData();
+  populateYearPicker();
+  renderAll();
+  showToast(added > 0 ? `⚡ Добавени ${added} постоянни разхода за ${ym}!` : `ℹ️ Постоянните разходи за ${ym} вече са добавени.`);
+}
+
+function toggleRecurringTpl(idx, checked) {
+  data.recurringTemplates[idx].active = checked;
+  saveData();
+  renderAll();
+}
+
+function updateRecurringTplAmt(idx, val) {
+  data.recurringTemplates[idx].amount = round2(Math.max(0, Number(val) || 0));
+  saveData();
+  renderAll();
+}
+
+function deleteRecurringTpl(idx) {
+  data.recurringTemplates.splice(idx, 1);
+  saveData();
+  renderAll();
+}
+
+function addRecurringTemplate() {
+  const name = document.getElementById('rec-new-name').value.trim();
+  const cat = document.getElementById('rec-new-cat').value.trim() || 'Други фирмени';
+  const amount = round2(Math.max(0, Number(document.getElementById('rec-new-amt').value) || 0));
+  if (!name || amount <= 0) return alert('Въведи име и сума за новото перо.');
+  data.recurringTemplates.push({ id: 'rec_' + Date.now(), name, cat, amount, active: true });
+  document.getElementById('rec-new-name').value = '';
+  document.getElementById('rec-new-amt').value = '';
+  saveData();
+  renderAll();
+  showToast(`✓ Добавено в шаблона: ${name}`);
+}
+
+// ================= CSV EXPORTS & PRINT / PDF =================
+function csvNum(val) {
+  const dec = document.getElementById('exp-decimal')?.value || '.';
+  const s = round2(val).toFixed(2);
+  return dec === ',' ? s.replace('.', ',') : s;
+}
+
+function csvCell(v) {
+  const s = String(v ?? '').replace(/"/g, '""');
+  return /[;"\n\r]/.test(s) ? `"${s}"` : s;
+}
+
+function downloadCsv(filename, rows) {
+  const csv = '\uFEFF' + rows.map(r => r.map(csvCell).join(';')).join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+function exportAccountantMonthCsv() {
+  const ym = document.getElementById('exp-month').value || currentMonthISO();
+  const rows = [
+    ['МЕСЕЧЕН СЧЕТОВОДЕН ОТЧЕТ', data.settings.companyName, 'ЕИК: ' + (data.settings.eik || '—'), 'Период: ' + ym],
+    [],
+    ['Тип', 'Дата', 'Контрагент / Обект', 'Категория / Описание', 'Метод / Документ №', 'Официален (ЕООД)', 'Сума (€)']
+  ];
+  let sumInc = 0, sumIncOff = 0, sumExp = 0, sumExpInv = 0;
+
+  for (const p of data.projects) {
+    for (const pay of (p.payments || [])) {
+      if (pay.date && pay.date.slice(0, 7) === ym) {
+        const a = round2(pay.amount);
+        sumInc = round2(sumInc + a);
+        if (pay.official !== false) sumIncOff = round2(sumIncOff + a);
+        rows.push(['ПРИХОД', pay.date, p.clientName || 'Клиент', pay.note || 'СМР', `${pay.method || ''} ${pay.invoiceNo ? 'Ф-ра ' + pay.invoiceNo : ''}`.trim(), pay.official !== false ? 'ДА' : 'НЕ', csvNum(a)]);
+      }
+    }
+    for (const ex of (p.expenses || [])) {
+      if (ex.date && ex.date.slice(0, 7) === ym) {
+        const a = round2(ex.amount);
+        sumExp = round2(sumExp + a);
+        if (ex.invoiced !== false) sumExpInv = round2(sumExpInv + a);
+        rows.push(['РАЗХОД (ОБЕКТ)', ex.date, p.clientName || 'Обект', `${ex.cat}: ${ex.desc || ''}`, ex.docNo || '', ex.invoiced !== false ? 'ДА' : 'НЕ', csvNum(-a)]);
+      }
+    }
+  }
+  for (const ce of data.companyExpenses) {
+    if (ce.date && ce.date.slice(0, 7) === ym) {
+      const a = round2(ce.amount);
+      sumExp = round2(sumExp + a);
+      if (ce.invoiced !== false) sumExpInv = round2(sumExpInv + a);
+      rows.push(['РАЗХОД (ФИРМЕН)', ce.date, data.settings.companyName, `${ce.cat}: ${ce.desc || ''}`, ce.docNo || '', ce.invoiced !== false ? 'ДА' : 'НЕ', csvNum(-a)]);
+    }
+  }
+
+  rows.push([]);
+  rows.push(['ОБОБЩЕНИЕ ЗА ' + ym, '', '', '', '', 'Общо приходи (€)', csvNum(sumInc)]);
+  rows.push(['', '', '', '', '', 'Официални приходи ЕООД (€)', csvNum(sumIncOff)]);
+  rows.push(['', '', '', '', '', 'Общо разходи (€)', csvNum(sumExp)]);
+  rows.push(['', '', '', '', '', 'Разходи с фактура (€)', csvNum(sumExpInv)]);
+  rows.push(['', '', '', '', '', 'Чиста печалба (€)', csvNum(sumInc - sumExp)]);
+
+  downloadCsv(`FixProfit_Schetovoditel_${ym}.csv`, rows);
+  showToast(`📊 Свален месечен отчет за ${ym}!`);
+}
+
+function exportAllProjectsCsv() {
+  const rows = [
+    ['Клиент', 'Адрес', '№ Оферта', 'Статус', 'Старт', 'Договорено (€)', 'Получено (€)', 'Остатък (€)', 'Преки разходи (€)', 'Дял фирмени (€)', 'Чиста печалба (€)', 'Марж (%)', 'Отработени дни', 'Надница/ден (€)']
+  ];
+  for (const p of data.projects) {
+    const st = calcProjectStats(p);
+    rows.push([
+      p.clientName, p.address, p.offerNumber, p.status, p.startDate,
+      csvNum(st.agreedTotal), csvNum(st.received), csvNum(st.remaining),
+      csvNum(st.directExp), csvNum(st.overheadShare), csvNum(st.netProfit),
+      csvNum(st.marginPct), csvNum(st.workedDays), csvNum(st.dailyWage)
+    ]);
+  }
+  downloadCsv(`FixProfit_Obekti_${todayISO()}.csv`, rows);
+  showToast('🏗️ Свалена справка за всички обекти!');
+}
+
+function exportAllTransactionsCsv() {
+  const rows = [
+    ['Дата', 'Тип', 'Обект / Фирма', 'Категория / Етап', 'Описание', 'Документ / Метод', 'Официален (ЕООД)', 'Сума (€)']
+  ];
+  const all = [];
+  for (const p of data.projects) {
+    (p.payments || []).forEach(pay => all.push({
+      date: pay.date || '', type: 'ПРИХОД', target: p.clientName || 'Обект',
+      cat: 'Плащане', desc: pay.note || '', doc: `${pay.method || ''} ${pay.invoiceNo || ''}`.trim(),
+      off: pay.official !== false ? 'ДА' : 'НЕ', amt: round2(pay.amount)
+    }));
+    (p.expenses || []).forEach(ex => all.push({
+      date: ex.date || '', type: 'РАЗХОД (ОБЕКТ)', target: p.clientName || 'Обект',
+      cat: ex.cat || '', desc: ex.desc || '', doc: ex.docNo || '',
+      off: ex.invoiced !== false ? 'ДА' : 'НЕ', amt: -round2(ex.amount)
+    }));
+  }
+  data.companyExpenses.forEach(ce => all.push({
+    date: ce.date || '', type: 'РАЗХОД (ФИРМЕН)', target: data.settings.companyName,
+    cat: ce.cat || '', desc: ce.desc || '', doc: ce.docNo || '',
+    off: ce.invoiced !== false ? 'ДА' : 'НЕ', amt: -round2(ce.amount)
+  }));
+  all.sort((a, b) => b.date.localeCompare(a.date));
+  all.forEach(x => rows.push([x.date, x.type, x.target, x.cat, x.desc, x.doc, x.off, csvNum(x.amt)]));
+  downloadCsv(`FixProfit_Dnevnik_${todayISO()}.csv`, rows);
+  showToast('📋 Свален пълният дневник!');
+}
+
+function copyProjectSummary(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  const st = calcProjectStats(p);
+  const txt = [
+    `🏗️ ОТЧЕТ ОБЕКТ: ${p.clientName || 'Без име'} (${p.address || ''})`,
+    p.offerNumber ? `Оферта № ${p.offerNumber}` : '',
+    `Договорено: ${fmtEur(st.agreedTotal)} (Труд ${fmtEur(st.agreedLabor)} + Мат. ${fmtEur(st.agreedMat)})`,
+    `Получено: ${fmtEur(st.received)} (${st.payPct.toFixed(0)}%) | Остатък: ${fmtEur(st.remaining)}`,
+    `Преки разходи: ${fmtEur(st.directExp)} | Фирмен дял: ${fmtEur(st.overheadShare)}`,
+    `💰 Чиста печалба: ${fmtEur(st.netProfit)} (${st.marginPct.toFixed(1)}%)`,
+    `⏱️ Отработени дни: ${st.workedDays} дн. → Надница: ${fmtEur(st.dailyWage)} / ден`
+  ].filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(txt).then(() => showToast('📋 Резюмето е копирано!'))
+    .catch(() => prompt('Копирай:', txt));
+}
+
+function printProjectReport(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  const st = calcProjectStats(p);
+  document.getElementById('print-container').innerHTML = `
+    <div class="paper-doc">
+      <div class="paper-hdr">
+        <div>
+          <div style="font-size:18px;font-weight:900;">${escHtml(data.settings.companyName)}</div>
+          <div style="font-size:11.5px;color:#475569;">${escHtml(data.settings.city)} • тел. ${escHtml(data.settings.phone)}${data.settings.eik ? ' • ЕИК: ' + escHtml(data.settings.eik) : ''}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:900;color:#c2410c;">ФИНАНСОВ ОТЧЕТ ЗА ОБЕКТ</div>
+          <div style="font-size:11.5px;color:#475569;">Дата: ${new Date().toLocaleDateString('bg-BG')}</div>
+        </div>
+      </div>
+      <p><strong>Клиент:</strong> ${escHtml(p.clientName)} (${escHtml(p.clientPhone || '—')}) &nbsp;|&nbsp; <strong>Адрес:</strong> ${escHtml(p.address || '—')} &nbsp;|&nbsp; <strong>№ Оферта:</strong> ${escHtml(p.offerNumber || '—')}</p>
+      <p><strong>Старт:</strong> ${escHtml(p.startDate || '—')} &nbsp;|&nbsp; <strong>Отработени дни:</strong> ${st.workedDays} от ${st.plannedDays} планирани</p>
+
+      <h4>1. Получени плащания</h4>
+      <table class="paper-tbl">
+        <thead><tr><th>Дата</th><th>Етап / Бележка</th><th>Метод / Фактура</th><th class="num">Сума (€)</th></tr></thead>
+        <tbody>
+          ${(p.payments || []).length ? p.payments.map(x => `<tr><td>${escHtml(x.date)}</td><td>${escHtml(x.note)}</td><td>${escHtml(x.method)} ${escHtml(x.invoiceNo || '')}</td><td class="num">${fmtEur(x.amount)}</td></tr>`).join('') : '<tr><td colspan="4">Няма записани плащания.</td></tr>'}
+        </tbody>
+      </table>
+
+      <h4>2. Преки разходи по обекта</h4>
+      <table class="paper-tbl">
+        <thead><tr><th>Дата</th><th>Категория</th><th>Описание / Документ</th><th class="num">Сума (€)</th></tr></thead>
+        <tbody>
+          ${(p.expenses || []).length ? p.expenses.map(x => `<tr><td>${escHtml(x.date)}</td><td>${escHtml(x.cat)}</td><td>${escHtml(x.desc)} ${escHtml(x.docNo || '')}</td><td class="num">${fmtEur(x.amount)}</td></tr>`).join('') : '<tr><td colspan="4">Няма записани преки разходи.</td></tr>'}
+        </tbody>
+      </table>
+
+      <div class="paper-summary-box">
+        <div>Договорена сума: <strong>${fmtEur(st.agreedTotal)}</strong> &nbsp;|&nbsp; Получено: <strong>${fmtEur(st.received)}</strong> &nbsp;|&nbsp; Остатък: <strong>${fmtEur(st.remaining)}</strong></div>
+        <div style="margin-top:4px;">Преки разходи: <strong>${fmtEur(st.directExp)}</strong> &nbsp;|&nbsp; Дял фирмени разходи: <strong>${fmtEur(st.overheadShare)}</strong></div>
+        <div style="margin-top:6px;font-size:15px;color:#c2410c;"><strong>ЧИСТА ПЕЧАЛБА: ${fmtEur(st.netProfit)} (${st.marginPct.toFixed(1)}%) &nbsp;|&nbsp; НАДНИЦА: ${fmtEur(st.dailyWage)} / ден</strong></div>
+      </div>
+    </div>
+  `;
+  window.print();
+}
+
+function printMonthlyReport() {
+  const ym = document.getElementById('exp-month').value || currentMonthISO();
+  const t = computePeriodTotals('month', ym, ym.slice(0, 4));
+  const vat = computeVat12Months();
+
+  const incRows = [];
+  const expRows = [];
+  for (const p of data.projects) {
+    (p.payments || []).forEach(pay => {
+      if (pay.date && pay.date.slice(0, 7) === ym) {
+        incRows.push(`<tr><td>${escHtml(pay.date)}</td><td>${escHtml(p.clientName)}</td><td>${escHtml(pay.note)} (${escHtml(pay.method)}) ${escHtml(pay.invoiceNo || '')}</td><td class="num">${fmtEur(pay.amount)}</td></tr>`);
+      }
+    });
+    (p.expenses || []).forEach(ex => {
+      if (ex.date && ex.date.slice(0, 7) === ym) {
+        expRows.push(`<tr><td>${escHtml(ex.date)}</td><td>Обект: ${escHtml(p.clientName)}</td><td>${escHtml(ex.cat)} — ${escHtml(ex.desc)} ${escHtml(ex.docNo || '')}</td><td class="num">${fmtEur(ex.amount)}</td></tr>`);
+      }
+    });
+  }
+  data.companyExpenses.forEach(ce => {
+    if (ce.date && ce.date.slice(0, 7) === ym) {
+      expRows.push(`<tr><td>${escHtml(ce.date)}</td><td>Фирмен (ЕООД)</td><td>${escHtml(ce.cat)} — ${escHtml(ce.desc)} ${escHtml(ce.docNo || '')}</td><td class="num">${fmtEur(ce.amount)}</td></tr>`);
+    }
+  });
+
+  document.getElementById('print-container').innerHTML = `
+    <div class="paper-doc">
+      <div class="paper-hdr">
+        <div>
+          <div style="font-size:18px;font-weight:900;">${escHtml(data.settings.companyName)}</div>
+          <div style="font-size:11.5px;color:#475569;">${escHtml(data.settings.city)} • МОЛ: ${escHtml(data.settings.manager)} • тел. ${escHtml(data.settings.phone)}${data.settings.eik ? ' • ЕИК: ' + escHtml(data.settings.eik) : ''}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:16px;font-weight:900;color:#c2410c;">МЕСЕЧЕН ФИНАНСОВ ОТЧЕТ (${escHtml(ym)})</div>
+          <div style="font-size:11.5px;color:#475569;">Издаден: ${new Date().toLocaleDateString('bg-BG')}</div>
+        </div>
+      </div>
+
+      <h4>1. Получени приходи за ${escHtml(ym)}</h4>
+      <table class="paper-tbl">
+        <thead><tr><th>Дата</th><th>Клиент</th><th>Описание / Документ</th><th class="num">Сума (€)</th></tr></thead>
+        <tbody>${incRows.length ? incRows.join('') : '<tr><td colspan="4">Няма записани приходи за периода.</td></tr>'}</tbody>
+      </table>
+
+      <h4>2. Разходи (преки + фирмени) за ${escHtml(ym)}</h4>
+      <table class="paper-tbl">
+        <thead><tr><th>Дата</th><th>Източник</th><th>Категория / Описание</th><th class="num">Сума (€)</th></tr></thead>
+        <tbody>${expRows.length ? expRows.join('') : '<tr><td colspan="4">Няма записани разходи за периода.</td></tr>'}</tbody>
+      </table>
+
+      <div class="paper-summary-box">
+        <div>Общо приходи: <strong>${fmtEur(t.income)}</strong> (Официални ЕООД: ${fmtEur(t.incomeOfficial)})</div>
+        <div style="margin-top:4px;">Преки разходи: <strong>${fmtEur(t.directExp)}</strong> &nbsp;|&nbsp; Фирмени разходи: <strong>${fmtEur(t.companyExp)}</strong> &nbsp;|&nbsp; Общо разходи: <strong>${fmtEur(t.totalExp)}</strong></div>
+        <div style="margin-top:6px;font-size:15px;color:#c2410c;"><strong>ЧИСТА ПЕЧАЛБА ЗА ${escHtml(ym)}: ${fmtEur(t.netProfit)} (${t.marginPct.toFixed(1)}%)</strong></div>
+        <div style="margin-top:6px;font-size:11.5px;color:#334155;">Оборот за последните 12 мес. (ДДС праг): <strong>${fmtEur(vat.tracked)}</strong> от ${fmtEur(vat.limit)} (${vat.pct.toFixed(1)}%).</div>
+      </div>
+    </div>
+  `;
+  window.print();
+}
+
+// ================= BACKUP, DEMO & SETTINGS =================
+function downloadFullBackup() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `FixProfit_Backup_${todayISO()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  showToast('⬇️ Свален е пълен резервен архив!');
+}
+
+function restoreFullBackup(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      if (!parsed || !Array.isArray(parsed.projects)) return alert('Невалиден резервен файл на FixProfit.');
+      if (!confirm(`Да възстановя ли архива (${parsed.projects.length} обекта и ${(parsed.companyExpenses || []).length} фирмени разхода)? Текущите данни ще бъдат заменени.`)) return;
+      const def = defaultData();
+      parsed.settings = Object.assign(def.settings, parsed.settings || {});
+      if (!Array.isArray(parsed.recurringTemplates)) parsed.recurringTemplates = def.recurringTemplates;
+      if (!Array.isArray(parsed.companyExpenses)) parsed.companyExpenses = [];
+      data = parsed;
+      selectedProjectId = null;
+      saveData();
+      hydrateSettingsUI();
+      populateYearPicker();
+      renderAll();
+      showToast('✅ Архивът е възстановен успешно!');
+    } catch (e) {
+      alert('Грешка при четене на JSON файла.');
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
+}
+
+function loadDemoProject() {
+  const ym = currentMonthISO();
+  const demoId = 'proj_demo_' + Date.now();
+  data.projects.unshift({
+    id: demoId,
+    createdAt: new Date().toISOString(),
+    clientName: 'Георги Иванов (Примерен)',
+    clientPhone: '0886 123 458',
+    address: 'гр. Пловдив, кв. Смирненски',
+    offerNumber: 'FB-20261125-38',
+    status: 'active',
+    startDate: ym + '-10',
+    endDate: '',
+    agreedLabor: 1077.55,
+    agreedMat: 245.00,
+    plannedDays: 5,
+    workedDays: 4,
+    includeOverheadShare: true,
+    notes: 'Примерен обект за тест — можеш да го изтриеш по всяко време с бутона 🗑️.',
+    payments: [
+      { id: 'dp1', date: ym + '-10', amount: 500, note: 'Етап 1 Аванс', method: 'Банка (ЕООД)', invoiceNo: '0000000001', official: true },
+      { id: 'dp2', date: ym + '-14', amount: 450, note: 'Етап 2 Междинно', method: 'Банка (ЕООД)', invoiceNo: '0000000002', official: true }
+    ],
+    expenses: [
+      { id: 'de1', date: ym + '-11', cat: 'Материали', desc: 'Шпакловка Sheetrock + Борогрунд', amount: 185.50, docNo: 'Ф-ра 1024', invoiced: true },
+      { id: 'de2', date: ym + '-12', cat: 'Гориво / Транспорт', desc: 'Дизел Пловдив', amount: 28.00, docNo: 'Ф-ра 1029', invoiced: true }
+    ]
+  });
+  selectedProjectId = demoId;
+  saveData();
+  populateYearPicker();
+  renderAll();
+  switchTab('tab-dash');
+  showToast('🧪 Зареден е примерен обект — разгледай Таблото и Обекти!');
+}
+
+function wipeAllData() {
+  if (!confirm('ВНИМАНИЕ: Това ще изтрие ВСИЧКИ обекти, плащания и фирмени разходи!\n\nПреди да продължиш, препоръчително е да свалиш резервен архив (.json). Сигурен ли си?')) return;
+  data = defaultData();
+  selectedProjectId = null;
+  saveData();
+  hydrateSettingsUI();
+  populateYearPicker();
+  renderAll();
+  showToast('🧹 Всички данни са изчистени.');
+}
+
+function hydrateSettingsUI() {
+  const s = data.settings;
+  document.getElementById('hdr-company-name').textContent = s.companyName;
+  document.getElementById('hdr-company-sub').textContent = `${s.city} • тел. ${s.phone} • Дневник на обектите, Печалба и ЕООД (€)`;
+  document.getElementById('set-name').value = s.companyName;
+  document.getElementById('set-manager').value = s.manager;
+  document.getElementById('set-eik').value = s.eik || '';
+  document.getElementById('set-city').value = s.city;
+  document.getElementById('set-phone').value = s.phone;
+  document.getElementById('set-bill-days').value = s.billableDays;
+  document.getElementById('set-vat-limit').value = s.vatLimit;
+  document.getElementById('set-vat-mode').value = s.vatMode || 'official';
+  document.getElementById('set-tax-pct').value = s.taxPct;
+  document.getElementById('set-show-tax').checked = s.showTax !== false;
+  updateSettingsRateInfo();
+}
+
+function updateSettingsRateInfo() {
+  const el = document.getElementById('set-rate-info');
+  if (!el) return;
+  const tpl = getTemplateMonthlyTotal();
+  const rate = getDailyCompanyRate();
+  el.innerHTML = `💡 Актуалната ти дневна фирмена ставка е <strong>${fmtEur(rate)} / работен ден</strong> (${fmtEur(tpl)} месечни постоянни ÷ ${data.settings.billableDays} раб. дни). Същата цифра (${tpl.toFixed(0)} € / ${data.settings.billableDays} дн.) можеш да залагаш и във FixBuild Таб 4!`;
+}
+
+function saveSettings() {
+  data.settings = {
+    companyName: document.getElementById('set-name').value.trim() || 'ФИКСБИЛД ГРУП ЕООД',
+    manager: document.getElementById('set-manager').value.trim() || 'Ангел Георгиев',
+    eik: document.getElementById('set-eik').value.trim(),
+    city: document.getElementById('set-city').value.trim() || 'гр. Пловдив',
+    phone: document.getElementById('set-phone').value.trim() || '0886 321 665',
+    billableDays: Math.min(30, Math.max(10, Number(document.getElementById('set-bill-days').value) || 20)),
+    vatLimit: Math.max(1000, Number(document.getElementById('set-vat-limit').value) || 51130),
+    vatMode: document.getElementById('set-vat-mode').value || 'official',
+    taxPct: Math.min(30, Math.max(0, Number(document.getElementById('set-tax-pct').value) || 10)),
+    showTax: document.getElementById('set-show-tax').checked
+  };
+  saveData();
+  hydrateSettingsUI();
+  renderAll();
+}
+
+async function refreshAppNow() {
+  saveData();
+  showToast('🔄 Опресняване...');
+  try {
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister().catch(() => {})));
+    }
+  } catch (e) {}
+  window.location.replace(window.location.origin + window.location.pathname + '?r=' + Date.now());
+}
+
+function renderAll() {
+  renderDashboard();
+  renderProjectsTab();
+  renderOverheadTab();
+  updateSettingsRateInfo();
+}
+
+// ================= INIT =================
+window.addEventListener('DOMContentLoaded', () => {
+  const ym = currentMonthISO();
+  document.getElementById('dash-month-pick').value = ym;
+  document.getElementById('ovh-month-filter').value = ym;
+  document.getElementById('ovh-date').value = todayISO();
+  document.getElementById('exp-month').value = ym;
+
+  hydrateSettingsUI();
+  populateYearPicker();
+  renderAll();
+
+  try {
+    if (window.location.search && /[?&]r=\d+/.test(window.location.search)) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.hash);
+    }
+  } catch (e) {}
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(reg => { if (reg) reg.update().catch(() => {}); })
+      .catch(() => {});
+  }
+});
+</script>
+</body>
+</html>
