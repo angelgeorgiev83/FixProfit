@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>FixProfit v1.1.1 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
+  <title>FixProfit v1.2.0 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="icon-192.png" />
   <style>
@@ -315,11 +315,93 @@
       background: #fff7ed; border: 2px solid #fdba74; border-radius: 8px;
       padding: 10px 14px; margin-top: 10px;
     }
+    
+    /* Invoice & CRM Module (v1.2.0) */
+    .subtabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .subtab-btn {
+      background: var(--bg); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px;
+    }
+    .subtab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .inv-items-tbl { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+    .inv-items-tbl th, .inv-items-tbl td { padding: 6px 5px; border-bottom: 1px solid var(--border); }
+    .inv-items-tbl th { color: var(--muted); font-size: 11px; text-transform: uppercase; text-align: left; }
+    .inv-items-tbl input, .inv-items-tbl select { padding: 6px 8px; font-size: 13px; }
+    .inv-words-box {
+      background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.38);
+      border-radius: 9px; padding: 8px 11px; font-size: 12.5px; color: #bae6fd; margin-top: 8px;
+    }
+    .inv-totals-panel {
+      display: flex; flex-direction: column; gap: 4px; margin-top: 10px;
+      background: rgba(15,23,42,0.75); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px;
+    }
+    .inv-tot-line { display: flex; justify-content: space-between; font-size: 13.5px; }
+    .inv-tot-grand {
+      display: flex; justify-content: space-between; font-size: 17px; font-weight: 900;
+      color: #4ade80; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 4px;
+    }
+    .badge-proforma { background: rgba(56,189,248,0.18); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.45); }
+    .badge-credit { background: rgba(245,158,11,0.18); color: #fde68a; border: 1px solid rgba(245,158,11,0.45); }
+
+    /* Bulgarian A4 Invoice Print Styles */
+    .inv-a4 {
+      background: #fff; color: #0f172a; font-family: "Segoe UI", Arial, sans-serif;
+      padding: 12mm 13mm; font-size: 12px; line-height: 1.4;
+    }
+    .inv-a4-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 3px solid #f97316; padding-bottom: 10px; margin-bottom: 12px;
+    }
+    .inv-a4-title { font-size: 22px; font-weight: 900; letter-spacing: 0.6px; color: #0f172a; }
+    .inv-a4-copy {
+      display: inline-block; margin-top: 4px; padding: 2px 10px;
+      border: 2px solid #c2410c; color: #c2410c; font-weight: 900; font-size: 12px;
+      border-radius: 5px; letter-spacing: 1px;
+    }
+    .inv-a4-meta { text-align: right; font-size: 12px; }
+    .inv-a4-meta div { margin-bottom: 2px; }
+    .inv-a4-num { font-size: 16px; font-weight: 900; color: #c2410c; }
+    .inv-a4-parties {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;
+    }
+    .inv-a4-box {
+      border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 11px; background: #f8fafc;
+    }
+    .inv-a4-box h4 {
+      margin: 0 0 5px 0; font-size: 11px; text-transform: uppercase;
+      color: #64748b; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px;
+    }
+    .inv-a4-box div { font-size: 12px; margin-bottom: 2px; }
+    .inv-a4-totals {
+      width: 310px; margin-left: auto; margin-top: 8px;
+      border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 11px; background: #fff7ed;
+    }
+    .inv-a4-trow { display: flex; justify-content: space-between; padding: 2px 0; font-size: 12.5px; }
+    .inv-a4-tgrand {
+      display: flex; justify-content: space-between; padding-top: 6px; margin-top: 5px;
+      border-top: 2px solid #f97316; font-size: 15px; font-weight: 900; color: #c2410c;
+    }
+    .inv-a4-words {
+      margin-top: 10px; padding: 7px 10px; background: #f1f5f9;
+      border-left: 3px solid #0f172a; font-size: 12px;
+    }
+    .inv-a4-pay {
+      margin-top: 10px; padding: 8px 11px; border: 1px solid #cbd5e1;
+      border-radius: 8px; font-size: 12px;
+    }
+    .inv-a4-signs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 28px;
+    }
+    .inv-a4-sline { margin-top: 28px; border-bottom: 1px solid #334155; width: 85%; }
+    .inv-a4-legal { margin-top: 16px; font-size: 10.5px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; }
+    .page-break { page-break-before: always; break-before: page; }
+
     @media print {
       body { background: #fff !important; color: #000 !important; padding: 0 !important; }
       header.topbar, main.container, .bottom-bar, #toast-notify, .modal-backdrop { display: none !important; }
       #print-container { display: block !important; }
-      .paper-tbl th, .paper-summary-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .paper-tbl th, .paper-summary-box, .inv-a4-box, .inv-a4-totals, .inv-a4-words { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
 </head>
@@ -332,15 +414,17 @@
         <img src="icon-192.png" alt="FP" onerror="this.style.display='none'; this.parentNode.textContent='FP';" />
       </div>
       <div>
-        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.1.1</span></div>
+        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.2.0</span></div>
         <div class="brand-sub" id="hdr-company-sub">гр. Пловдив • Дневник на обектите, FixBuild връзка, Бележки и ДДС (€)</div>
       </div>
     </div>
     <div class="nav-tabs">
       <button class="tab-btn active" data-tab="tab-dash" onclick="switchTab('tab-dash')">1. Табло</button>
       <button class="tab-btn" data-tab="tab-projects" onclick="switchTab('tab-projects')">2. Обекти (<span id="cnt-projects">0</span>)</button>
-      <button class="tab-btn" data-tab="tab-overhead" onclick="switchTab('tab-overhead')">3. Фирмени разходи</button>
-      <button class="tab-btn" data-tab="tab-export" onclick="switchTab('tab-export')">4. Счетоводител и Настройки</button>
+      <button class="tab-btn" data-tab="tab-invoices" onclick="switchTab('tab-invoices')">3. Фактури и Клиенти (<span id="cnt-invoices">0</span>)</button>
+      <button class="tab-btn" data-tab="tab-overhead" onclick="switchTab('tab-overhead')">4. Фирмени разходи</button>
+      <button class="tab-btn" data-tab="tab-export" onclick="switchTab('tab-export')">5. Счетоводител и Настройки</button>
+      <button class="btn btn-sm btn-green" onclick="openNewInvoiceForm()" title="Издай нова фактура или проформа">🧾 Фактура</button>
       <button class="btn btn-sm btn-amber" onclick="openQuickExpenseModal()" title="Бърз запис на разход със снимка на бележка">⚡ Разход</button>
       <button class="btn btn-sm btn-purple" onclick="openFixBuildImportModal()" title="Зареди оферти директно от FixBuild на това устройство">🔗 От FixBuild</button>
       <button class="btn btn-sm btn-primary" onclick="openNewProjectForm()">+ Нов обект</button>
@@ -472,6 +556,55 @@
     <div id="projects-list"></div>
   </section>
 
+
+  <!-- ===================== TAB 3: ФАКТУРИ И КЛИЕНТИ (CRM) ===================== -->
+  <section id="tab-invoices" class="tab-panel">
+    <div class="card">
+      <h2>
+        <span>🧾 Фактуриране и Клиенти (CRM)</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-sm btn-green" onclick="openNewInvoiceForm('Фактура')">+ Нова Фактура</button>
+          <button class="btn btn-sm btn-blue" onclick="openNewInvoiceForm('Проформа')">+ Нова Проформа</button>
+          <button class="btn btn-sm btn-purple" onclick="openNewClientForm()">+ Нов Клиент</button>
+        </div>
+      </h2>
+      <div class="subtabs">
+        <button class="subtab-btn active" id="subtab-btn-inv" onclick="setInvoicesSubtab('invoices')">🧾 Фактури и Проформи (<span id="cnt-inv-sub">0</span>)</button>
+        <button class="subtab-btn" id="subtab-btn-crm" onclick="setInvoicesSubtab('clients')">👥 Клиенти / Фирми CRM (<span id="cnt-crm-sub">0</span>)</button>
+      </div>
+
+      <!-- SUBTAB A: INVOICES -->
+      <div id="inv-subtab-invoices">
+        <div class="grid-4" id="inv-kpi-strip" style="margin-bottom:12px;"></div>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <input type="text" id="inv-search" placeholder="Търси по № фактура, клиент, ЕИК или описание..." oninput="renderInvoicesList()" />
+          <div class="chips" id="inv-filter-chips">
+            <button class="chip active" onclick="setInvFilter('all', this)">Всички</button>
+            <button class="chip" onclick="setInvFilter('invoice', this)">📄 Фактури</button>
+            <button class="chip" onclick="setInvFilter('proforma', this)">📝 Проформи</button>
+            <button class="chip" onclick="setInvFilter('unpaid', this)">⏳ Неплатени</button>
+            <button class="chip" onclick="setInvFilter('paid', this)">✅ Платени</button>
+          </div>
+        </div>
+        <div id="invoice-editor-wrap" style="display:none;"></div>
+        <div id="invoices-list"></div>
+      </div>
+
+      <!-- SUBTAB B: CRM CLIENTS -->
+      <div id="inv-subtab-clients" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <input type="text" id="crm-search" placeholder="Търси клиент по име, фирма, ЕИК, телефон или град..." style="max-width:380px;" oninput="renderClientsList()" />
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-blue" onclick="importClientsFromProjects()">🔄 Вземи клиенти от обектите</button>
+            <button class="btn btn-sm btn-primary" onclick="openNewClientForm()">+ Добави клиент</button>
+          </div>
+        </div>
+        <div id="client-editor-wrap" style="display:none;"></div>
+        <div id="clients-list"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== TAB 3: ФИРМЕНИ РАЗХОДИ (ЕООД) ===================== -->
   <section id="tab-overhead" class="tab-panel">
     <div class="card">
@@ -600,6 +733,7 @@
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <button class="btn btn-green" onclick="exportAccountantMonthCsv()">📊 Свали месечен CSV отчет за счетоводител</button>
+          <button class="btn btn-purple" onclick="exportInvoicesCsv()">🧾 Свали CSV регистър на издадените фактури</button>
           <button class="btn btn-blue" onclick="exportAllProjectsCsv()">🏗️ Свали CSV справка за всички обекти (печалба и надници)</button>
           <button class="btn" onclick="exportAllTransactionsCsv()">📋 Свали CSV пълен дневник (всички приходи и разходи)</button>
           <button class="btn btn-primary" onclick="printMonthlyReport()">🖨️ Печат / PDF Месечен финансов отчет</button>
@@ -657,8 +791,29 @@
         <label class="field">IBAN (фирмена сметка ЕООД)
           <input type="text" id="set-iban" placeholder="BG00 XXXX 0000 0000 0000 00" oninput="saveSettings()" />
         </label>
-        <label class="field">Банка (по желание)
-          <input type="text" id="set-bank" placeholder="напр. ДСК / ОББ / Revolut Pro" oninput="saveSettings()" />
+        <label class="field">Банка / BIC (по желание)
+          <div style="display:flex;gap:6px;">
+            <input type="text" id="set-bank" placeholder="ДСК / ОББ" oninput="saveSettings()" />
+            <input type="text" id="set-bic" placeholder="BIC" style="width:105px;" oninput="saveSettings()" />
+          </div>
+        </label>
+        <label class="field">Адрес по регистрация (за фактури)
+          <input type="text" id="set-address" placeholder="гр. Пловдив, ул. ..." oninput="saveSettings()" />
+        </label>
+        <label class="field">ЗДДС статут и ДДС № (за фактури)
+          <div style="display:flex;gap:6px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text);white-space:nowrap;cursor:pointer;">
+              <input type="checkbox" id="set-vat-reg" style="width:15px;height:15px;accent-color:var(--accent);" onchange="saveSettings()" />
+              По ДДС
+            </label>
+            <input type="text" id="set-vat-no" placeholder="BG..." oninput="saveSettings()" />
+          </div>
+        </label>
+        <label class="field">Следващ № Фактура / Проформа
+          <div style="display:flex;gap:6px;">
+            <input type="number" id="set-next-inv" min="1" step="1" title="Следващ № на фактура" oninput="saveSettings()" />
+            <input type="number" id="set-next-prof" min="1" step="1" title="Следващ № на проформа" oninput="saveSettings()" />
+          </div>
         </label>
         <label class="field">Ефективни раб. дни / месец
           <input type="number" id="set-bill-days" min="10" max="30" step="1" oninput="saveSettings()" />
@@ -683,6 +838,9 @@
           </div>
         </label>
       </div>
+      <label class="field" style="margin-top:8px;">Основание за неначисляване на ДДС (когато фирмата НЕ е по ЗДДС)
+        <input type="text" id="set-vat-exempt" placeholder="Неначисляване на ДДС на основание чл. 113, ал. 9 от ЗДДС" oninput="saveSettings()" />
+      </label>
       <div id="set-rate-info" class="alert-box alert-amber" style="margin-top:10px;"></div>
     </div>
   </section>
@@ -796,7 +954,7 @@
 
 <script>
 const LS_KEY = 'fixprofit_data_v1';
-const APP_VERSION = '1.1.1';
+const APP_VERSION = '1.2.0';
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 function currentMonthISO() { return new Date().toISOString().slice(0, 7); }
@@ -818,8 +976,15 @@ function defaultData() {
       eik: '',
       city: 'гр. Пловдив',
       phone: '0886 321 665',
+      companyAddress: 'гр. Пловдив',
       iban: '',
       bankName: '',
+      bic: '',
+      vatRegistered: false,
+      vatNo: '',
+      vatExemptReason: 'Неначисляване на ДДС на основание чл. 113, ал. 9 от ЗДДС',
+      nextInvoiceNo: 1,
+      nextProformaNo: 1,
       monthlyGoal: 2500,
       billableDays: 20,
       vatLimit: 51130,
@@ -836,7 +1001,9 @@ function defaultData() {
       { id: 'rec_tel', name: 'Служебен телефон и интернет', cat: 'Телефон / Интернет / Реклама', amount: 15, active: true }
     ],
     projects: [],
-    companyExpenses: []
+    companyExpenses: [],
+    clients: [],
+    invoices: []
   };
 }
 
@@ -861,6 +1028,8 @@ function loadData() {
         }
         if (!Array.isArray(p.projects)) p.projects = [];
         if (!Array.isArray(p.companyExpenses)) p.companyExpenses = [];
+        if (!Array.isArray(p.clients)) p.clients = [];
+        if (!Array.isArray(p.invoices)) p.invoices = [];
         p.version = APP_VERSION;
         return p;
       }
@@ -1916,6 +2085,7 @@ function renderProjectEditor() {
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
         <div style="font-size:16px;font-weight:900;color:#fff;">✏️ Обект: ${escHtml(p.clientName || 'Нов обект')} ${statusBadgeHtml(p.status)}</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-sm btn-green" onclick="createInvoiceFromProject('${p.id}')">🧾 Издай фактура</button>
           ${st.remaining > 0 ? `<button class="btn btn-sm btn-purple" onclick="copyViberReminder('${p.id}')">💬 Viber напомняне</button>` : ''}
           <button class="btn btn-sm btn-primary" onclick="printProjectReport('${p.id}')">🖨️ PDF отчет</button>
           <button class="btn btn-sm" onclick="copyProjectSummary('${p.id}')">📋 Резюме</button>
@@ -2005,6 +2175,11 @@ function renderProjectEditor() {
         <span>${pvaDaysHtml}</span>
         <span>|</span>
         <span>${pvaMatHtml}</span>
+        ${(() => {
+          const pInvs = (data.invoices || []).filter(iv => iv.projectId === p.id && iv.status !== 'cancelled');
+          if (!pInvs.length) return '';
+          return `<span>|</span><span>🧾 Издадени документи: <strong>${pInvs.map(iv => escHtml(iv.docType + ' №' + iv.number)).join(', ')}</strong></span>`;
+        })()}
       </div>
       ${recentWorkLog}
 
@@ -2866,6 +3041,8 @@ function restoreFullBackup(evt) {
       parsed.settings = Object.assign(def.settings, parsed.settings || {});
       if (!Array.isArray(parsed.recurringTemplates)) parsed.recurringTemplates = def.recurringTemplates;
       if (!Array.isArray(parsed.companyExpenses)) parsed.companyExpenses = [];
+      if (!Array.isArray(parsed.clients)) parsed.clients = [];
+      if (!Array.isArray(parsed.invoices)) parsed.invoices = [];
       data = parsed;
       selectedProjectId = null;
       saveData();
@@ -2940,6 +3117,13 @@ function hydrateSettingsUI() {
   document.getElementById('set-phone').value = s.phone;
   document.getElementById('set-iban').value = s.iban || '';
   document.getElementById('set-bank').value = s.bankName || '';
+  document.getElementById('set-bic').value = s.bic || '';
+  document.getElementById('set-address').value = s.companyAddress || s.city || 'гр. Пловдив';
+  document.getElementById('set-vat-reg').checked = !!s.vatRegistered;
+  document.getElementById('set-vat-no').value = s.vatNo || '';
+  document.getElementById('set-vat-exempt').value = s.vatExemptReason || 'Неначисляване на ДДС на основание чл. 113, ал. 9 от ЗДДС';
+  document.getElementById('set-next-inv').value = s.nextInvoiceNo || 1;
+  document.getElementById('set-next-prof').value = s.nextProformaNo || 1;
   document.getElementById('set-monthly-goal').value = s.monthlyGoal || 2500;
   document.getElementById('set-bill-days').value = s.billableDays;
   document.getElementById('set-vat-limit').value = s.vatLimit;
@@ -2965,8 +3149,15 @@ function saveSettings() {
     eik: document.getElementById('set-eik').value.trim(),
     city: document.getElementById('set-city').value.trim() || 'гр. Пловдив',
     phone: document.getElementById('set-phone').value.trim() || '0886 321 665',
+    companyAddress: document.getElementById('set-address').value.trim() || 'гр. Пловдив',
     iban: document.getElementById('set-iban').value.trim(),
     bankName: document.getElementById('set-bank').value.trim(),
+    bic: document.getElementById('set-bic').value.trim(),
+    vatRegistered: document.getElementById('set-vat-reg').checked,
+    vatNo: document.getElementById('set-vat-no').value.trim(),
+    vatExemptReason: document.getElementById('set-vat-exempt').value.trim() || 'Неначисляване на ДДС на основание чл. 113, ал. 9 от ЗДДС',
+    nextInvoiceNo: Math.max(1, Math.round(Number(document.getElementById('set-next-inv').value) || 1)),
+    nextProformaNo: Math.max(1, Math.round(Number(document.getElementById('set-next-prof').value) || 1)),
     monthlyGoal: Math.max(100, Number(document.getElementById('set-monthly-goal').value) || 2500),
     billableDays: Math.min(30, Math.max(10, Number(document.getElementById('set-bill-days').value) || 20)),
     vatLimit: Math.max(1000, Number(document.getElementById('set-vat-limit').value) || 51130),
@@ -2999,9 +3190,1199 @@ async function refreshAppNow() {
 function renderAll() {
   renderDashboard();
   renderProjectsTab();
+  renderInvoicesTab();
   renderOverheadTab();
   updateSettingsRateInfo();
   updateStorageMeter();
+}
+
+
+// ================= INVOICES & CLIENTS (CRM) MODULE (v1.2.0) =================
+let invSubtab = 'invoices';
+let invFilter = 'all';
+let editingInvoice = null; // working draft object for invoice editor
+let editingClientId = null; // null = closed, '__NEW__' = new, or client.id
+
+function padInvoiceNo(n) {
+  const num = Math.max(1, Math.floor(Number(n) || 1));
+  return String(num).padStart(10, '0');
+}
+
+function addDaysISO(dateStr, days) {
+  const d = new Date((dateStr || todayISO()) + 'T00:00:00');
+  if (isNaN(d.getTime())) return todayISO();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function fmtDateBg(iso) {
+  if (!iso) return '—';
+  const parts = String(iso).slice(0, 10).split('-');
+  if (parts.length !== 3) return iso;
+  return `${parts[2]}.${parts[1]}.${parts[0]} г.`;
+}
+
+// Accurate Bulgarian number-to-words converter for EUR & cents ("Словом")
+function bgIntToWords(n, feminine = false) {
+  n = Math.floor(Math.abs(Number(n) || 0));
+  if (n === 0) return 'нула';
+
+  const unitsM = ['', 'един', 'два', 'три', 'четири', 'пет', 'шест', 'седем', 'осем', 'девет'];
+  const unitsF = ['', 'една', 'две', 'три', 'четири', 'пет', 'шест', 'седем', 'осем', 'девет'];
+  const unitsN = ['', 'едно', 'две', 'три', 'четири', 'пет', 'шест', 'седем', 'осем', 'девет'];
+  const teens = ['десет', 'единадесет', 'дванадесет', 'тринадесет', 'четиринадесет', 'петнадесет', 'шестнадесет', 'седемнадесет', 'осемнадесет', 'деветнадесет'];
+  const tens = ['', '', 'двадесет', 'тридесет', 'четиридесет', 'петдесет', 'шестдесет', 'седемдесет', 'осемдесет', 'деветдесет'];
+  const hundreds = ['', 'сто', 'двеста', 'триста', 'четиристотин', 'петстотин', 'шестстотин', 'седемстотин', 'осемстотин', 'деветстотин'];
+
+  function under1000(num, gender) {
+    const h = Math.floor(num / 100);
+    const rem = num % 100;
+    const t = Math.floor(rem / 10);
+    const u = rem % 10;
+    const uArr = gender === 'f' ? unitsF : (gender === 'n' ? unitsN : unitsM);
+    const parts = [];
+    if (h > 0) parts.push(hundreds[h]);
+    if (rem > 0) {
+      if (rem < 10) {
+        if (h > 0) parts.push('и');
+        parts.push(uArr[rem]);
+      } else if (rem < 20) {
+        if (h > 0) parts.push('и');
+        parts.push(teens[rem - 10]);
+      } else {
+        if (h > 0 && u === 0) parts.push('и');
+        parts.push(tens[t]);
+        if (u > 0) {
+          parts.push('и');
+          parts.push(uArr[u]);
+        }
+      }
+    }
+    return parts.join(' ');
+  }
+
+  const millions = Math.floor(n / 1000000);
+  const thousands = Math.floor((n % 1000000) / 1000);
+  const rest = n % 1000;
+  const groups = [];
+
+  if (millions > 0) {
+    if (millions === 1) groups.push('един милион');
+    else groups.push(under1000(millions, 'm') + ' милиона');
+  }
+  if (thousands > 0) {
+    if (thousands === 1) groups.push('хиляда');
+    else groups.push(under1000(thousands, 'f') + ' хиляди');
+  }
+  if (rest > 0) {
+    const restText = under1000(rest, feminine ? 'f' : 'n');
+    const needsI = groups.length > 0 && (rest < 20 || rest % 100 === 0 || (rest < 100 && rest % 10 === 0));
+    if (needsI) groups.push('и ' + restText);
+    else groups.push(restText);
+  }
+  return groups.join(' ').replace(/\s+/g, ' ').trim();
+}
+
+function numberToBgWordsEur(amount) {
+  const val = round2(Math.max(0, Number(amount) || 0));
+  const euros = Math.floor(val);
+  const cents = Math.round((val - euros) * 100);
+  const euroWords = bgIntToWords(euros, false);
+  const centsStr = String(cents).padStart(2, '0');
+  const centWord = cents === 1 ? 'цент' : 'цента';
+  const full = `${euroWords} евро и ${centsStr} ${centWord}`;
+  return full.charAt(0).toUpperCase() + full.slice(1);
+}
+
+function calcInvoiceTotals(inv) {
+  const items = Array.isArray(inv?.items) ? inv.items : [];
+  const subTotal = round2(items.reduce((acc, it) => acc + round2((Number(it.qty) || 0) * (Number(it.price) || 0)), 0));
+  const vatRate = inv?.vatRegistered ? (Number(inv.vatRate) || 20) : 0;
+  const vatAmount = vatRate > 0 ? round2(subTotal * (vatRate / 100)) : 0;
+  const grandTotal = round2(subTotal + vatAmount);
+  return { subTotal, vatRate, vatAmount, grandTotal };
+}
+
+function setInvoicesSubtab(which) {
+  invSubtab = which;
+  document.getElementById('subtab-btn-inv')?.classList.toggle('active', which === 'invoices');
+  document.getElementById('subtab-btn-crm')?.classList.toggle('active', which === 'clients');
+  document.getElementById('inv-subtab-invoices').style.display = which === 'invoices' ? 'block' : 'none';
+  document.getElementById('inv-subtab-clients').style.display = which === 'clients' ? 'block' : 'none';
+  renderInvoicesTab();
+}
+
+function setInvFilter(f, btn) {
+  invFilter = f;
+  document.querySelectorAll('#inv-filter-chips .chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderInvoicesList();
+}
+
+function renderInvoicesTab() {
+  const invs = data.invoices || [];
+  const clis = data.clients || [];
+  const activeInvs = invs.filter(x => x.status !== 'cancelled');
+  const elCnt = document.getElementById('cnt-invoices');
+  if (elCnt) elCnt.textContent = activeInvs.length;
+  const elSubI = document.getElementById('cnt-inv-sub');
+  if (elSubI) elSubI.textContent = invs.length;
+  const elSubC = document.getElementById('cnt-crm-sub');
+  if (elSubC) elSubC.textContent = clis.length;
+
+  renderInvoiceKpis();
+  renderInvoiceEditor();
+  renderInvoicesList();
+  renderClientEditor();
+  renderClientsList();
+}
+
+function renderInvoiceKpis() {
+  const el = document.getElementById('inv-kpi-strip');
+  if (!el) return;
+  const invs = (data.invoices || []).filter(x => x.status !== 'cancelled');
+  const realInvs = invs.filter(x => x.docType !== 'Проформа');
+  const proformas = invs.filter(x => x.docType === 'Проформа');
+  let sumAll = 0, sumPaid = 0, sumUnpaid = 0, sumProf = 0;
+  realInvs.forEach(iv => {
+    const t = calcInvoiceTotals(iv).grandTotal;
+    const sign = iv.docType === 'Кредитно известие' ? -1 : 1;
+    sumAll = round2(sumAll + sign * t);
+    if (iv.status === 'paid') sumPaid = round2(sumPaid + sign * t);
+    else sumUnpaid = round2(sumUnpaid + sign * t);
+  });
+  proformas.forEach(iv => { sumProf = round2(sumProf + calcInvoiceTotals(iv).grandTotal); });
+
+  el.innerHTML = `
+    <div class="kpi-card" style="--kpi-accent:#38bdf8;">
+      <div class="kpi-label">Издадени фактури</div>
+      <div class="kpi-value val-blue" style="font-size:18px;">${fmtEur(sumAll)}</div>
+      <div class="kpi-sub">${realInvs.length} документа</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#22c55e;">
+      <div class="kpi-label">Платени фактури</div>
+      <div class="kpi-value val-green" style="font-size:18px;">${fmtEur(sumPaid)}</div>
+      <div class="kpi-sub">${realInvs.filter(x => x.status === 'paid').length} платени</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#f59e0b;">
+      <div class="kpi-label">Чакащи плащане</div>
+      <div class="kpi-value val-amber" style="font-size:18px;">${fmtEur(sumUnpaid)}</div>
+      <div class="kpi-sub">${realInvs.filter(x => x.status !== 'paid').length} неплатени</div>
+    </div>
+    <div class="kpi-card" style="--kpi-accent:#a855f7;">
+      <div class="kpi-label">Проформи</div>
+      <div class="kpi-value" style="font-size:18px;color:#d8b4fe;">${fmtEur(sumProf)}</div>
+      <div class="kpi-sub">${proformas.length} проформи</div>
+    </div>
+  `;
+}
+
+function openNewInvoiceForm(docType = 'Фактура', prefill = null) {
+  const s = data.settings;
+  const isProf = docType === 'Проформа';
+  const nextNum = isProf ? (s.nextProformaNo || 1) : (s.nextInvoiceNo || 1);
+  const dt = todayISO();
+
+  editingInvoice = {
+    id: null, // null = brand new
+    docType,
+    number: padInvoiceNo(nextNum),
+    date: dt,
+    taxEventDate: dt,
+    dueDate: addDaysISO(dt, 7),
+    place: s.city || 'гр. Пловдив',
+    paymentMethod: 'По банков път',
+    projectId: prefill?.projectId || '',
+    clientId: prefill?.clientId || '',
+    recipient: Object.assign({
+      name: '', isCompany: false, eik: '', vatNo: '', mol: '', city: 'гр. Пловдив', address: '', phone: ''
+    }, prefill?.recipient || {}),
+    items: (prefill?.items && prefill.items.length)
+      ? prefill.items
+      : [{ desc: 'Строително-монтажни и довършителни ремонтни дейности', unit: 'услуга', qty: 1, price: 0 }],
+    vatRegistered: !!s.vatRegistered,
+    vatRate: s.vatRegistered ? 20 : 0,
+    vatExemptReason: s.vatExemptReason || 'Неначисляване на ДДС на основание чл. 113, ал. 9 от ЗДДС',
+    status: 'issued',
+    linkedPaymentId: '',
+    autoLogPayment: false,
+    notes: prefill?.notes || ''
+  };
+
+  invSubtab = 'invoices';
+  switchTab('tab-invoices');
+  setInvoicesSubtab('invoices');
+  setTimeout(() => {
+    document.getElementById('invoice-editor-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+function createInvoiceFromProject(projId) {
+  const p = data.projects.find(x => x.id === projId);
+  if (!p) return;
+  const st = calcProjectStats(p);
+  const matchedClient = (data.clients || []).find(c =>
+    (c.name && p.clientName && c.name.trim().toLowerCase() === p.clientName.trim().toLowerCase()) ||
+    (c.phone && p.clientPhone && c.phone.replace(/\s+/g, '') === p.clientPhone.replace(/\s+/g, ''))
+  );
+  const recipient = matchedClient ? {
+    name: matchedClient.name,
+    isCompany: !!matchedClient.isCompany,
+    eik: matchedClient.eik || '',
+    vatNo: matchedClient.vatNo || '',
+    mol: matchedClient.mol || '',
+    city: matchedClient.city || 'гр. Пловдив',
+    address: matchedClient.address || p.address || '',
+    phone: matchedClient.phone || p.clientPhone || ''
+  } : {
+    name: p.clientName || '',
+    isCompany: /еоод|оод|ад|ет/i.test(p.clientName || ''),
+    eik: '',
+    vatNo: '',
+    mol: '',
+    city: 'гр. Пловдив',
+    address: p.address || '',
+    phone: p.clientPhone || ''
+  };
+
+  const offerTag = p.offerNumber ? ` по Оферта № ${p.offerNumber}` : '';
+  const items = [];
+  if (st.remaining > 0 && st.received > 0) {
+    items.push({
+      desc: `Довършителни СМР${offerTag} — плащане по етап / остатък`,
+      unit: 'услуга',
+      qty: 1,
+      price: st.remaining
+    });
+  } else {
+    if (st.agreedLabor > 0) {
+      items.push({
+        desc: `Извършени строително-монтажни и довършителни дейности (Труд)${offerTag}`,
+        unit: 'услуга',
+        qty: 1,
+        price: st.agreedLabor
+      });
+    }
+    if (st.agreedMat > 0) {
+      items.push({
+        desc: `Доставка на строителни материали и консумативи${offerTag}`,
+        unit: 'к-т',
+        qty: 1,
+        price: st.agreedMat
+      });
+    }
+    if (!items.length) {
+      items.push({ desc: `Довършителни СМР${offerTag}`, unit: 'услуга', qty: 1, price: 0 });
+    }
+  }
+
+  openNewInvoiceForm('Фактура', {
+    projectId: p.id,
+    clientId: matchedClient?.id || '',
+    recipient,
+    items,
+    notes: p.address ? `Обект: ${p.address}` : ''
+  });
+  showToast(`🧾 Подготвена фактура за ${p.clientName || 'обекта'}`);
+}
+
+function editInvoiceById(id) {
+  const iv = (data.invoices || []).find(x => x.id === id);
+  if (!iv) return;
+  editingInvoice = JSON.parse(JSON.stringify(iv));
+  editingInvoice.autoLogPayment = false;
+  invSubtab = 'invoices';
+  renderInvoicesTab();
+  setTimeout(() => {
+    document.getElementById('invoice-editor-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function closeInvoiceEditor() {
+  editingInvoice = null;
+  renderInvoiceEditor();
+}
+
+function onInvoiceDocTypeChange(newType) {
+  if (!editingInvoice) return;
+  const oldIsProf = editingInvoice.docType === 'Проформа';
+  const newIsProf = newType === 'Проформа';
+  editingInvoice.docType = newType;
+  if (!editingInvoice.id && oldIsProf !== newIsProf) {
+    const s = data.settings;
+    editingInvoice.number = padInvoiceNo(newIsProf ? (s.nextProformaNo || 1) : (s.nextInvoiceNo || 1));
+  }
+  renderInvoiceEditor();
+}
+
+function onInvoiceClientSelect(cid) {
+  if (!editingInvoice) return;
+  editingInvoice.clientId = cid;
+  const c = (data.clients || []).find(x => x.id === cid);
+  if (c) {
+    editingInvoice.recipient = {
+      name: c.name || '',
+      isCompany: !!c.isCompany,
+      eik: c.eik || '',
+      vatNo: c.vatNo || '',
+      mol: c.mol || '',
+      city: c.city || 'гр. Пловдив',
+      address: c.address || '',
+      phone: c.phone || ''
+    };
+  }
+  renderInvoiceEditor();
+}
+
+function onInvoiceProjectSelect(pid) {
+  if (!editingInvoice) return;
+  editingInvoice.projectId = pid;
+  const p = data.projects.find(x => x.id === pid);
+  if (p && !editingInvoice.recipient.name) {
+    editingInvoice.recipient.name = p.clientName || '';
+    editingInvoice.recipient.address = p.address || '';
+    editingInvoice.recipient.phone = p.clientPhone || '';
+  }
+  renderInvoiceEditor();
+}
+
+function quickFillInvoiceFromLinkedProject(mode) {
+  if (!editingInvoice || !editingInvoice.projectId) return;
+  const p = data.projects.find(x => x.id === editingInvoice.projectId);
+  if (!p) return;
+  const st = calcProjectStats(p);
+  const tag = p.offerNumber ? ` по Оферта № ${p.offerNumber}` : '';
+  if (mode === 'full') {
+    const arr = [];
+    if (st.agreedLabor > 0) arr.push({ desc: `Строително-монтажни и довършителни дейности (Труд)${tag}`, unit: 'услуга', qty: 1, price: st.agreedLabor });
+    if (st.agreedMat > 0) arr.push({ desc: `Строителни материали и консумативи${tag}`, unit: 'к-т', qty: 1, price: st.agreedMat });
+    if (arr.length) editingInvoice.items = arr;
+  } else if (mode === 'remaining' && st.remaining > 0) {
+    editingInvoice.items = [{ desc: `Довършителни СМР${tag} — остатък за доплащане`, unit: 'услуга', qty: 1, price: st.remaining }];
+  } else if (mode === 'adv30' && st.agreedTotal > 0) {
+    editingInvoice.items = [{ desc: `Авансово плащане (30%) за СМР${tag}`, unit: 'услуга', qty: 1, price: round2(st.agreedTotal * 0.30) }];
+  }
+  renderInvoiceEditor();
+}
+
+function updateInvField(field, val) {
+  if (!editingInvoice) return;
+  if (field.startsWith('recipient.')) {
+    const k = field.slice(10);
+    editingInvoice.recipient[k] = val;
+  } else if (field === 'vatRegistered') {
+    editingInvoice.vatRegistered = !!val;
+    editingInvoice.vatRate = val ? 20 : 0;
+    renderInvoiceEditor();
+    return;
+  } else if (field === 'autoLogPayment') {
+    editingInvoice.autoLogPayment = !!val;
+  } else {
+    editingInvoice[field] = val;
+  }
+  updateInvoiceLiveTotalsDom();
+}
+
+function updateInvItem(idx, field, val) {
+  if (!editingInvoice || !editingInvoice.items[idx]) return;
+  if (field === 'qty' || field === 'price') {
+    editingInvoice.items[idx][field] = Math.max(0, Number(val) || 0);
+  } else {
+    editingInvoice.items[idx][field] = val;
+  }
+  updateInvoiceLiveTotalsDom();
+}
+
+function addInvItemRow() {
+  if (!editingInvoice) return;
+  editingInvoice.items.push({ desc: '', unit: 'бр.', qty: 1, price: 0 });
+  renderInvoiceEditor();
+}
+
+function removeInvItemRow(idx) {
+  if (!editingInvoice || editingInvoice.items.length <= 1) return;
+  editingInvoice.items.splice(idx, 1);
+  renderInvoiceEditor();
+}
+
+function saveRecipientToCrm() {
+  if (!editingInvoice) return;
+  const r = editingInvoice.recipient;
+  if (!r.name || !r.name.trim()) return alert('Въведи име на клиент или фирма.');
+  if (!Array.isArray(data.clients)) data.clients = [];
+  const existing = data.clients.find(c =>
+    (r.eik && c.eik && c.eik.trim() === r.eik.trim()) ||
+    c.name.trim().toLowerCase() === r.name.trim().toLowerCase()
+  );
+  if (existing) {
+    Object.assign(existing, {
+      name: r.name.trim(), isCompany: !!r.isCompany, eik: r.eik.trim(),
+      vatNo: r.vatNo.trim(), mol: r.mol.trim(), city: r.city.trim(),
+      address: r.address.trim(), phone: r.phone.trim()
+    });
+    editingInvoice.clientId = existing.id;
+    showToast(`💾 Обновен клиент в CRM: ${existing.name}`);
+  } else {
+    const nc = {
+      id: 'cli_' + Date.now(),
+      name: r.name.trim(), isCompany: !!r.isCompany, eik: r.eik.trim(),
+      vatNo: r.vatNo.trim(), mol: r.mol.trim(), city: r.city.trim(),
+      address: r.address.trim(), phone: r.phone.trim(), email: '', notes: ''
+    };
+    data.clients.unshift(nc);
+    editingInvoice.clientId = nc.id;
+    showToast(`👥 Запазен нов клиент в CRM: ${nc.name}`);
+  }
+  saveData();
+  renderInvoicesTab();
+}
+
+function updateInvoiceLiveTotalsDom() {
+  if (!editingInvoice) return;
+  const t = calcInvoiceTotals(editingInvoice);
+  editingInvoice.items.forEach((it, idx) => {
+    const el = document.getElementById(`inv-line-tot-${idx}`);
+    if (el) el.textContent = fmtEur(round2((Number(it.qty) || 0) * (Number(it.price) || 0)));
+  });
+  const subEl = document.getElementById('inv-live-sub');
+  const vatEl = document.getElementById('inv-live-vat');
+  const grEl = document.getElementById('inv-live-grand');
+  const wEl = document.getElementById('inv-live-words');
+  if (subEl) subEl.textContent = fmtEur(t.subTotal);
+  if (vatEl) vatEl.textContent = `${fmtEur(t.vatAmount)} (${t.vatRate}%)`;
+  if (grEl) grEl.textContent = fmtEur(t.grandTotal);
+  if (wEl) wEl.textContent = `Словом: ${numberToBgWordsEur(t.grandTotal)}`;
+}
+
+function renderInvoiceEditor() {
+  const wrap = document.getElementById('invoice-editor-wrap');
+  if (!wrap) return;
+  if (!editingInvoice) {
+    wrap.style.display = 'none';
+    wrap.innerHTML = '';
+    return;
+  }
+  const iv = editingInvoice;
+  const t = calcInvoiceTotals(iv);
+  const linkedProj = iv.projectId ? data.projects.find(x => x.id === iv.projectId) : null;
+
+  wrap.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="detail-box" style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div style="font-size:15.5px;font-weight:900;color:#fff;">
+          ${iv.id ? '✏️ Редакция на' : '➕ Нова'} ${escHtml(iv.docType)} № ${escHtml(iv.number)}
+        </div>
+        <button class="btn btn-sm" onclick="closeInvoiceEditor()">✕ Затвори</button>
+      </div>
+
+      <div class="grid-4">
+        <label class="field">Вид документ
+          <select onchange="onInvoiceDocTypeChange(this.value)">
+            ${['Фактура','Проформа','Кредитно известие','Дебитно известие'].map(tp =>
+              `<option value="${tp}" ${iv.docType===tp?'selected':''}>${tp}</option>`
+            ).join('')}
+          </select>
+        </label>
+        <label class="field">№ Документ (10 цифри)
+          <input type="text" value="${escHtml(iv.number)}" oninput="updateInvField('number', this.value)" />
+        </label>
+        <label class="field">Дата на издаване
+          <input type="date" value="${escHtml(iv.date)}" onchange="updateInvField('date', this.value)" />
+        </label>
+        <label class="field">Данъчно събитие / Падеж
+          <div style="display:flex;gap:5px;">
+            <input type="date" value="${escHtml(iv.taxEventDate)}" title="Дата на данъчно събитие" onchange="updateInvField('taxEventDate', this.value)" />
+            <input type="date" value="${escHtml(iv.dueDate)}" title="Краен срок (падеж)" onchange="updateInvField('dueDate', this.value)" />
+          </div>
+        </label>
+      </div>
+
+      <div class="grid-4" style="margin-top:8px;">
+        <label class="field">Начин на плащане
+          <select onchange="updateInvField('paymentMethod', this.value)">
+            ${['По банков път','В брой','Карта / Revolut'].map(m =>
+              `<option value="${m}" ${iv.paymentMethod===m?'selected':''}>${m}</option>`
+            ).join('')}
+          </select>
+        </label>
+        <label class="field">Място на сделката
+          <input type="text" value="${escHtml(iv.place)}" oninput="updateInvField('place', this.value)" />
+        </label>
+        <label class="field">Свързан обект (по желание)
+          <select onchange="onInvoiceProjectSelect(this.value)">
+            <option value="">— Без връзка с обект —</option>
+            ${data.projects.map(p => `<option value="${p.id}" ${iv.projectId===p.id?'selected':''}>${escHtml(p.clientName || 'Без име')} (${escHtml(p.offerNumber || p.address || '')})</option>`).join('')}
+          </select>
+        </label>
+        <label class="field">Избери получател от CRM
+          <select onchange="onInvoiceClientSelect(this.value)">
+            <option value="">— Избери запазен клиент —</option>
+            ${(data.clients || []).map(c => `<option value="${c.id}" ${iv.clientId===c.id?'selected':''}>${escHtml(c.name)}${c.eik ? ' (ЕИК ' + escHtml(c.eik) + ')' : ''}</option>`).join('')}
+          </select>
+        </label>
+      </div>
+
+      ${linkedProj ? `
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <span style="font-size:12px;color:var(--muted);">Бързо попълване от обекта:</span>
+          <button type="button" class="btn btn-xs" onclick="quickFillInvoiceFromLinkedProject('full')">Пълна сума (Труд + Мат.)</button>
+          <button type="button" class="btn btn-xs btn-green" onclick="quickFillInvoiceFromLinkedProject('remaining')">Само остатък</button>
+          <button type="button" class="btn btn-xs" onclick="quickFillInvoiceFromLinkedProject('adv30')">30% Аванс</button>
+        </div>
+      ` : ''}
+
+      <!-- ПОЛУЧАТЕЛ -->
+      <div class="sub-card">
+        <h3>
+          <span>👤 Данни за Получателя</span>
+          <button type="button" class="btn btn-xs btn-purple" onclick="saveRecipientToCrm()">💾 Запази в Клиенти (CRM)</button>
+        </h3>
+        <div class="grid-4">
+          <label class="field">Име / Фирма *
+            <input type="text" value="${escHtml(iv.recipient.name)}" placeholder="Иван Петров / Фирма ЕООД" oninput="updateInvField('recipient.name', this.value)" />
+          </label>
+          <label class="field">ЕИК / БУЛСТАТ (или ЕГН)
+            <input type="text" value="${escHtml(iv.recipient.eik)}" placeholder="201234567" oninput="updateInvField('recipient.eik', this.value)" />
+          </label>
+          <label class="field">ДДС № (ако е по ЗДДС)
+            <input type="text" value="${escHtml(iv.recipient.vatNo)}" placeholder="BG..." oninput="updateInvField('recipient.vatNo', this.value)" />
+          </label>
+          <label class="field">МОЛ (за фирма)
+            <input type="text" value="${escHtml(iv.recipient.mol)}" placeholder="Управител" oninput="updateInvField('recipient.mol', this.value)" />
+          </label>
+          <label class="field">Град
+            <input type="text" value="${escHtml(iv.recipient.city)}" placeholder="гр. Пловдив" oninput="updateInvField('recipient.city', this.value)" />
+          </label>
+          <label class="field" style="grid-column: span 2;">Адрес
+            <input type="text" value="${escHtml(iv.recipient.address)}" placeholder="ул. / ж.к. ..." oninput="updateInvField('recipient.address', this.value)" />
+          </label>
+          <label class="field">Телефон
+            <input type="text" value="${escHtml(iv.recipient.phone)}" placeholder="088..." oninput="updateInvField('recipient.phone', this.value)" />
+          </label>
+        </div>
+      </div>
+
+      <!-- ПОЗИЦИИ -->
+      <div class="sub-card">
+        <h3>
+          <span>📋 Позиции във фактурата</span>
+          <button type="button" class="btn btn-xs btn-primary" onclick="addInvItemRow()">+ Добави ред</button>
+        </h3>
+        <div style="overflow-x:auto;">
+          <table class="inv-items-tbl">
+            <thead>
+              <tr>
+                <th style="min-width:220px;">Описание на услуга / стока</th>
+                <th style="width:92px;">Мярка</th>
+                <th style="width:82px;">Кол.</th>
+                <th style="width:105px;">Ед. цена (€)</th>
+                <th style="width:105px;text-align:right;">Стойност (€)</th>
+                <th style="width:36px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${iv.items.map((it, idx) => `
+                <tr>
+                  <td><input type="text" value="${escHtml(it.desc)}" placeholder="Описание..." oninput="updateInvItem(${idx},'desc',this.value)" /></td>
+                  <td><input type="text" value="${escHtml(it.unit)}" placeholder="услуга" oninput="updateInvItem(${idx},'unit',this.value)" /></td>
+                  <td><input type="number" step="0.01" min="0" value="${it.qty}" oninput="updateInvItem(${idx},'qty',this.value)" /></td>
+                  <td><input type="number" step="0.01" min="0" value="${it.price}" oninput="updateInvItem(${idx},'price',this.value)" /></td>
+                  <td style="text-align:right;font-weight:700;" id="inv-line-tot-${idx}">${fmtEur(round2((Number(it.qty)||0)*(Number(it.price)||0)))}</td>
+                  <td><button type="button" class="btn btn-xs btn-red" onclick="removeInvItemRow(${idx})">✕</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2" style="margin-top:10px;align-items:start;">
+          <div>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;margin-bottom:6px;">
+              <input type="checkbox" ${iv.vatRegistered ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" onchange="updateInvField('vatRegistered', this.checked)" />
+              Начисли ДДС 20% (фирмата е регистрирана по ЗДДС)
+            </label>
+            ${!iv.vatRegistered ? `
+              <label class="field">Основание за неначисляване на ДДС
+                <input type="text" value="${escHtml(iv.vatExemptReason)}" oninput="updateInvField('vatExemptReason', this.value)" />
+              </label>
+            ` : ''}
+            <label class="field" style="margin-top:6px;">Забележка (по желание)
+              <input type="text" value="${escHtml(iv.notes || '')}" placeholder="напр. Обект ж.к. Тракия" oninput="updateInvField('notes', this.value)" />
+            </label>
+          </div>
+          <div>
+            <div class="inv-totals-panel">
+              <div class="inv-tot-line"><span>Данъчна основа:</span><strong id="inv-live-sub">${fmtEur(t.subTotal)}</strong></div>
+              <div class="inv-tot-line"><span>ДДС:</span><strong id="inv-live-vat">${fmtEur(t.vatAmount)} (${t.vatRate}%)</strong></div>
+              <div class="inv-tot-grand"><span>СУМА ЗА ПЛАЩАНЕ:</span><span id="inv-live-grand">${fmtEur(t.grandTotal)}</span></div>
+            </div>
+            <div class="inv-words-box" id="inv-live-words">Словом: ${escHtml(numberToBgWordsEur(t.grandTotal))}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <label class="field" style="flex-direction:row;align-items:center;gap:6px;color:var(--text);">
+            <span>Статус:</span>
+            <select style="width:auto;padding:5px 8px;font-size:12.5px;" onchange="updateInvField('status', this.value)">
+              <option value="issued" ${iv.status==='issued'?'selected':''}>⏳ Издадена (неплатена)</option>
+              <option value="paid" ${iv.status==='paid'?'selected':''}>✅ Платена</option>
+              <option value="cancelled" ${iv.status==='cancelled'?'selected':''}>✕ Анулирана</option>
+            </select>
+          </label>
+          ${(iv.docType !== 'Проформа' && iv.projectId && !iv.linkedPaymentId) ? `
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" ${iv.autoLogPayment ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--accent);" onchange="updateInvField('autoLogPayment', this.checked)" />
+              Запиши сумата като получена вноска в обекта (и ДДС брояча)
+            </label>
+          ` : ''}
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="btn" onclick="closeInvoiceEditor()">Отказ</button>
+          <button type="button" class="btn btn-green" onclick="saveCurrentInvoice(false)">💾 Запази</button>
+          <button type="button" class="btn btn-primary" onclick="saveCurrentInvoice(true)">💾 Запази и PDF</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function logPaymentForInvoice(inv) {
+  if (!inv || inv.docType === 'Проформа' || !inv.projectId || inv.linkedPaymentId) return false;
+  const p = data.projects.find(x => x.id === inv.projectId);
+  if (!p) return false;
+  const tot = calcInvoiceTotals(inv).grandTotal;
+  if (tot <= 0) return false;
+  if (!Array.isArray(p.payments)) p.payments = [];
+  const payId = 'pay_inv_' + Date.now();
+  const sign = inv.docType === 'Кредитно известие' ? -1 : 1;
+  const methodMap = { 'По банков път': 'Банка (ЕООД)', 'В брой': 'В брой', 'Карта / Revolut': 'Revolut / Карта' };
+  p.payments.push({
+    id: payId,
+    date: inv.date || todayISO(),
+    amount: round2(sign * tot),
+    note: `${inv.docType} № ${inv.number}`,
+    method: methodMap[inv.paymentMethod] || 'Банка (ЕООД)',
+    invoiceNo: inv.number,
+    official: true
+  });
+  inv.linkedPaymentId = payId;
+  return true;
+}
+
+function saveCurrentInvoice(andPrint = false) {
+  if (!editingInvoice) return;
+  const iv = editingInvoice;
+  if (!iv.recipient.name || !iv.recipient.name.trim()) {
+    return alert('Въведи име на получателя (клиент или фирма).');
+  }
+  const cleanItems = (iv.items || []).filter(x => (x.desc && x.desc.trim()) || (Number(x.price) > 0));
+  if (!cleanItems.length) return alert('Добави поне един ред с описание и цена.');
+  iv.items = cleanItems;
+  iv.number = padInvoiceNo(String(iv.number || '1').replace(/\D+/g, '') || '1');
+
+  const isNew = !iv.id;
+  if (isNew) {
+    iv.id = 'inv_' + Date.now();
+    iv.createdAt = new Date().toISOString();
+    const numInt = parseInt(iv.number, 10) || 1;
+    if (iv.docType === 'Проформа') {
+      if (numInt >= (data.settings.nextProformaNo || 1)) data.settings.nextProformaNo = numInt + 1;
+    } else {
+      if (numInt >= (data.settings.nextInvoiceNo || 1)) data.settings.nextInvoiceNo = numInt + 1;
+    }
+    if ((iv.autoLogPayment || iv.status === 'paid') && iv.docType !== 'Проформа' && iv.projectId && !iv.linkedPaymentId) {
+      if (iv.autoLogPayment) {
+        iv.status = 'paid';
+        logPaymentForInvoice(iv);
+      }
+    }
+    delete iv.autoLogPayment;
+    data.invoices.unshift(iv);
+  } else {
+    const idx = data.invoices.findIndex(x => x.id === iv.id);
+    if (iv.autoLogPayment && iv.docType !== 'Проформа' && iv.projectId && !iv.linkedPaymentId) {
+      iv.status = 'paid';
+      logPaymentForInvoice(iv);
+    }
+    delete iv.autoLogPayment;
+    if (idx !== -1) data.invoices[idx] = iv;
+    else data.invoices.unshift(iv);
+  }
+
+  const savedId = iv.id;
+  editingInvoice = null;
+  saveData();
+  hydrateSettingsUI();
+  populateYearPicker();
+  renderAll();
+  showToast(`🧾 Запазена ${iv.docType} № ${iv.number}!`);
+  if (andPrint) printInvoicePdf(savedId, 1);
+}
+
+function markInvoicePaid(id) {
+  const iv = (data.invoices || []).find(x => x.id === id);
+  if (!iv) return;
+  iv.status = 'paid';
+  let loggedMsg = '';
+  if (iv.docType !== 'Проформа' && iv.projectId && !iv.linkedPaymentId) {
+    if (confirm('Фактурата е свързана с обект. Да запиша ли сумата автоматично като получена официална вноска по обекта (влиза в ДДС брояча)?')) {
+      if (logPaymentForInvoice(iv)) loggedMsg = ' и вноската е добавена в обекта';
+    }
+  }
+  saveData();
+  populateYearPicker();
+  renderAll();
+  showToast(`✅ ${iv.docType} № ${iv.number} е маркирана платена${loggedMsg}!`);
+}
+
+function convertProformaToInvoice(id) {
+  const pf = (data.invoices || []).find(x => x.id === id);
+  if (!pf) return;
+  openNewInvoiceForm('Фактура', {
+    projectId: pf.projectId || '',
+    clientId: pf.clientId || '',
+    recipient: JSON.parse(JSON.stringify(pf.recipient || {})),
+    items: JSON.parse(JSON.stringify(pf.items || [])),
+    notes: pf.notes || `По Проформа № ${pf.number}`
+  });
+  showToast(`🔄 Създадена чернова на Фактура от Проформа № ${pf.number}`);
+}
+
+function deleteInvoice(id) {
+  const iv = (data.invoices || []).find(x => x.id === id);
+  if (!iv) return;
+  if (!confirm(`Да изтрия ли ${iv.docType} № ${iv.number} (${iv.recipient?.name || ''})?`)) return;
+  data.invoices = data.invoices.filter(x => x.id !== id);
+  if (editingInvoice?.id === id) editingInvoice = null;
+  saveData();
+  renderAll();
+  showToast('🗑️ Документът е изтрит.');
+}
+
+function renderInvoicesList() {
+  const box = document.getElementById('invoices-list');
+  if (!box) return;
+  const q = (document.getElementById('inv-search')?.value || '').trim().toLowerCase();
+  const filtered = (data.invoices || []).filter(iv => {
+    if (invFilter === 'invoice' && iv.docType === 'Проформа') return false;
+    if (invFilter === 'proforma' && iv.docType !== 'Проформа') return false;
+    if (invFilter === 'unpaid' && iv.status !== 'issued') return false;
+    if (invFilter === 'paid' && iv.status !== 'paid') return false;
+    if (q) {
+      const hay = `${iv.number} ${iv.docType} ${iv.recipient?.name || ''} ${iv.recipient?.eik || ''} ${(iv.items || []).map(x => x.desc).join(' ')}`.toLowerCase();
+      return q.split(/\s+/).every(tok => hay.includes(tok));
+    }
+    return true;
+  });
+
+  if (!filtered.length) {
+    box.innerHTML = `<div style="text-align:center;color:var(--muted);padding:22px;background:var(--bg);border-radius:10px;border:1px solid var(--border);">
+      Все още няма издадени фактури или проформи. Натисни <strong>„+ Нова Фактура“</strong> горе или <strong>„🧾 Издай фактура“</strong> от някой обект.
+    </div>`;
+    return;
+  }
+
+  box.innerHTML = filtered.map(iv => {
+    const t = calcInvoiceTotals(iv);
+    const typeCls = iv.docType === 'Проформа' ? 'badge-proforma' : (iv.docType === 'Фактура' ? 'badge-inv' : 'badge-credit');
+    const stBadge = iv.status === 'paid'
+      ? '<span class="badge st-done">✅ Платена</span>'
+      : (iv.status === 'cancelled' ? '<span class="badge st-cancelled">✕ Анулирана</span>' : '<span class="badge st-planned">⏳ Неплатена</span>');
+    return `
+      <div class="proj-item">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">
+              <span class="badge ${typeCls}">${escHtml(iv.docType)}</span>
+              № ${escHtml(iv.number)} — ${escHtml(iv.recipient?.name || 'Без получател')}
+              ${stBadge}
+            </div>
+            <div class="proj-meta">
+              Дата: ${fmtDateBg(iv.date)} • Падеж: ${fmtDateBg(iv.dueDate)} • ${escHtml(iv.paymentMethod || '')}
+              ${iv.recipient?.eik ? ' • ЕИК: ' + escHtml(iv.recipient.eik) : ''}
+              ${iv.linkedPaymentId ? ' • 🔗 Записана вноска в обекта' : ''}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+            <strong class="val-green" style="font-size:15.5px;margin-right:4px;">${fmtEur(t.grandTotal)}</strong>
+            ${iv.status === 'issued' ? `<button class="btn btn-xs btn-green" onclick="markInvoicePaid('${iv.id}')">✅ Платена</button>` : ''}
+            ${iv.docType === 'Проформа' ? `<button class="btn btn-xs btn-amber" onclick="convertProformaToInvoice('${iv.id}')">🔄 Към Фактура</button>` : ''}
+            <button class="btn btn-xs btn-primary" onclick="printInvoicePdf('${iv.id}', 1)">🖨️ PDF</button>
+            <button class="btn btn-xs btn-blue" onclick="printInvoicePdf('${iv.id}', 2)">🖨️ Ориг.+Копие</button>
+            <button class="btn btn-xs btn-purple" onclick="copyInvoiceViber('${iv.id}')">💬 Viber</button>
+            <button class="btn btn-xs" onclick="editInvoiceById('${iv.id}')">✏️</button>
+            <button class="btn btn-xs btn-red" onclick="deleteInvoice('${iv.id}')">🗑️</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function buildInvoiceA4Page(iv, copyLabel) {
+  const s = data.settings;
+  const t = calcInvoiceTotals(iv);
+  const r = iv.recipient || {};
+  const titleUpper = String(iv.docType || 'ФАКТУРА').toUpperCase();
+
+  return `
+    <div class="inv-a4">
+      <div class="inv-a4-top">
+        <div>
+          <div class="inv-a4-title">${escHtml(titleUpper)}</div>
+          <div class="inv-a4-copy">${escHtml(copyLabel)}</div>
+        </div>
+        <div class="inv-a4-meta">
+          <div class="inv-a4-num">№ ${escHtml(iv.number)}</div>
+          <div>Дата на издаване: <strong>${fmtDateBg(iv.date)}</strong></div>
+          <div>Дата на дан. събитие: <strong>${fmtDateBg(iv.taxEventDate || iv.date)}</strong></div>
+          <div>Място на сделката: <strong>${escHtml(iv.place || s.city || 'гр. Пловдив')}</strong></div>
+        </div>
+      </div>
+
+      <div class="inv-a4-parties">
+        <div class="inv-a4-box">
+          <h4>Получател</h4>
+          <div><strong>${escHtml(r.name || '—')}</strong></div>
+          ${r.eik ? `<div>ЕИК / ЕГН: <strong>${escHtml(r.eik)}</strong></div>` : ''}
+          ${r.vatNo ? `<div>ИН по ЗДДС: <strong>${escHtml(r.vatNo)}</strong></div>` : ''}
+          <div>Адрес: ${escHtml([r.city, r.address].filter(Boolean).join(', ') || '—')}</div>
+          ${r.mol ? `<div>МОЛ: ${escHtml(r.mol)}</div>` : ''}
+          ${r.phone ? `<div>Тел.: ${escHtml(r.phone)}</div>` : ''}
+        </div>
+        <div class="inv-a4-box">
+          <h4>Доставчик</h4>
+          <div><strong>${escHtml(s.companyName)}</strong></div>
+          <div>ЕИК / БУЛСТАТ: <strong>${escHtml(s.eik || '—')}</strong></div>
+          ${s.vatRegistered && s.vatNo ? `<div>ИН по ЗДДС: <strong>${escHtml(s.vatNo)}</strong></div>` : ''}
+          <div>Адрес: ${escHtml(s.companyAddress || s.city || 'гр. Пловдив')}</div>
+          <div>МОЛ: ${escHtml(s.manager || '—')}</div>
+          <div>Тел.: ${escHtml(s.phone || '—')}</div>
+        </div>
+      </div>
+
+      <table class="paper-tbl">
+        <thead>
+          <tr>
+            <th style="width:32px;">№</th>
+            <th>Наименование на стоката / услугата</th>
+            <th style="width:65px;">Мярка</th>
+            <th class="num" style="width:65px;">Кол.</th>
+            <th class="num" style="width:95px;">Ед. цена (€)</th>
+            <th class="num" style="width:105px;">Стойност (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(iv.items || []).map((it, i) => `
+            <tr>
+              <td>${i + 1}</td>
+              <td>${escHtml(it.desc)}</td>
+              <td>${escHtml(it.unit)}</td>
+              <td class="num">${Number(it.qty || 0)}</td>
+              <td class="num">${round2(it.price || 0).toFixed(2)} €</td>
+              <td class="num"><strong>${round2((Number(it.qty)||0)*(Number(it.price)||0)).toFixed(2)} €</strong></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="inv-a4-totals">
+        <div class="inv-a4-trow"><span>Данъчна основа:</span><strong>${fmtEur(t.subTotal)}</strong></div>
+        <div class="inv-a4-trow"><span>ДДС (${t.vatRate}%):</span><strong>${fmtEur(t.vatAmount)}</strong></div>
+        <div class="inv-a4-tgrand"><span>СУМА ЗА ПЛАЩАНЕ:</span><span>${fmtEur(t.grandTotal)}</span></div>
+      </div>
+
+      ${!iv.vatRegistered ? `<div style="margin-top:8px;font-size:11.5px;color:#334155;"><strong>Основание за неначисляване на ДДС:</strong> ${escHtml(iv.vatExemptReason || s.vatExemptReason || 'Чл. 113, ал. 9 от ЗДДС')}</div>` : ''}
+
+      <div class="inv-a4-words">
+        <strong>Словом:</strong> ${escHtml(numberToBgWordsEur(t.grandTotal))}
+      </div>
+
+      <div class="inv-a4-pay">
+        <div><strong>Начин на плащане:</strong> ${escHtml(iv.paymentMethod || 'По банков път')} &nbsp;|&nbsp; <strong>Срок за плащане (Падеж):</strong> ${fmtDateBg(iv.dueDate)}</div>
+        ${s.iban ? `<div style="margin-top:3px;"><strong>Банка:</strong> ${escHtml(s.bankName || '—')} &nbsp;|&nbsp; <strong>IBAN:</strong> ${escHtml(s.iban)}${s.bic ? ' &nbsp;|&nbsp; <strong>BIC:</strong> ' + escHtml(s.bic) : ''}</div>` : ''}
+        ${iv.notes ? `<div style="margin-top:3px;"><strong>Забележка:</strong> ${escHtml(iv.notes)}</div>` : ''}
+      </div>
+
+      <div class="inv-a4-signs">
+        <div>
+          <strong>Получил:</strong> ${escHtml(r.mol || r.name || '')}
+          <div class="inv-a4-sline"></div>
+          <span style="font-size:10.5px;color:#64748b;">(име, фамилия и подпис)</span>
+        </div>
+        <div>
+          <strong>Съставил:</strong> ${escHtml(s.manager || '')}
+          <div class="inv-a4-sline"></div>
+          <span style="font-size:10.5px;color:#64748b;">(име, фамилия и подпис)</span>
+        </div>
+      </div>
+
+      <div class="inv-a4-legal">
+        Съгласно чл. 6, ал. 1 от Закона за счетоводството и чл. 114 от ЗДДС печатът и подписът не са задължителни реквизити на фактурата.
+      </div>
+    </div>
+  `;
+}
+
+function printInvoicePdf(id, copies = 1) {
+  const iv = (data.invoices || []).find(x => x.id === id);
+  if (!iv) return;
+  const cont = document.getElementById('print-container');
+  if (copies === 2) {
+    cont.innerHTML = buildInvoiceA4Page(iv, 'ОРИГИНАЛ') + `<div class="page-break"></div>` + buildInvoiceA4Page(iv, 'КОПИЕ');
+  } else {
+    cont.innerHTML = buildInvoiceA4Page(iv, iv.docType === 'Проформа' ? 'ПРОФОРМА' : 'ОРИГИНАЛ');
+  }
+  window.print();
+}
+
+function copyInvoiceViber(id) {
+  const iv = (data.invoices || []).find(x => x.id === id);
+  if (!iv) return;
+  const t = calcInvoiceTotals(iv);
+  const s = data.settings;
+  const lines = [
+    `🧾 ${iv.docType.toUpperCase()} № ${iv.number} от ${fmtDateBg(iv.date)}`,
+    `Доставчик: ${s.companyName}${s.eik ? ' (ЕИК ' + s.eik + ')' : ''}`,
+    `Получател: ${iv.recipient?.name || '—'}`,
+    `Сума за плащане: ${fmtEur(t.grandTotal)}`,
+    `Срок (падеж): ${fmtDateBg(iv.dueDate)} • ${iv.paymentMethod}`,
+    s.iban ? `\nIBAN: ${s.iban}${s.bankName ? ' (' + s.bankName + ')' : ''}${s.bic ? ' • BIC: ' + s.bic : ''}` : '',
+    `\nПоздрави, ${s.manager} — тел. ${s.phone}`
+  ].filter(Boolean).join('\n');
+  navigator.clipboard?.writeText(lines)
+    .then(() => showToast('💬 Данните за фактурата са копирани за Viber!'))
+    .catch(() => prompt('Копирай:', lines));
+}
+
+function exportInvoicesCsv() {
+  const rows = [
+    ['Вид документ', '№ Документ', 'Дата', 'Дан. събитие', 'Падеж', 'Получател', 'ЕИК/ЕГН', 'ДДС №', 'Начин на плащане', 'Дан. основа (€)', 'ДДС (€)', 'Общо (€)', 'Статус', 'Основание 0% ДДС']
+  ];
+  (data.invoices || []).forEach(iv => {
+    const t = calcInvoiceTotals(iv);
+    const stTxt = iv.status === 'paid' ? 'Платена' : (iv.status === 'cancelled' ? 'Анулирана' : 'Неплатена');
+    rows.push([
+      iv.docType, iv.number, iv.date, iv.taxEventDate || iv.date, iv.dueDate || '',
+      iv.recipient?.name || '', iv.recipient?.eik || '', iv.recipient?.vatNo || '',
+      iv.paymentMethod || '', csvNum(t.subTotal), csvNum(t.vatAmount), csvNum(t.grandTotal),
+      stTxt, iv.vatRegistered ? '' : (iv.vatExemptReason || '')
+    ]);
+  });
+  downloadCsv(`FixProfit_Fakturi_${todayISO()}.csv`, rows);
+  showToast('🧾 Свален CSV регистър на издадените фактури!');
+}
+
+// ================= CRM CLIENTS =================
+function openNewClientForm() {
+  editingClientId = '__NEW__';
+  invSubtab = 'clients';
+  switchTab('tab-invoices');
+  setInvoicesSubtab('clients');
+}
+
+function editClientById(id) {
+  editingClientId = id;
+  renderClientEditor();
+}
+
+function closeClientEditor() {
+  editingClientId = null;
+  renderClientEditor();
+}
+
+function renderClientEditor() {
+  const wrap = document.getElementById('client-editor-wrap');
+  if (!wrap) return;
+  if (!editingClientId) {
+    wrap.style.display = 'none';
+    wrap.innerHTML = '';
+    return;
+  }
+  const c = editingClientId === '__NEW__'
+    ? { id: '', name: '', isCompany: false, eik: '', vatNo: '', mol: '', city: 'гр. Пловдив', address: '', phone: '', email: '', notes: '' }
+    : ((data.clients || []).find(x => x.id === editingClientId) || null);
+  if (!c) { editingClientId = null; wrap.style.display = 'none'; return; }
+
+  wrap.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="sub-card editing" style="margin-bottom:12px;">
+      <h3>
+        <span>${editingClientId === '__NEW__' ? '➕ Нов клиент / фирма (CRM)' : '✏️ Редакция на клиент'}</span>
+        <button class="btn btn-xs" onclick="closeClientEditor()">✕ Затвори</button>
+      </h3>
+      <div class="grid-4">
+        <label class="field">Име / Фирма *
+          <input type="text" id="crm-f-name" value="${escHtml(c.name)}" placeholder="Иван Петров / Фирма ЕООД" />
+        </label>
+        <label class="field">Тип
+          <select id="crm-f-iscomp">
+            <option value="0" ${!c.isCompany?'selected':''}>Физическо лице</option>
+            <option value="1" ${c.isCompany?'selected':''}>Фирма (ЕООД / ООД / ЕТ)</option>
+          </select>
+        </label>
+        <label class="field">ЕИК / БУЛСТАТ (или ЕГН)
+          <input type="text" id="crm-f-eik" value="${escHtml(c.eik || '')}" placeholder="201234567" />
+        </label>
+        <label class="field">ДДС № (по избор)
+          <input type="text" id="crm-f-vat" value="${escHtml(c.vatNo || '')}" placeholder="BG..." />
+        </label>
+        <label class="field">МОЛ
+          <input type="text" id="crm-f-mol" value="${escHtml(c.mol || '')}" placeholder="Управител" />
+        </label>
+        <label class="field">Град
+          <input type="text" id="crm-f-city" value="${escHtml(c.city || 'гр. Пловдив')}" />
+        </label>
+        <label class="field">Адрес
+          <input type="text" id="crm-f-addr" value="${escHtml(c.address || '')}" placeholder="ул. / ж.к. ..." />
+        </label>
+        <label class="field">Телефон / Имейл
+          <div style="display:flex;gap:5px;">
+            <input type="text" id="crm-f-phone" value="${escHtml(c.phone || '')}" placeholder="088..." />
+            <input type="text" id="crm-f-email" value="${escHtml(c.email || '')}" placeholder="email" />
+          </div>
+        </label>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <input type="text" id="crm-f-notes" value="${escHtml(c.notes || '')}" placeholder="Бележка за клиента..." style="flex:1;min-width:200px;" />
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-sm" onclick="closeClientEditor()">Отказ</button>
+          <button class="btn btn-sm btn-green" onclick="saveClientForm()">💾 Запази клиента</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function saveClientForm() {
+  const name = document.getElementById('crm-f-name').value.trim();
+  if (!name) return alert('Въведи име на клиента или фирмата.');
+  const rec = {
+    id: editingClientId === '__NEW__' ? ('cli_' + Date.now()) : editingClientId,
+    name,
+    isCompany: document.getElementById('crm-f-iscomp').value === '1',
+    eik: document.getElementById('crm-f-eik').value.trim(),
+    vatNo: document.getElementById('crm-f-vat').value.trim(),
+    mol: document.getElementById('crm-f-mol').value.trim(),
+    city: document.getElementById('crm-f-city').value.trim() || 'гр. Пловдив',
+    address: document.getElementById('crm-f-addr').value.trim(),
+    phone: document.getElementById('crm-f-phone').value.trim(),
+    email: document.getElementById('crm-f-email').value.trim(),
+    notes: document.getElementById('crm-f-notes').value.trim()
+  };
+  if (!Array.isArray(data.clients)) data.clients = [];
+  if (editingClientId === '__NEW__') {
+    data.clients.unshift(rec);
+  } else {
+    const idx = data.clients.findIndex(x => x.id === editingClientId);
+    if (idx !== -1) data.clients[idx] = rec;
+    else data.clients.unshift(rec);
+  }
+  editingClientId = null;
+  saveData();
+  renderInvoicesTab();
+  showToast(`👥 Запазен клиент: ${name}`);
+}
+
+function deleteClientById(id) {
+  const c = (data.clients || []).find(x => x.id === id);
+  if (!c) return;
+  if (!confirm(`Да изтрия ли клиент „${c.name}“ от CRM регистъра? (Вече издадените фактури и обекти остават.)`)) return;
+  data.clients = data.clients.filter(x => x.id !== id);
+  if (editingClientId === id) editingClientId = null;
+  saveData();
+  renderInvoicesTab();
+}
+
+function createInvoiceForClient(cid) {
+  const c = (data.clients || []).find(x => x.id === cid);
+  if (!c) return;
+  openNewInvoiceForm('Фактура', {
+    clientId: c.id,
+    recipient: {
+      name: c.name, isCompany: !!c.isCompany, eik: c.eik || '', vatNo: c.vatNo || '',
+      mol: c.mol || '', city: c.city || 'гр. Пловдив', address: c.address || '', phone: c.phone || ''
+    }
+  });
+}
+
+function importClientsFromProjects() {
+  if (!Array.isArray(data.clients)) data.clients = [];
+  let added = 0;
+  for (const p of data.projects) {
+    const nm = (p.clientName || '').trim();
+    if (!nm) continue;
+    const exists = data.clients.some(c =>
+      c.name.trim().toLowerCase() === nm.toLowerCase() ||
+      (p.clientPhone && c.phone && c.phone.replace(/\s+/g, '') === p.clientPhone.replace(/\s+/g, ''))
+    );
+    if (exists) continue;
+    data.clients.push({
+      id: 'cli_' + Date.now() + '_' + added,
+      name: nm,
+      isCompany: /еоод|оод|ад|ет/i.test(nm),
+      eik: '', vatNo: '', mol: '',
+      city: 'гр. Пловдив',
+      address: p.address || '',
+      phone: p.clientPhone || '',
+      email: '', notes: ''
+    });
+    added++;
+  }
+  saveData();
+  renderInvoicesTab();
+  showToast(added > 0 ? `🔄 Добавени ${added} клиенти от обектите в CRM!` : 'ℹ️ Всички клиенти от обектите вече са в CRM.');
+}
+
+function renderClientsList() {
+  const box = document.getElementById('clients-list');
+  if (!box) return;
+  const q = (document.getElementById('crm-search')?.value || '').trim().toLowerCase();
+  const filtered = (data.clients || []).filter(c => {
+    if (!q) return true;
+    const hay = `${c.name} ${c.eik || ''} ${c.phone || ''} ${c.city || ''} ${c.address || ''} ${c.mol || ''}`.toLowerCase();
+    return q.split(/\s+/).every(tok => hay.includes(tok));
+  });
+
+  if (!filtered.length) {
+    box.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;background:var(--bg);border-radius:10px;border:1px solid var(--border);">
+      Няма клиенти в CRM регистъра. Натисни <strong>„+ Добави клиент“</strong> или <strong>„🔄 Вземи клиенти от обектите“</strong>.
+    </div>`;
+    return;
+  }
+
+  box.innerHTML = filtered.map(c => {
+    const pCnt = data.projects.filter(p => (p.clientName || '').trim().toLowerCase() === c.name.trim().toLowerCase()).length;
+    const invSum = round2((data.invoices || [])
+      .filter(iv => iv.status !== 'cancelled' && iv.docType !== 'Проформа' && (iv.clientId === c.id || (iv.recipient?.name || '').trim().toLowerCase() === c.name.trim().toLowerCase()))
+      .reduce((acc, iv) => acc + calcInvoiceTotals(iv).grandTotal, 0));
+    return `
+      <div class="proj-item">
+        <div class="proj-top">
+          <div>
+            <div class="proj-title">
+              ${escHtml(c.name)}
+              <span class="badge ${c.isCompany ? 'badge-inv' : 'badge-cash'}" style="margin-left:4px;">${c.isCompany ? 'Фирма' : 'Физ. лице'}</span>
+            </div>
+            <div class="proj-meta">
+              ${c.eik ? 'ЕИК: ' + escHtml(c.eik) + ' • ' : ''}${c.vatNo ? 'ДДС: ' + escHtml(c.vatNo) + ' • ' : ''}${escHtml([c.city, c.address].filter(Boolean).join(', '))}${c.phone ? ' • тел. ' + escHtml(c.phone) : ''}
+            </div>
+            <div class="proj-meta" style="color:#cbd5e1;margin-top:3px;">
+              Обекти: <strong>${pCnt}</strong> • Фактурирано: <strong class="val-blue">${fmtEur(invSum)}</strong>
+            </div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <button class="btn btn-xs btn-green" onclick="createInvoiceForClient('${c.id}')">🧾 Фактура</button>
+            <button class="btn btn-xs" onclick="editClientById('${c.id}')">✏️</button>
+            <button class="btn btn-xs btn-red" onclick="deleteClientById('${c.id}')">🗑️</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // ================= INIT =================
@@ -3030,7 +4411,7 @@ window.addEventListener('DOMContentLoaded', () => {
       try { saveData(); } catch (e) {}
       window.location.reload();
     });
-    navigator.serviceWorker.register('./sw.js?v=1.1.1').then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=1.2.0').then(reg => {
       reg.update().catch(() => {});
     }).catch(() => {});
   }
