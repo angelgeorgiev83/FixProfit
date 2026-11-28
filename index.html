@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>FixProfit v1.1 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
+  <title>FixProfit v1.1.1 — Фирмен Дневник, Печалба и ЕООД | ФИКСБИЛД ГРУП ЕООД</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="icon-192.png" />
   <style>
@@ -332,7 +332,7 @@
         <img src="icon-192.png" alt="FP" onerror="this.style.display='none'; this.parentNode.textContent='FP';" />
       </div>
       <div>
-        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.1</span></div>
+        <div class="brand-title"><span id="hdr-company-name">ФИКСБИЛД ГРУП ЕООД</span> <span class="version-badge">FixProfit v1.1.1</span></div>
         <div class="brand-sub" id="hdr-company-sub">гр. Пловдив • Дневник на обектите, FixBuild връзка, Бележки и ДДС (€)</div>
       </div>
     </div>
@@ -564,7 +564,7 @@
     <div class="card">
       <h2>
         <span>🔁 Шаблон на постоянните месечни разходи (ЕООД)</span>
-        <span style="font-size:12px;color:var(--muted);">Ползва се при „⚡ Генерирай постоянните“ и дневната ставка</span>
+        <span style="font-size:12px;color:var(--muted);">Ползва се при „⚡ Генерирай постоянните“ и дневната ставка (250 €/мес. = 12.50 €/ден)</span>
       </h2>
       <div id="recurring-template-list"></div>
       <div class="grid-3" style="margin-top:10px;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border);align-items:end;">
@@ -796,7 +796,7 @@
 
 <script>
 const LS_KEY = 'fixprofit_data_v1';
-const APP_VERSION = '1.1';
+const APP_VERSION = '1.1.1';
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 function currentMonthISO() { return new Date().toISOString().slice(0, 7); }
@@ -828,11 +828,12 @@ function defaultData() {
       divPct: 5,
       showTax: true
     },
+    // Unified with FixBuild v4.5.3: 160 + 65 + 10 + 15 = 250 EUR/month ÷ 20 days = 12.50 EUR/day
     recurringTemplates: [
-      { id: 'rec_sol', name: 'Осигуровки СОЛ', cat: 'Осигуровки СОЛ', amount: 170, active: true },
+      { id: 'rec_sol', name: 'Осигуровки СОЛ', cat: 'Осигуровки СОЛ', amount: 160, active: true },
       { id: 'rec_acc', name: 'Счетоводно обслужване (ЕООД)', cat: 'Счетоводство', amount: 65, active: true },
-      { id: 'rec_bank', name: 'Банкови такси и обслужване', cat: 'Банкови такси', amount: 15, active: true },
-      { id: 'rec_tel', name: 'Служебен телефон и интернет', cat: 'Телефон / Интернет / Реклама', amount: 20, active: true }
+      { id: 'rec_bank', name: 'Банкови такси и обслужване', cat: 'Банкови такси', amount: 10, active: true },
+      { id: 'rec_tel', name: 'Служебен телефон и интернет', cat: 'Телефон / Интернет / Реклама', amount: 15, active: true }
     ],
     projects: [],
     companyExpenses: []
@@ -847,9 +848,20 @@ function loadData() {
       const def = defaultData();
       if (p && typeof p === 'object') {
         p.settings = Object.assign(def.settings, p.settings || {});
-        if (!Array.isArray(p.recurringTemplates)) p.recurringTemplates = def.recurringTemplates;
+        if (!Array.isArray(p.recurringTemplates)) {
+          p.recurringTemplates = def.recurringTemplates;
+        } else if (p.version !== APP_VERSION) {
+          // If user still has the unmodified old v1.0/v1.1 default template (170+65+15+20 = 270), align it to 250 EUR (12.50 EUR/day)
+          const oldDefaults = { rec_sol: 170, rec_acc: 65, rec_bank: 15, rec_tel: 20 };
+          const isUnmodifiedOld = p.recurringTemplates.length === 4 &&
+            p.recurringTemplates.every(t => oldDefaults[t.id] !== undefined && Number(t.amount) === oldDefaults[t.id]);
+          if (isUnmodifiedOld) {
+            p.recurringTemplates = def.recurringTemplates;
+          }
+        }
         if (!Array.isArray(p.projects)) p.projects = [];
         if (!Array.isArray(p.companyExpenses)) p.companyExpenses = [];
+        p.version = APP_VERSION;
         return p;
       }
     }
@@ -993,6 +1005,23 @@ function getTemplateMonthlyTotal() {
 function getDailyCompanyRate() {
   const days = Math.max(1, Number(data.settings.billableDays) || 20);
   return round2(getTemplateMonthlyTotal() / days);
+}
+
+function getFixBuildCompanyRates() {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && /fixbuild.*company/i.test(k)) {
+        const parsed = JSON.parse(localStorage.getItem(k) || 'null');
+        if (parsed && typeof parsed === 'object') {
+          const m = Math.max(0, Number(parsed.monthlyOverhead ?? 250));
+          const d = Math.max(1, Number(parsed.billableDays ?? 20));
+          return { monthly: m, daily: m / d };
+        }
+      }
+    }
+  } catch (e) {}
+  return { monthly: getTemplateMonthlyTotal(), daily: getDailyCompanyRate() };
 }
 
 function calcProjectStats(p) {
@@ -1162,6 +1191,7 @@ function computeFixBuildFallbackTotals(st) {
   }
   const h = st.hidden || {};
   const o = st.opts || {};
+  const fbRates = getFixBuildCompanyRates();
   const wMult = o.weekendOn ? (1 + (Number(o.weekendPct) || 0) / 100) : 1;
   const baseL = round2(rawL * wMult);
   let hid = 0;
@@ -1170,8 +1200,8 @@ function computeFixBuildFallbackTotals(st) {
   if (h.fuelOn) hid += round2(Number(h.fuelEur) || 0);
   if (h.companyOn) {
     const mode = h.companyMode || 'days';
-    if (mode === 'days') hid += round2((Number(h.companyDays) || 0) * getDailyCompanyRate());
-    else if (mode === 'months') hid += round2((Number(h.companyMonths) || 0) * getTemplateMonthlyTotal());
+    if (mode === 'days') hid += round2((Number(h.companyDays) || 0) * fbRates.daily);
+    else if (mode === 'months') hid += round2((Number(h.companyMonths) || 0) * fbRates.monthly);
     else hid += round2(Number(h.companyEur) || 0);
   }
   let effL = round2(baseL + hid);
@@ -1868,8 +1898,8 @@ function renderProjectEditor() {
   // Plan vs Actual text
   let pvaDaysHtml = st.plannedDays > 0
     ? (st.daysDelta > 0
-        ? `⏱️ Срок: <strong class="val-red">${st.workedDays} от ${st.plannedDays} дн. (+${st.daysDelta} дн. над плана)</strong>`
-        : `⏱️ Срок: <strong class="val-green">${st.workedDays} от ${st.plannedDays} дн. (в срок)</strong>`)
+      ? `⏱️ Срок: <strong class="val-red">${st.workedDays} от ${st.plannedDays} дн. (+${st.daysDelta} дн. над плана)</strong>`
+      : `⏱️ Срок: <strong class="val-green">${st.workedDays} от ${st.plannedDays} дн. (в срок)</strong>`)
     : `⏱️ Отработени: <strong>${st.workedDays} дн.</strong>`;
 
   let pvaMatHtml = st.agreedMat > 0
@@ -2925,7 +2955,7 @@ function updateSettingsRateInfo() {
   if (!el) return;
   const tpl = getTemplateMonthlyTotal();
   const rate = getDailyCompanyRate();
-  el.innerHTML = `💡 Актуалната ти дневна фирмена ставка е <strong>${fmtEur(rate)} / работен ден</strong> (${fmtEur(tpl)} месечни постоянни ÷ ${data.settings.billableDays} раб. дни). Същата цифра (${tpl.toFixed(0)} € / ${data.settings.billableDays} дн.) можеш да залагаш и във FixBuild Таб 4!`;
+  el.innerHTML = `💡 Актуалната ти дневна фирмена ставка е <strong>${fmtEur(rate)} / работен ден</strong> (${fmtEur(tpl)} месечни постоянни ÷ ${data.settings.billableDays} раб. дни). Същата цифра (${tpl.toFixed(0)} € / ${data.settings.billableDays} дн.) е синхронизирана с FixBuild Таб 4!`;
 }
 
 function saveSettings() {
@@ -2993,9 +3023,16 @@ window.addEventListener('DOMContentLoaded', () => {
   } catch (e) {}
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
-      .then(reg => { if (reg) reg.update().catch(() => {}); })
-      .catch(() => {});
+    let swReloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (swReloading) return;
+      swReloading = true;
+      try { saveData(); } catch (e) {}
+      window.location.reload();
+    });
+    navigator.serviceWorker.register('./sw.js?v=1.1.1').then(reg => {
+      reg.update().catch(() => {});
+    }).catch(() => {});
   }
 });
 </script>

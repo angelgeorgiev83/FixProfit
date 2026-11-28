@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fixprofit-v1.1.0-cache';
+const CACHE_NAME = 'fixprofit-v1.1.1-cache';
 const ASSETS = [
   './',
   './index.html',
